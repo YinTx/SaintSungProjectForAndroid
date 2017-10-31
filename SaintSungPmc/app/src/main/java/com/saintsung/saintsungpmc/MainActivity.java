@@ -23,7 +23,12 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     private MainControlFragment mainControlFragment = new MainControlFragment();
     private MainMapFragment mainMapFragment = new MainMapFragment();
     private MainPersonalFragment mainPersonalFragment = new MainPersonalFragment();
-
+    /**
+     * 主界面监听返回按钮，在2秒内连续点击2次返回按钮则退出程序
+     * @param keyCode
+     * @param event
+     * @return
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -47,9 +52,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         setSelect(0);
     }
 
-    /*
-     * 切换显示内容的fragment
-     * */
+    /**
+     * Fragment选择方法，此方法用于管理Fragment。
+     * @param i 显示Fragment页
+     */
     private void setSelect(int i) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();//创建一个事务
@@ -100,9 +106,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         transaction.commit();//提交事务
     }
 
-    /*
-     * 隐藏所有的Fragment
-     * */
+    /**
+     * 隐藏所以的Fragment
+     * @param transaction
+     */
     private void hideFragment(FragmentTransaction transaction) {
         if (mainHomeFragment != null) {
             transaction.hide(mainHomeFragment);
@@ -119,15 +126,17 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     }
 
-
-    //-----------------------------------------------------------------------------------------------------------------------------------------
     //初始化控件
     private void initView() {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navi_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-
     }
 
+    /**
+     * 使用Google自带的support.design.widget.BottomNavigationView控件，此方法为控件提供的API
+     * @param item
+     * @return
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -150,7 +159,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             default:
                 break;
         }
-
         return true;
     }
 }

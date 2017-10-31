@@ -6,6 +6,7 @@
     <string name="Login_Name">用户名</string>
     <string name="Login_passWord">密码</string>
     <string name="Login_in">登录中...</string>
+    <string name="Login_usrenameLenthError">用户名在4到10个数字或字符</string>
     <string name="Login_passwordLenthError">密码在4到10个数字或字符</string>
     <!--   主界面底部选择项     -->
     <string name="menu_home">首页</string>

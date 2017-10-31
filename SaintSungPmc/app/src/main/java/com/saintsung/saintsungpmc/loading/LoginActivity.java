@@ -114,7 +114,7 @@ public class LoginActivity extends BaseActivity {
     }
     //登录失败的方法
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "登陆失败", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "登录失败", Toast.LENGTH_LONG).show();
 //
         _loginButton.setEnabled(true);
     }
@@ -122,11 +122,11 @@ public class LoginActivity extends BaseActivity {
     public boolean validate() {
         boolean valid = true;
 
-        String email = _emailText.getText().toString();
+        String username = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
-
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+        //!android.util.Patterns.EMAIL_ADDRESS.matcher(username).matches() 验证该字符串是否为Email格式。
+        if (username.isEmpty() || username.length()<4|| username.length()>10) {
+            _emailText.setError(getResources().getString(R.string.Login_usrenameLenthError));
             valid = false;
         } else {
             _emailText.setError(null);
