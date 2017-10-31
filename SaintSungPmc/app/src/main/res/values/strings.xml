@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">SaintSungPmc</string>
+    <!-- 登录模块 -->
+    <string name="Login">登录</string>
+    <string name="Login_port">点击设置端口号</string>
+    <string name="Login_Name">用户名</string>
+    <string name="Login_passWord">密码</string>
+    <string name="Login_in">登录中...</string>
+    <string name="Login_passwordLenthError">密码在4到10个数字或字符</string>
+    <!--   主界面底部选择项     -->
+    <string name="menu_home">首页</string>
+    <string name="menu_control">设备控制</string>
+    <string name="menu_map">地图</string>
+    <string name="menu_personal">个人中心</string>
+    <!-- 地图Android 6.0以上鉴权-->
+    <string name="change">修改</string>
+    <string name="cancel">取消</string>
+    <string name="setting">设置</string>
+    <string name="notifyMsg">应用即将退出</string>
+    <string name="notifyTitle">提示！</string>
+    <!--  登录模块    -->
+    <string name="prompt_password">密码</string>
+    <string name="prompt_email">用户名</string>
+    <string name="action_sign_in_short">Sign in</string>
+</resources>

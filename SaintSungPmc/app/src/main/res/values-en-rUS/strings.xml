@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">SaintSungPmc</string>
+    <!--   主界面底部选择项     -->
+    <string name="menu_home">Home</string>
+    <string name="menu_control">Device Control</string>
+    <string name="menu_map">Map</string>
+    <string name="menu_personal">Personal Center</string>
+    <!-- 地图Android 6.0以上鉴权-->
+    <string name="change">Modify</string>
+    <string name="cancel">Cancel</string>
+    <string name="setting">Set up</string>
+    <string name="notifyMsg">Application is about to exit</string>
+    <string name="notifyTitle">Prompt！</string>
+    <!--  登录模块    -->
+    <string name="loading">Logging</string>
+</resources>
