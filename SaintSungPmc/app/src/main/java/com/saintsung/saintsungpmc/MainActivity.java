@@ -19,10 +19,10 @@ import com.saintsung.saintsungpmc.fragment.MainPersonalFragment;
 public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private BottomNavigationView bottomNavigationView;
     private long exitTime = 0;//2次回退计时器
-    private MainHomeFragment mainHomeFragment = new MainHomeFragment();
-    private MainControlFragment mainControlFragment = new MainControlFragment();
-    private MainMapFragment mainMapFragment = new MainMapFragment();
-    private MainPersonalFragment mainPersonalFragment = new MainPersonalFragment();
+    private MainHomeFragment mainHomeFragment;
+    private MainControlFragment mainControlFragment;
+    private MainMapFragment mainMapFragment;
+    private MainPersonalFragment mainPersonalFragment;
     /**
      * 主界面监听返回按钮，在2秒内连续点击2次返回按钮则退出程序
      * @param keyCode
