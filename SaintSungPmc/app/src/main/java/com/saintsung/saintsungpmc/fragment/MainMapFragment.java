@@ -28,6 +28,9 @@ import com.saintsung.saintsungpmc.R;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by XLzY on 2017/7/28.
  */
@@ -38,7 +41,8 @@ public class MainMapFragment extends Fragment implements
         LocationSource,
         AMapLocationListener,
         AMap.CancelableCallback {
-    private MapView mMapView;
+    private String TAG="MainMapFragment for Tag";
+    @Bind(R.id.map) MapView mMapView;
     private AMap mAMap;
     private OnLocationChangedListener mListener;
     private AMapLocationClient mlocationClient;
@@ -50,7 +54,7 @@ public class MainMapFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mapl, container, false);
-        mMapView = (MapView) view.findViewById(R.id.map);
+        ButterKnife.bind(this,view);
         mMapView.onCreate(savedInstanceState);
         init();
         return view;
@@ -106,12 +110,14 @@ public class MainMapFragment extends Fragment implements
     public void onResume() {
         super.onResume();
         mMapView.onResume();
+        Log.w(TAG,"onResume");
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mMapView.onPause();
+        Log.i(TAG,"onPause");
     }
 
     @Override
@@ -120,11 +126,12 @@ public class MainMapFragment extends Fragment implements
         mMapView.onSaveInstanceState(outState);
     }
 
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        mMapView.onDestroy();
-//    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMapView.onDestroy();
+        Log.w(TAG,"onDestroy");
+    }
 
 
 

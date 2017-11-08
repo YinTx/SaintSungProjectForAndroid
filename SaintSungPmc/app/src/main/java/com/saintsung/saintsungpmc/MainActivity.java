@@ -15,16 +15,22 @@ import com.saintsung.saintsungpmc.fragment.MainHomeFragment;
 import com.saintsung.saintsungpmc.fragment.MainMapFragment;
 import com.saintsung.saintsungpmc.fragment.MainPersonalFragment;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-    private BottomNavigationView bottomNavigationView;
+    //使用注解方式进行控件的绑定
+    @Bind(R.id.bottom_navi_view) BottomNavigationView bottomNavigationView;
     private long exitTime = 0;//2次回退计时器
     private MainHomeFragment mainHomeFragment;
     private MainControlFragment mainControlFragment;
     private MainMapFragment mainMapFragment;
     private MainPersonalFragment mainPersonalFragment;
+
     /**
      * 主界面监听返回按钮，在2秒内连续点击2次返回按钮则退出程序
+     *
      * @param keyCode
      * @param event
      * @return
@@ -48,12 +54,15 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         initView();
         setSelect(0);
+
     }
 
     /**
      * Fragment选择方法，此方法用于管理Fragment。
+     *
      * @param i 显示Fragment页
      */
     private void setSelect(int i) {
@@ -68,7 +77,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                  * 将Fragment添加到活动中，public abstract FragmentTransaction add (int containerViewId, Fragment fragment)
                 *containerViewId即为Optional identifier of the container this fragment is to be placed in. If 0, it will not be placed in a container.
                  * */
-                    transaction.add(R.id.main_fragment, mainHomeFragment);//将微信聊天界面的Fragment添加到Activity中
+                    transaction.add(R.id.main_fragment, mainHomeFragment);//将主页面的Fragment添加到Activity中
                 } else {
                     transaction.show(mainHomeFragment);
                 }
@@ -108,6 +117,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     /**
      * 隐藏所以的Fragment
+     *
      * @param transaction
      */
     private void hideFragment(FragmentTransaction transaction) {
@@ -128,12 +138,12 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     //初始化控件
     private void initView() {
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navi_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
     }
 
     /**
      * 使用Google自带的support.design.widget.BottomNavigationView控件，此方法为控件提供的API
+     *
      * @param item
      * @return
      */
