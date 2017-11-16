@@ -57,9 +57,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         ButterKnife.bind(this);
         initView();
         setSelect(0);
-
     }
-
     /**
      * Fragment选择方法，此方法用于管理Fragment。
      *
@@ -116,7 +114,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     /**
-     * 隐藏所以的Fragment
+     * 隐藏所有的Fragment
      *
      * @param transaction
      */

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SaintSungPmc</string>
+    <string name="app_name">智能物控系统</string>
     <!-- 登录模块 -->
     <string name="Login">登录</string>
     <string name="Login_port">点击设置端口号</string>
@@ -22,5 +22,11 @@
     <!--  登录模块    -->
     <string name="prompt_password">密码</string>
     <string name="prompt_email">用户名</string>
-    <string name="action_sign_in_short">Sign in</string>
+    <string name="login_errlenth">用户名或密码长度不够！</string>
+    <string name="login_errport">端口号不能为空！</string>
+    <string name="login_prompt">提示！</string>
+    <string name="login_setport">设置端口号</string>
+    <string name="login_confirm">确认</string>
+    <string name="login_cancel">取消</string>
+    <string name="entry">立即体验</string>
 </resources>
