@@ -30,7 +30,6 @@ import butterknife.ButterKnife;
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
-    private SharedPreferences myPortSharedPreferences;
     @Bind(R.id.userName)
     EditText userNameText;
     @Bind(R.id.passWord)
@@ -58,8 +57,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      * 判断是否存在端口号
      */
     private boolean isPort() {
-        myPortSharedPreferences = this.getSharedPreferences("port", Context.MODE_PRIVATE);
-        String port = myPortSharedPreferences.getString("port", "");
+        String port=SharedPreferencesUtil.getSharedPreferences(LoginActivity.this,"Port","");
         if (port.equals("")) {
             getDiaLog();
             return false;
@@ -110,7 +108,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         String username = userNameText.getText().toString();
         String password = passWordText.getText().toString();
-        String parameter = Constant.loginServiceLable + DataProcess.ComplementSpace(username, 10) + DataProcess.ComplementSpace(password, 10) + baseApplication.getIEME();
+        final String parameter = Constant.loginServiceLable + DataProcess.ComplementSpace(username, 10) + DataProcess.ComplementSpace(password, 10) + baseApplication.getIEME();
         AsyncTaskConnetion asyncTaskConnetion = new AsyncTaskConnetion();
         asyncTaskConnetion.execute(baseApplication.getPort(), DataProcess.createRequestPacket(parameter));
         asyncTaskConnetion.getResult(new IGetResultInService() {
@@ -125,6 +123,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                     progressDialog.dismiss();
                                 }
                             }, 500);
+                    SharedPreferencesUtil.putSharedPreferences(LoginActivity.this,"UserNameAndPassword",parameter);
                 } else {
                     new android.os.Handler().postDelayed(
                             new Runnable() {

@@ -7,17 +7,20 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.ImageView;
 
 import com.saintsung.saintsungpmc.MainActivity;
 import com.saintsung.saintsungpmc.R;
+import com.saintsung.saintsungpmc.networkconnections.SocketConnect;
 
 import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
@@ -86,10 +89,11 @@ public class WelcomeActivity extends Activity {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                if(isUserSharedPreferences()) {
+                if (isUserSharedPreferences()) {
                     startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
                     WelcomeActivity.this.finish();
-                }else {
+                    createObservable();
+                } else {
                     startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
                     WelcomeActivity.this.finish();
                 }
@@ -97,13 +101,46 @@ public class WelcomeActivity extends Activity {
             }
         });
     }
-    private Boolean isUserSharedPreferences(){
-        String isLogin=SharedPreferencesUtil.getSharedPreferences(this,"UserNameAndPassword","");
-        if(!isLogin.equals("")){
-             return true;
-        }else
-        return false;
+    private void createObservable() {
+        Observable mObservable = Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                SocketConnect socketConnect = new SocketConnect();
+                subscriber.onNext(socketConnect.sendDate(SharedPreferencesUtil.getSharedPreferences(WelcomeActivity.this, "Port", ""), SharedPreferencesUtil.getSharedPreferences(WelcomeActivity.this, "UserNameAndPassword", "")));
+            }
+        });
+        Subscriber subscriber=new Subscriber<String>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable error) {
+
+            }
+
+            @Override
+            public void onNext(String string) {
+                Log.e("TAG","服务器返回："+string);
+            }
+        };
+        mObservable.subscribe(subscriber);
     }
+
+    /**
+     * 判断用户名密码是否保存在本地
+     *
+     * @return
+     */
+    private Boolean isUserSharedPreferences() {
+        String isLogin = SharedPreferencesUtil.getSharedPreferences(this, "UserNameAndPassword", "");
+        if (!isLogin.equals("")) {
+            return true;
+        } else
+            return false;
+    }
+
     /**
      * 屏蔽物理返回按钮
      *
