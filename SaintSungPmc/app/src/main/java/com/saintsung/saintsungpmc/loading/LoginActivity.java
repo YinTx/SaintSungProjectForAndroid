@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -51,6 +52,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void initView() {
         btnLogin.setOnClickListener(this);
         portSetText.setOnClickListener(this);
+        //设置全局常量，IEME
+        TelephonyManager tm = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
+        baseApplication.setIEME(DataProcess.ComplementZeor(tm.getDeviceId(),18));
     }
 
     /**
@@ -123,7 +127,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                     progressDialog.dismiss();
                                 }
                             }, 500);
-                    SharedPreferencesUtil.putSharedPreferences(LoginActivity.this,"UserNameAndPassword",parameter);
+                    SharedPreferencesUtil.putSharedPreferences(LoginActivity.this,"UserNameAndPassword",DataProcess.createRequestPacket(parameter));
                 } else {
                     new android.os.Handler().postDelayed(
                             new Runnable() {

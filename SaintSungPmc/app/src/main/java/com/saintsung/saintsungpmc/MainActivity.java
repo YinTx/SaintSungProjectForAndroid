@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import com.saintsung.saintsungpmc.fragment.MainControlFragment;
 import com.saintsung.saintsungpmc.fragment.MainHomeFragment;
 import com.saintsung.saintsungpmc.fragment.MainMapFragment;
 import com.saintsung.saintsungpmc.fragment.MainPersonalFragment;
+import com.saintsung.saintsungpmc.tools.DataProcess;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -137,6 +139,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     //初始化控件
     private void initView() {
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        //设置全局常量，IEME
+        TelephonyManager tm = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
+        baseApplication.setIEME(DataProcess.ComplementZeor(tm.getDeviceId(),18));
     }
 
     /**

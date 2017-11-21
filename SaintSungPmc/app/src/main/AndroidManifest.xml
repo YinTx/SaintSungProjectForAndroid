@@ -27,7 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".loading.WelcomeGuideActivity"/>
+        <activity android:name=".loading.WelcomeGuideActivity" android:theme="@style/AppWelcomeTheme"/>
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="6771be5712fff8dca0c7ae1e2b2a4565"/>
@@ -55,4 +55,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--  获取手机状态信息-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 </manifest>

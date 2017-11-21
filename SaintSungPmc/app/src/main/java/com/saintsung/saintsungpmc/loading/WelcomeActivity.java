@@ -23,6 +23,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -101,6 +102,7 @@ public class WelcomeActivity extends Activity {
             }
         });
     }
+
     private void createObservable() {
         Observable mObservable = Observable.create(new Observable.OnSubscribe<String>() {
             @Override
@@ -108,8 +110,8 @@ public class WelcomeActivity extends Activity {
                 SocketConnect socketConnect = new SocketConnect();
                 subscriber.onNext(socketConnect.sendDate(SharedPreferencesUtil.getSharedPreferences(WelcomeActivity.this, "Port", ""), SharedPreferencesUtil.getSharedPreferences(WelcomeActivity.this, "UserNameAndPassword", "")));
             }
-        });
-        Subscriber subscriber=new Subscriber<String>() {
+        }).subscribeOn(Schedulers.io());
+        Subscriber subscriber = new Subscriber<String>() {
             @Override
             public void onCompleted() {
 
@@ -122,7 +124,7 @@ public class WelcomeActivity extends Activity {
 
             @Override
             public void onNext(String string) {
-                Log.e("TAG","服务器返回："+string);
+                Log.e("TAG", "服务器返回：" + string);
             }
         };
         mObservable.subscribe(subscriber);
