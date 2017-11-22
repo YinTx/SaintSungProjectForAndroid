@@ -3,11 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:gravity="center"
     android:orientation="vertical">
-    <TextView
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="我是设备控制页"
-        android:textSize="30dp" />
+   <Button
+       android:id="@+id/open_ble"
+       android:layout_width="200dp"
+       android:layout_height="200dp"
+       android:text="@string/control_openble"
+       />
 </LinearLayout>

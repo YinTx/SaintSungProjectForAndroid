@@ -29,4 +29,7 @@
     <string name="login_confirm">确认</string>
     <string name="login_cancel">取消</string>
     <string name="entry">立即体验</string>
+    <!--   设备控制模块-->
+    <string name="control_search">开始搜索</string>
+    <string name="control_openble">打开蓝牙</string>
 </resources>
