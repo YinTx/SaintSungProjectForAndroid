@@ -8,8 +8,13 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.clj.fastble.BleManager;
+import com.clj.fastble.conn.BleScanCallback;
+import com.clj.fastble.data.ScanResult;
 import com.saintsung.saintsungpmc.configure.BaseActivity;
 import com.saintsung.saintsungpmc.fragment.MainControlFragment;
 import com.saintsung.saintsungpmc.fragment.MainHomeFragment;
@@ -17,13 +22,16 @@ import com.saintsung.saintsungpmc.fragment.MainMapFragment;
 import com.saintsung.saintsungpmc.fragment.MainPersonalFragment;
 import com.saintsung.saintsungpmc.tools.DataProcess;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
 public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     //使用注解方式进行控件的绑定
-    @Bind(R.id.bottom_navi_view) BottomNavigationView bottomNavigationView;
+    @Bind(R.id.bottom_navi_view)
+    BottomNavigationView bottomNavigationView;
     private long exitTime = 0;//2次回退计时器
     private MainHomeFragment mainHomeFragment;
     private MainControlFragment mainControlFragment;
@@ -60,6 +68,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         initView();
         setSelect(0);
     }
+
     /**
      * Fragment选择方法，此方法用于管理Fragment。
      *
@@ -141,7 +150,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         //设置全局常量，IEME
         TelephonyManager tm = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
-        baseApplication.setIEME(DataProcess.ComplementZeor(tm.getDeviceId(),18));
+        baseApplication.setIEME(DataProcess.ComplementZeor(tm.getDeviceId(), 18));
     }
 
     /**
