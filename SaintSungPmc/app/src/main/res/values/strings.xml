@@ -1,13 +1,5 @@
 <resources>
     <string name="app_name">智能物控系统</string>
-    <!-- 登录模块 -->
-    <string name="Login">登录</string>
-    <string name="Login_port">点击设置端口号</string>
-    <string name="Login_Name">用户名</string>
-    <string name="Login_passWord">密码</string>
-    <string name="Login_in">登录中...</string>
-    <string name="Login_usrenameLenthError">用户名在4到10个数字或字符</string>
-    <string name="Login_passwordLenthError">密码在4到10个数字或字符</string>
     <!--   主界面底部选择项     -->
     <string name="menu_home">首页</string>
     <string name="menu_control">设备控制</string>
@@ -19,7 +11,15 @@
     <string name="setting">设置</string>
     <string name="notifyMsg">应用即将退出</string>
     <string name="notifyTitle">提示！</string>
+    <string name="gpsNotifyMsg">当前手机扫描蓝牙需要打开定位功能。</string>
     <!--  登录模块    -->
+    <string name="Login">登录</string>
+    <string name="Login_port">点击设置端口号</string>
+    <string name="Login_Name">用户名</string>
+    <string name="Login_passWord">密码</string>
+    <string name="Login_in">登录中...</string>
+    <string name="Login_usrenameLenthError">用户名在4到10个数字或字符</string>
+    <string name="Login_passwordLenthError">密码在4到10个数字或字符</string>
     <string name="prompt_password">密码</string>
     <string name="prompt_email">用户名</string>
     <string name="login_errlenth">用户名或密码长度不够！</string>
@@ -30,6 +30,19 @@
     <string name="login_cancel">取消</string>
     <string name="entry">立即体验</string>
     <!--   设备控制模块-->
-    <string name="control_search">开始搜索</string>
+    <string name="start_scan">开始扫描</string>
+    <string name="stop_scan">停止扫描</string>
     <string name="control_openble">打开蓝牙</string>
+    <string name="expand_search_settings">展开搜索设置</string>
+    <string name="retrieve_search_settings">收起搜索设置</string>
+    <string name="scan_setting">在下面你可以查看小掌机的状态以及返回的信息！</string>
+    <string name="please_open_blue">请先打开蓝牙</string>
+    <string name="please_replacePhone">请更换成蓝牙4.0及以上的蓝牙版本再试！</string>
+    <string name="connect">连接</string>
+    <string name="connected">已连接</string>
+    <string name="disconnect">断开连接</string>
+    <string name="enter">进入操作</string>
+    <string name="connect_fail">连接失败</string>
+    <string name="disconnected">连接断开</string>
+    <string name="connection">连接中...</string>
 </resources>

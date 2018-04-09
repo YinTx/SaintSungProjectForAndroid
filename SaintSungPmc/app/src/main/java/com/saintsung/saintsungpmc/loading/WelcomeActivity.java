@@ -10,14 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.ImageView;
-
-import com.saintsung.saintsungpmc.MainActivity;
+//import com.saintsung.saintsungpmc.MainActivity;
 import com.saintsung.saintsungpmc.R;
-import com.saintsung.saintsungpmc.networkconnections.SocketConnect;
-
 import java.util.concurrent.TimeUnit;
-
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
@@ -35,7 +30,7 @@ public class WelcomeActivity extends Activity {
     private static final float SCALE_END = 1.15F;
     //设置启动页，APP的响应页背景的常量
     private static final int Img = R.drawable.welcomimg2;
-    @Bind(R.id.iv_entry)
+
     ImageView mIVEntry;
 
     @Override
@@ -52,7 +47,7 @@ public class WelcomeActivity extends Activity {
         }
         // 如果不是第一次启动app，则正常显示启动屏
         setContentView(R.layout.activity_welcome);
-        ButterKnife.bind(this);
+        mIVEntry= (ImageView) findViewById(R.id.iv_entry);
         startMainActivity();
     }
 
@@ -91,7 +86,7 @@ public class WelcomeActivity extends Activity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 if (isUserSharedPreferences()) {
-                    startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+//                    startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
                     WelcomeActivity.this.finish();
                     createObservable();
                 } else {
@@ -104,11 +99,11 @@ public class WelcomeActivity extends Activity {
     }
 
     private void createObservable() {
+
         Observable mObservable = Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
-                SocketConnect socketConnect = new SocketConnect();
-                subscriber.onNext(socketConnect.sendDate(SharedPreferencesUtil.getSharedPreferences(WelcomeActivity.this, "Port", ""), SharedPreferencesUtil.getSharedPreferences(WelcomeActivity.this, "UserNameAndPassword", "")));
+
             }
         }).subscribeOn(Schedulers.io());
         Subscriber subscriber = new Subscriber<String>() {
@@ -124,6 +119,7 @@ public class WelcomeActivity extends Activity {
 
             @Override
             public void onNext(String string) {
+
                 Log.e("TAG", "服务器返回：" + string);
             }
         };

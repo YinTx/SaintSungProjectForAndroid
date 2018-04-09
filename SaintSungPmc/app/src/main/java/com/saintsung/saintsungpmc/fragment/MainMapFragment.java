@@ -26,9 +26,7 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.saintsung.saintsungpmc.R;
 
-import java.util.List;
-
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -42,7 +40,7 @@ public class MainMapFragment extends Fragment implements
         AMapLocationListener,
         AMap.CancelableCallback {
     private String TAG="MainMapFragment for Tag";
-    @Bind(R.id.map) MapView mMapView;
+    @BindView(R.id.map) MapView mMapView;
     private AMap mAMap;
     private OnLocationChangedListener mListener;
     private AMapLocationClient mlocationClient;

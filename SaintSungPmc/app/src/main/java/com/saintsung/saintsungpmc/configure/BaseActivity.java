@@ -32,7 +32,7 @@ public class BaseActivity extends CheckPermissionsActivity {
 
         super.onStart();
         // 沉浸式状态栏
-        ToastUtil.setColor(this, getResources().getColor(R.color.colorAccent));
+//        ToastUtil.setColor(this, getResources().getColor(R.color.colorAccent));
         //防止Fragment切换高德地图闪屏问题
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
     }

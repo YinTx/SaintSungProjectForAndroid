@@ -12,5 +12,23 @@
         android:textSize="20sp"
         android:text="我是主页面"
         />
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <!-- ListView、ScrollView、RecyclerView、Other 多种-->
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scrollbars="none" >
+        </ListView>
+    </com.baoyz.widget.PullRefreshLayout>
+    <!--<Button-->
+        <!--android:id="@+id/sendData"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="请求数据"-->
+        <!--/>-->
 </LinearLayout>

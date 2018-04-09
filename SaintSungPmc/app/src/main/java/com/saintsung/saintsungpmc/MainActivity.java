@@ -8,13 +8,10 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+
 import android.widget.Toast;
 
-import com.clj.fastble.BleManager;
-import com.clj.fastble.conn.BleScanCallback;
-import com.clj.fastble.data.ScanResult;
+import com.saintsung.common.app.Activity;
 import com.saintsung.saintsungpmc.configure.BaseActivity;
 import com.saintsung.saintsungpmc.fragment.MainControlFragment;
 import com.saintsung.saintsungpmc.fragment.MainHomeFragment;
@@ -22,22 +19,20 @@ import com.saintsung.saintsungpmc.fragment.MainMapFragment;
 import com.saintsung.saintsungpmc.fragment.MainPersonalFragment;
 import com.saintsung.saintsungpmc.tools.DataProcess;
 
-import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends Activity implements BottomNavigationView.OnNavigationItemSelectedListener {
     //使用注解方式进行控件的绑定
-    @Bind(R.id.bottom_navi_view)
+    @BindView(R.id.bottom_navi_view)
     BottomNavigationView bottomNavigationView;
     private long exitTime = 0;//2次回退计时器
     private MainHomeFragment mainHomeFragment;
     private MainControlFragment mainControlFragment;
     private MainMapFragment mainMapFragment;
     private MainPersonalFragment mainPersonalFragment;
-
     /**
      * 主界面监听返回按钮，在2秒内连续点击2次返回按钮则退出程序
      *
@@ -59,19 +54,21 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         }
         return super.onKeyDown(keyCode, event);
     }
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected int getContentLayoutId() {
+        return R.layout.activity_main;
+    }
+    @Override
+    protected void initWidget(){
         ButterKnife.bind(this);
-        initView();
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+    }
+    @Override
+    protected void initData(){
         setSelect(0);
     }
-
     /**
-     * Fragment选择方法，此方法用于管理Fragment。
-     *
+     * Fragment选择方法，此方法用于管理Fragment
      * @param i 显示Fragment页
      */
     private void setSelect(int i) {
@@ -84,7 +81,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                     mainHomeFragment = new MainHomeFragment();
                 /*
                  * 将Fragment添加到活动中，public abstract FragmentTransaction add (int containerViewId, Fragment fragment)
-                *containerViewId即为Optional identifier of the container this fragment is to be placed in. If 0, it will not be placed in a container.
+                 *containerViewId即为Optional identifier of the container this fragment is to be placed in. If 0, it will not be placed in a container.
                  * */
                     transaction.add(R.id.main_fragment, mainHomeFragment);//将主页面的Fragment添加到Activity中
                 } else {
@@ -94,9 +91,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             case 1:
                 if (mainControlFragment == null) {
                     mainControlFragment = new MainControlFragment();
-                    transaction.add(R.id.main_fragment, mainControlFragment);
+//                    transaction.add(R.id.main_fragment, mainControlFragment);
                 } else {
-                    transaction.show(mainControlFragment);
+//                    transaction.show(mainControlFragment);
                 }
 
                 break;
@@ -134,7 +131,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             transaction.hide(mainHomeFragment);
         }
         if (mainControlFragment != null) {
-            transaction.hide(mainControlFragment);
+//            transaction.hide(mainControlFragment);
         }
         if (mainMapFragment != null) {
             transaction.hide(mainMapFragment);
@@ -145,14 +142,13 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     }
 
-    //初始化控件
-    private void initView() {
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        //设置全局常量，IEME
-        TelephonyManager tm = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
-        baseApplication.setIEME(DataProcess.ComplementZeor(tm.getDeviceId(), 18));
-    }
-
+//    //初始化控件
+//    private void initView() {
+//
+//        //设置全局常量，IEME
+//        TelephonyManager tm = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
+//        baseApplication.setIEME(DataProcess.ComplementZeor(tm.getDeviceId(), 18));
+//    }
     /**
      * 使用Google自带的support.design.widget.BottomNavigationView控件，此方法为控件提供的API
      *

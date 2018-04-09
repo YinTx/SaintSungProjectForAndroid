@@ -2,24 +2,48 @@ package com.saintsung.saintsungpmc.fragment;
 
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
+import android.bluetooth.BluetoothGatt;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.clj.fastble.BleManager;
-import com.clj.fastble.conn.BleScanCallback;
-import com.clj.fastble.data.ScanResult;
+import com.clj.fastble.callback.BleGattCallback;
+import com.clj.fastble.callback.BleNotifyCallback;
+import com.clj.fastble.callback.BleScanCallback;
+import com.clj.fastble.callback.BleWriteCallback;
+import com.clj.fastble.data.BleDevice;
+import com.clj.fastble.exception.BleException;
 import com.clj.fastble.scan.BleScanRuleConfig;
+import com.clj.fastble.utils.HexUtil;
 import com.saintsung.saintsungpmc.R;
+import com.saintsung.saintsungpmc.adapter.DeviceAdapter;
+import com.saintsung.saintsungpmc.configure.Constant;
+import com.saintsung.saintsungpmc.observice.ObserverManager;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+
+
 
 /**
  * 蓝牙控制使用GitHub上的框架
@@ -27,35 +51,90 @@ import butterknife.ButterKnife;
  * Created by XLzY on 2017/7/28.
  */
 
-public class MainControlFragment extends Fragment implements View.OnClickListener {
-    @Bind(R.id.open_ble)
-    Button openBle;
-
-    @Nullable
+public class MainControlFragment extends com.saintsung.common.app.Fragment implements View.OnClickListener {
+    private Animation operatingAnim;
+    private DeviceAdapter mDeviceAdapter;//ListView的Adapter
+    private ProgressDialog progressDialog;
+    private Handler mHandler;
+    //使用ButterKnife框架进行注解
+    @BindView(R.id.btn_scan)
+    Button scanBLE;
+    @BindView(R.id.list_device)
+    ListView bleListView;
+    @BindView(R.id.txt_setting)
+    TextView txtSetting;
+    @BindView(R.id.layout_setting)
+    LinearLayout layoutSetting;
+    @BindView(R.id.img_loading)
+    ImageView imgLoading;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_control, container, false);
-        ButterKnife.bind(this, view);
-        openBle.setOnClickListener(this);
-        return view;
+    protected int getContentLayoutId() {
+        return R.layout.fragment_control;
+    }
+    @Override
+    protected void initData(){
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage(getString(R.string.connection));
+        BleManager.getInstance().init(getActivity().getApplication());
+        scanBLE.setOnClickListener(this);
+        mDeviceAdapter = new DeviceAdapter(getActivity());
+        mDeviceAdapter.setOnDeviceClickListener(bluetoothAdapterItemOnClick);
+        bleListView.setAdapter(mDeviceAdapter);
+        operatingAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate);
+        operatingAnim.setInterpolator(new LinearInterpolator());
+        txtSetting.setText(getString(R.string.expand_search_settings));
+        txtSetting.setOnClickListener(this);
+        layoutSetting.setVisibility(View.GONE);
+        BleScanRuleConfig bleScanRuleConfig = new BleScanRuleConfig.Builder()
+                .setScanTimeOut(8000)
+                .build();
+        BleManager.getInstance().initScanRule(bleScanRuleConfig);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        showConnectedDevice();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        BleManager.getInstance().disconnectAllDevice();
+        BleManager.getInstance().destroy();
+    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.open_ble:
-                BleManager bleManager = new BleManager(getActivity());
-                if (bleManager.isSupportBle()) {
-                    bleManager.enableBluetooth();
-                    if (bleManager.isBlueEnable()) {
-                        scanBlutooth(bleManager);
+            //搜索按钮的响应方法
+            case R.id.btn_scan:
+                //isSupportBle  判断是否该机型能否使用BLE
+                if (BleManager.getInstance().isSupportBle()) {
+                    //判断蓝牙是否打开
+                    if (BleManager.getInstance().isBlueEnable()) {
+                        //判断蓝牙是开始扫描还是停止扫描执行对应的方法
+                        if (scanBLE.getText().equals(getString(R.string.start_scan))) {
+                            scanBlutooth();
+                        } else if (scanBLE.getText().equals(getString(R.string.stop_scan))) {
+                            //取消蓝牙的搜索
+                            BleManager.getInstance().cancelScan();
+                        }
                     } else {
-
+                        //打开蓝牙
+                        BleManager.getInstance().enableBluetooth();
                     }
-
                 } else {
-                    Toast.makeText(getActivity().getApplicationContext(), "请更换成蓝牙4.0版本及以上的蓝牙版本再试！", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(), getString(R.string.please_replacePhone), Toast.LENGTH_LONG).show();
+                }
+                break;
+            //展开小掌机信息及操作结果按钮
+            case R.id.txt_setting:
+                if (layoutSetting.getVisibility() == View.VISIBLE) {
+                    layoutSetting.setVisibility(View.GONE);
+                    txtSetting.setText(getString(R.string.expand_search_settings));
+                } else {
+                    layoutSetting.setVisibility(View.VISIBLE);
+                    txtSetting.setText(getString(R.string.retrieve_search_settings));
                 }
                 break;
             default:
@@ -64,30 +143,158 @@ public class MainControlFragment extends Fragment implements View.OnClickListene
     }
 
     /**
-     * 搜索蓝牙
-     *
-     * @param bleManager 传入FastBle中的类BleManager
+     * 这个是搜索蓝牙显示在ListView中单项点击按钮监听事件
      */
-    private void scanBlutooth(BleManager bleManager) {
-        BleScanRuleConfig bleScanRuleConfig = new BleScanRuleConfig();
-        bleManager.initScanRule(bleScanRuleConfig);
-        bleManager.scan(new BleScanCallback() {
-            @Override
-            public void onScanStarted() {
+    DeviceAdapter.OnDeviceClickListener bluetoothAdapterItemOnClick=new DeviceAdapter.OnDeviceClickListener() {
+        @Override
+        public void onConnect(BleDevice bleDevice) {
+            if (!BleManager.getInstance().isConnected(bleDevice)) {
+                BleManager.getInstance().cancelScan();
+                connect(bleDevice);
+            }
+        }
 
+        @Override
+        public void onDisConnect(BleDevice bleDevice) {
+            if (BleManager.getInstance().isConnected(bleDevice)) {
+                BleManager.getInstance().disconnect(bleDevice);
+            }
+        }
+
+        @Override
+        public void onDetail(BleDevice bleDevice) {
+            if (BleManager.getInstance().isConnected(bleDevice)) {
+                String str="a10201a0303030456c32303138303330363131f1";
+                byte[] bytes=str.getBytes();
+                write(bleDevice,bytes);
+                str="a1020232303033f0fffffffffffffffffffffff1";
+                bytes=str.getBytes();
+                write(bleDevice,bytes);
+//                write(bleDevice,"");
+//                Intent intent = new Intent(getActivity(), OperationActivity.class);
+//                intent.putExtra(OperationActivity.KEY_DATA, bleDevice);
+//                startActivity(intent);
+            }
+        }
+    };
+
+
+    private void write(BleDevice bleDevice,byte[] bytes){
+        BleManager.getInstance().write(
+                bleDevice,
+                Constant.uuidService.toString(),
+                Constant.uuidWrite.toString(),
+                bytes,
+                new BleWriteCallback() {
+                    @Override
+                    public void onWriteSuccess() {
+                        // 发送数据到设备成功（UI线程）
+                        Log.e("TAG","发送数据到设备成功");
+                    }
+
+                    @Override
+                    public void onWriteFailure(BleException exception) {
+                        // 发送数据到设备失败（UI线程）
+                        Log.e("TAG","发送数据到设备失败"+exception.toString());
+                    }
+                });
+    }
+    private void connect(BleDevice bleDevice) {
+        BleManager.getInstance().connect(bleDevice, new BleGattCallback() {
+            @Override
+            public void onStartConnect() {
+                progressDialog.show();
             }
 
             @Override
-            public void onScanning(ScanResult result) {
-
+            public void onConnectFail(BleException exception) {
+                imgLoading.clearAnimation();
+                imgLoading.setVisibility(View.INVISIBLE);
+                scanBLE.setText(getString(R.string.start_scan));
+                progressDialog.dismiss();
+                Toast.makeText(getActivity(), getString(R.string.connect_fail), Toast.LENGTH_LONG).show();
             }
 
             @Override
-            public void onScanFinished(List<ScanResult> scanResultList) {
+            public void onConnectSuccess(final BleDevice bleDevice, BluetoothGatt gatt, int status) {
+                progressDialog.dismiss();
+                mDeviceAdapter.addDevice(bleDevice);
+                mDeviceAdapter.notifyDataSetChanged();
+                //连接成功后开始监听返回的数据
+                notifyBle(bleDevice);
+            }
 
+            @Override
+            public void onDisConnected(boolean isActiveDisConnected, BleDevice bleDevice, BluetoothGatt gatt, int status) {
+                progressDialog.dismiss();
+
+                mDeviceAdapter.removeDevice(bleDevice);
+                mDeviceAdapter.notifyDataSetChanged();
+
+                if (!isActiveDisConnected) {
+                    Toast.makeText(getActivity(), getString(R.string.disconnected), Toast.LENGTH_LONG).show();
+                    ObserverManager.getInstance().notifyObserver(bleDevice);
+                }
+            }
+        });
+    }
+    private void notifyBle(BleDevice bleDevice){
+        BleManager.getInstance().notify(bleDevice, Constant.uuidService.toString(), Constant.uuidNotify.toString(), new BleNotifyCallback() {
+            @Override
+            public void onNotifySuccess() {
+                // 打开通知操作成功（UI线程）
+                Log.e("TAG","成功");
+            }
+
+            @Override
+            public void onNotifyFailure(BleException exception) {
+                // 打开通知操作失败（UI线程）
+                Log.e("TAG","失败");
+            }
+            @Override
+            public void onCharacteristicChanged(byte[] data) {
+                Log.e("TAG","下位机发送数据："+ HexUtil.formatHexString(data,true));
+            }
+        });
+    }
+    /**
+     * 搜索蓝牙
+     */
+    private void scanBlutooth() {
+        BleManager.getInstance().scan(new BleScanCallback() {
+            @Override
+            public void onScanStarted(boolean success) {
+                mDeviceAdapter.clearScanDevice();
+                mDeviceAdapter.notifyDataSetChanged();
+                imgLoading.setVisibility(View.VISIBLE);
+                imgLoading.startAnimation(operatingAnim);
+                scanBLE.setText(getString(R.string.stop_scan));
+            }
+
+            @Override
+            public void onScanning(BleDevice result) {
+                mDeviceAdapter.addDevice(result);
+                mDeviceAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onScanFinished(List<BleDevice> scanResultList) {
+                imgLoading.clearAnimation();
+                imgLoading.setVisibility(View.INVISIBLE);
+                scanBLE.setText(getString(R.string.start_scan));
             }
         });
     }
 
-
+    /**
+     * 扫描到蓝牙刷新ListView
+     */
+    private void showConnectedDevice() {
+        List<BleDevice> deviceList = BleManager.getInstance().getAllConnectedDevice();
+        mDeviceAdapter.clearConnectedDevice();
+        for (BleDevice bleDevice : deviceList) {
+            mDeviceAdapter.addDevice(bleDevice);
+        }
+        mDeviceAdapter.notifyDataSetChanged();
+    }
 }
