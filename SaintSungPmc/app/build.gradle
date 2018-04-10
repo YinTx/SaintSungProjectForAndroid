@@ -1,16 +1,16 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
+
 android {
-    splits {
-        abi {
-            enable true
-            reset()
-            include 'x86', 'armeabi-v7a'
-            universalApk true
-        }
-    }
-    sourceSets{
-        main{
+//    splits {
+//        abi {
+//            enable true
+//            reset()
+//            include 'x86', 'armeabi-v7a'
+//            universalApk true
+//        }
+//    }
+    sourceSets {
+        main {
             jniLibs.srcDirs = ['libs']
         }
     }
@@ -18,7 +18,7 @@ android {
     buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "com.saintsung.saintsungpmc"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0.1"
@@ -34,9 +34,13 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
     compile "com.android.support:appcompat-v7:$rootProject.ext.supportVersion"
     compile "com.android.support:design:$rootProject.ext.supportVersion"
     compile "com.android.support:recyclerview-v7:$rootProject.ext.supportVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
     testCompile 'junit:junit:4.12'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'io.reactivex:rxjava:1.1.0'
@@ -47,6 +51,4 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.baoyz.pullrefreshlayout:library:1.2.0'
     compile project(':common')
-    compile project(':factory')
-    compile project(':lang')
 }

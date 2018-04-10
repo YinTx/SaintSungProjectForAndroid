@@ -24,21 +24,16 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
-    compile project(':common')
     compile "com.aliyun.dpa:oss-android-sdk:$rootProject.ext.ossVersion"
-
     compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
     compile "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
     compile "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
-
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${rootProject.ext.dbflowVersion}"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${rootProject.ext.dbflowVersion}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${rootProject.ext.dbflowVersion}"
-
     testCompile 'junit:junit:4.12'
 }

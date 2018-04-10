@@ -3,31 +3,32 @@
     package="com.saintsung.saintsungpmc">
 
     <application
-        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
-        <activity android:name=".loading.LoginActivity" android:theme="@style/AppTheme.Dark">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
-        <activity android:name=".loading.WelcomeActivity" android:theme="@style/AppWelcomeTheme">
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme.Main"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".loading.WelcomeGuideActivity" android:theme="@style/AppWelcomeTheme"/>
+        <activity android:name=".loading.LoginActivity" >
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name=".loading.WelcomeActivity" >
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name=".loading.WelcomeGuideActivity" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="6771be5712fff8dca0c7ae1e2b2a4565"/>

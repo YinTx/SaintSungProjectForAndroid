@@ -1,38 +1,24 @@
 package com.saintsung.saintsungpmc;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.view.KeyEvent;
-import android.view.MenuItem;
-
+import android.view.View;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.ViewTarget;
 import com.saintsung.common.app.Activity;
-import com.saintsung.saintsungpmc.configure.BaseActivity;
-import com.saintsung.saintsungpmc.fragment.MainControlFragment;
-import com.saintsung.saintsungpmc.fragment.MainHomeFragment;
-import com.saintsung.saintsungpmc.fragment.MainMapFragment;
-import com.saintsung.saintsungpmc.fragment.MainPersonalFragment;
-import com.saintsung.saintsungpmc.tools.DataProcess;
-
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends Activity implements BottomNavigationView.OnNavigationItemSelectedListener {
-    //使用注解方式进行控件的绑定
-    @BindView(R.id.bottom_navi_view)
-    BottomNavigationView bottomNavigationView;
+public class MainActivity extends Activity {
     private long exitTime = 0;//2次回退计时器
-    private MainHomeFragment mainHomeFragment;
-    private MainControlFragment mainControlFragment;
-    private MainMapFragment mainMapFragment;
-    private MainPersonalFragment mainPersonalFragment;
+    @BindView(R.id.appbar)
+    View mLayAppbar;
+
     /**
      * 主界面监听返回按钮，在2秒内连续点击2次返回按钮则退出程序
      *
@@ -54,129 +40,25 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
         }
         return super.onKeyDown(keyCode, event);
     }
+
     @Override
     protected int getContentLayoutId() {
         return R.layout.activity_main;
     }
+
     @Override
-    protected void initWidget(){
-        ButterKnife.bind(this);
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+    protected void initWidget() {
+        super.initWidget();
+        Glide.with(this).load(R.drawable.bg_src_morning).centerCrop().into(new ViewTarget<View, GlideDrawable>(mLayAppbar) {
+            @Override
+            public void onResourceReady(GlideDrawable glideDrawable, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                this.view.setBackground(glideDrawable.getCurrent());
+            }
+        });
     }
+
     @Override
-    protected void initData(){
-        setSelect(0);
-    }
-    /**
-     * Fragment选择方法，此方法用于管理Fragment
-     * @param i 显示Fragment页
-     */
-    private void setSelect(int i) {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();//创建一个事务
-        hideFragment(transaction);//我们先把所有的Fragment隐藏了，然后下面再开始处理具体要显示的Fragment
-        switch (i) {
-            case 0:
-                if (mainHomeFragment == null) {
-                    mainHomeFragment = new MainHomeFragment();
-                /*
-                 * 将Fragment添加到活动中，public abstract FragmentTransaction add (int containerViewId, Fragment fragment)
-                 *containerViewId即为Optional identifier of the container this fragment is to be placed in. If 0, it will not be placed in a container.
-                 * */
-                    transaction.add(R.id.main_fragment, mainHomeFragment);//将主页面的Fragment添加到Activity中
-                } else {
-                    transaction.show(mainHomeFragment);
-                }
-                break;
-            case 1:
-                if (mainControlFragment == null) {
-                    mainControlFragment = new MainControlFragment();
-//                    transaction.add(R.id.main_fragment, mainControlFragment);
-                } else {
-//                    transaction.show(mainControlFragment);
-                }
-
-                break;
-            case 2:
-                if (mainMapFragment == null) {
-                    mainMapFragment = new MainMapFragment();
-                    transaction.add(R.id.main_fragment, mainMapFragment);
-                } else {
-                    transaction.show(mainMapFragment);
-                }
-
-                break;
-            case 3:
-                if (mainPersonalFragment == null) {
-                    mainPersonalFragment = new MainPersonalFragment();
-                    transaction.add(R.id.main_fragment, mainPersonalFragment);
-                } else {
-                    transaction.show(mainPersonalFragment);
-                }
-                break;
-
-            default:
-                break;
-        }
-        transaction.commit();//提交事务
-    }
-
-    /**
-     * 隐藏所有的Fragment
-     *
-     * @param transaction
-     */
-    private void hideFragment(FragmentTransaction transaction) {
-        if (mainHomeFragment != null) {
-            transaction.hide(mainHomeFragment);
-        }
-        if (mainControlFragment != null) {
-//            transaction.hide(mainControlFragment);
-        }
-        if (mainMapFragment != null) {
-            transaction.hide(mainMapFragment);
-        }
-        if (mainPersonalFragment != null) {
-            transaction.hide(mainPersonalFragment);
-        }
-
-    }
-
-//    //初始化控件
-//    private void initView() {
-//
-//        //设置全局常量，IEME
-//        TelephonyManager tm = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
-//        baseApplication.setIEME(DataProcess.ComplementZeor(tm.getDeviceId(), 18));
-//    }
-    /**
-     * 使用Google自带的support.design.widget.BottomNavigationView控件，此方法为控件提供的API
-     *
-     * @param item
-     * @return
-     */
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            //主页Home页面的Fragment
-            case R.id.menu_main_home:
-                setSelect(0);
-                break;
-            //设备空的页面的Fragment
-            case R.id.menu_main_control:
-                setSelect(1);
-                break;
-            //地图页面的Fragment
-            case R.id.menu_main_map:
-                setSelect(2);
-                break;
-            //个人中心页面的Fragment
-            case R.id.menu_main_personal:
-                setSelect(3);
-                break;
-            default:
-                break;
-        }
-        return true;
+    protected void initData() {
+        super.initData();
     }
 }
