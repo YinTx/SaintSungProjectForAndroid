@@ -92,17 +92,17 @@ public class MainMapFragment extends Fragment implements
         mAMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
     }
 
-    /**
-     * 根据动画按钮状态，调用函数animateCamera或moveCamera来改变可视区域
-     */
-    private void changeCamera(CameraUpdate update, AMap.CancelableCallback callback) {
-        boolean animated = true;
-        if (animated) {
-            mAMap.animateCamera(update, 1000, callback);
-        } else {
-            mAMap.moveCamera(update);
+        /**
+         * 根据动画按钮状态，调用函数animateCamera或moveCamera来改变可视区域
+         */
+        private void changeCamera(CameraUpdate update, AMap.CancelableCallback callback) {
+            boolean animated = true;
+            if (animated) {
+                mAMap.animateCamera(update, 1000, callback);
+            } else {
+                mAMap.moveCamera(update);
+            }
         }
-    }
 
     @Override
     public void onResume() {
