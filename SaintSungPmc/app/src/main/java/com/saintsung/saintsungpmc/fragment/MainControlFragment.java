@@ -33,6 +33,7 @@ import com.clj.fastble.scan.BleScanRuleConfig;
 import com.clj.fastble.utils.HexUtil;
 import com.saintsung.saintsungpmc.R;
 import com.saintsung.saintsungpmc.adapter.DeviceAdapter;
+import com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData;
 import com.saintsung.saintsungpmc.configure.Constant;
 import com.saintsung.saintsungpmc.observice.ObserverManager;
 
@@ -164,12 +165,9 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
         @Override
         public void onDetail(BleDevice bleDevice) {
             if (BleManager.getInstance().isConnected(bleDevice)) {
-                String str="a10201a0303030456c32303138303330363131f1";
-                byte[] bytes=str.getBytes();
+                byte[] bytes= SendBluetoothData.downLoadWorkOrder("2018051245217847");
                 write(bleDevice,bytes);
-                str="a1020232303033f0fffffffffffffffffffffff1";
-                bytes=str.getBytes();
-                write(bleDevice,bytes);
+
 //                write(bleDevice,"");
 //                Intent intent = new Intent(getActivity(), OperationActivity.class);
 //                intent.putExtra(OperationActivity.KEY_DATA, bleDevice);

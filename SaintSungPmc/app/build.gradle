@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-//    splits {
-//        abi {
-//            enable true
-//            reset()
-//            include 'x86', 'armeabi-v7a'
-//            universalApk true
-//        }
-//    }
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'x86', 'armeabi-v7a'
+            universalApk true
+        }
+    }
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
@@ -51,4 +51,5 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.baoyz.pullrefreshlayout:library:1.2.0'
     compile project(':common')
+    compile project(':lang')
 }

@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="20sp"
+        android:textColor="@color/red_200"
         android:text="我是主页面"
         />
     <com.baoyz.widget.PullRefreshLayout

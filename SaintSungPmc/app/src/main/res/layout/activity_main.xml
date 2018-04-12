@@ -6,75 +6,86 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.saintsung.saintsungpmc.MainActivity"
-    >
+    tools:context="com.saintsung.saintsungpmc.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
+        android:layout_height="@dimen/actionBarWithStatusBarSize"
         android:elevation="@dimen/len_2"
-        android:outlineProvider="bounds"
-        android:layout_height="@dimen/actionBarWithStatusBarSize">
+        android:outlineProvider="bounds">
+
         <FrameLayout
-            android:layout_marginTop="@dimen/statusBarSize"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/statusBarSize"
             android:paddingLeft="@dimen/len_4"
-            android:paddingRight="@dimen/len_4"
-            >
-        <com.saintsung.common.widget.PortraitView
-            android:layout_width="@dimen/len_40"
-            android:layout_height="@dimen/len_40"
-            android:layout_margin="@dimen/len_4"
-            android:padding="@dimen/len_4"
-            android:src="@drawable/default_portrait"
-            android:foreground="@drawable/ic_touch_menu"
-            android:clickable="true"
-            />
+            android:paddingRight="@dimen/len_4">
+
+            <com.saintsung.common.widget.PortraitView
+                android:id="@+id/img_portrait"
+                android:layout_width="@dimen/len_40"
+                android:layout_height="@dimen/len_40"
+                android:layout_margin="@dimen/len_4"
+                android:foreground="@drawable/ic_touch_menu"
+                android:padding="@dimen/len_4"
+                android:scaleType="centerCrop"
+                android:src="@drawable/default_portrait" />
+
             <TextView
-                android:textColor="@color/white"
+                android:id="@+id/txt_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/app_name"
-                />
+                android:textAppearance="@style/TextAppearance.Title"
+                android:textColor="@color/white" />
+
             <ImageView
-                android:tint="@color/white"
-                android:padding="@dimen/len_10"
+                android:id="@+id/img_search"
                 android:layout_width="@dimen/len_40"
                 android:layout_height="@dimen/len_40"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_search"
                 android:layout_gravity="end|center"
                 android:layout_margin="@dimen/len_4"
+                android:contentDescription="@string/app_name"
                 android:foreground="@drawable/ic_touch_menu"
-                android:clickable="true"
-                />
+                android:padding="@dimen/len_10"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_search"
+                android:tint="?attr/toolbarMenuIconColor" />
         </FrameLayout>
     </android.support.design.widget.AppBarLayout>
+
     <FrameLayout
-        android:id="@+id/lay_content"
+        android:id="@+id/lay_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
     <net.qiujuer.genius.ui.widget.FloatActionButton
-        android:tint="@color/white"
-        android:padding="@dimen/len_20"
-        android:src="@drawable/ic_group_add"
+        android:id="@+id/btn_action"
         android:layout_width="@dimen/len_52"
         android:layout_height="@dimen/len_52"
-        app:gBackgroundColor="@color/colorAccent"
-        app:layout_anchor="@id/lay_content"
-        app:layout_anchorGravity="bottom|end"
         android:layout_marginBottom="@dimen/len_68"
         android:layout_marginEnd="@dimen/len_16"
-        />
+        android:padding="@dimen/len_20"
+        android:src="@drawable/ic_group_add"
+        android:tint="@color/white"
+        app:gBackgroundColor="@color/colorAccent"
+        app:layout_anchor="@id/lay_container"
+        app:layout_anchorGravity="bottom|end" />
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="@dimen/len_52"
         android:layout_gravity="bottom"
-        />
+        android:background="@color/white"
+        android:elevation="@dimen/len_4"
+        android:outlineProvider="bounds"
+        android:translationZ="@dimen/len_8"
+        app:itemIconTint="@color/text_nav"
+        app:itemTextColor="@color/text_nav"
+        app:menu="@menu/menu_buttom_navi" />
 </android.support.design.widget.CoordinatorLayout>
