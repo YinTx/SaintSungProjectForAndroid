@@ -5,11 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/SaintSungPmc.iml" filepath="$PROJECT_DIR$/SaintSungPmc.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
-      <module fileurl="file://D:\GitProject\SaintSungProjectForAndroid\SaintSungPmc\common\common.iml" filepath="D:\GitProject\SaintSungProjectForAndroid\SaintSungPmc\common\common.iml" />
       <module fileurl="file://$PROJECT_DIR$/factory/factory.iml" filepath="$PROJECT_DIR$/factory/factory.iml" />
-      <module fileurl="file://D:\GitProject\SaintSungProjectForAndroid\SaintSungPmc\factory\factory.iml" filepath="D:\GitProject\SaintSungProjectForAndroid\SaintSungPmc\factory\factory.iml" />
       <module fileurl="file://$PROJECT_DIR$/lang/lang.iml" filepath="$PROJECT_DIR$/lang/lang.iml" />
-      <module fileurl="file://D:\GitProject\SaintSungProjectForAndroid\SaintSungPmc\lang\lang.iml" filepath="D:\GitProject\SaintSungProjectForAndroid\SaintSungPmc\lang\lang.iml" />
     </modules>
   </component>
 </project>

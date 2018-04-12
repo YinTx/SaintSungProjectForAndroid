@@ -173,7 +173,7 @@ public class SendBluetoothData {
      * @param number 需要补充的个数
      * @return
      */
-    private static byte[] increaseNullByte(byte[] bytes, int number) {
+     static byte[] increaseNullByte(byte[] bytes, int number) {
         byte[] newBytes = new byte[bytes.length + number];
         for (int i = 0; i < newBytes.length; i++) {
             if (i < bytes.length)
@@ -190,7 +190,7 @@ public class SendBluetoothData {
      * @param bytes 需要封装的数据
      * @return
      */
-    private static byte[] increasePackage(byte[] bytes, byte packStar, byte packEnd) {
+     static byte[] increasePackage(byte[] bytes, byte packStar, byte packEnd) {
         byte[] newBytes = new byte[bytes.length + 2];
         newBytes[0] = packStar;
         newBytes[newBytes.length - 1] = packEnd;
@@ -228,7 +228,7 @@ public class SendBluetoothData {
         byte[] lockTwoGroup = HexString2Bytes(decimalSystemHexadecimal(lockNumber.substring(3, 6)));
         byte[] lockThreeGroup = HexString2Bytes(decimalSystemHexadecimal(lockNumber.substring(6, 9)));
         byte[] lockFourGroup = HexString2Bytes(decimalSystemHexadecimal(lockNumber.substring(9, 12)));
-        byte[] lockFiveGroup = HexString2Bytes("0" + decimalSystemHexadecimal(lockNumber.substring(12, 15)));
+        byte[] lockFiveGroup = HexString2Bytes(decimalSystemHexadecimal(lockNumber.substring(12, 15)));
         bytes = increaseHandle(lockOneGroup, bytes);
         bytes = increaseHandle(lockTwoGroup, bytes);
         bytes = increaseHandle(lockThreeGroup, bytes);
@@ -304,6 +304,13 @@ public class SendBluetoothData {
         return newBytes;
     }
 
+    /**
+     * 下载工单有效时间
+     *
+     * @param startTime
+     * @param endTime
+     * @return
+     */
     public static byte[] downWorkOrderTime(String startTime, String endTime) {
         byte[] yearStartBytes = HexString2Bytes(startTime.substring(0, 4));
         byte[] monthStartBytes = HexString2Bytes(startTime.substring(4, 6));
@@ -319,7 +326,103 @@ public class SendBluetoothData {
         byte[] minuteEndBytes = HexString2Bytes(endTime.substring(10, 12));
         byte[] secondEndBytes = HexString2Bytes(endTime.substring(12, 14));
         byte[] bytes = new byte[]{0x8, 0x00, 0x60, yearStartBytes[1], yearStartBytes[0], monthStartBytes[0], dayStartBytes[0], hourStartBytes[0], minuteStartBytes[0], secondStartBytes[0], yearEndBytes[1], yearEndBytes[0], monthEndBytes[0], dayEndBytes[0], hourEndBytes[0], minuteEndBytes[0], secondEndBytes[0]};
-        bytes=increaseCRC(bytes);
-        
+        bytes = increaseCRC(bytes);
+        bytes = DataStarPackage(bytes, (byte) 0xA0);
+        return bytes;
+    }
+
+    /**
+     * 开始锁具信息下载
+     *
+     * @return
+     */
+    public static byte[] startLockInfo() {
+        byte[] bytes = new byte[]{0x00, 0x00, 0x70};
+        bytes = increaseNullByte(bytes, 13);
+        bytes = increaseCRC(bytes);
+        bytes = increasePackage(bytes, (byte) 0xA0, (byte) 0xF0);
+        return bytes;
+    }
+
+    /**
+     * 下载锁具信息（单条）
+     *
+     * @param packCon        当前条数
+     * @param lockNumber     锁号
+     * @param openLockNumber 开锁码
+     * @param lockType       锁具类型
+     * @return
+     */
+    public static byte[] downLoadLockInfo(String packCon, String lockNumber, String openLockNumber, String lockType) {
+        byte[] lockBytes = HexUtil.hexStringToBytes(lockNumber);
+        byte[] lockOneGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(0, 3)));
+        byte[] lockTwoGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(3, 6)));
+        byte[] lockThreeGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(6, 9)));
+        byte[] lockFourGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(9, 12)));
+        byte[] lockFiveGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(12, 15)));
+        byte[] bytes = HexUtil.hexStringToBytes(packCon);
+        byte[] newBytes = new byte[]{lockBytes[3], lockBytes[2], lockBytes[1], lockBytes[0]};
+        bytes = addBytes(bytes, newBytes);
+        bytes = increaseHandle(lockOneGroup, bytes);
+        bytes = increaseHandle(lockTwoGroup, bytes);
+        bytes = increaseHandle(lockThreeGroup, bytes);
+        bytes = increaseHandle(lockFourGroup, bytes);
+        bytes = increaseHandle(lockFiveGroup, bytes);
+        bytes = setZeroData(bytes, 1);
+        bytes = addBytes(bytes, HexUtil.hexStringToBytes(lockType));
+        bytes = increaseCRC(bytes);
+        return bytes;
+    }
+
+    /**
+     * 工单下载结束包（一个大包）
+     *
+     * @return
+     */
+    public static byte[] downLoadEndPackage() {
+        byte[] bytes = new byte[]{0x00, 0x00, 0x70};
+        bytes = increaseNullByte(bytes, 13);
+        bytes = increaseCRC(bytes);
+        bytes = increasePackage(bytes, (byte) 0xA2, (byte) 0xF2);
+        return bytes;
+    }
+
+    /**
+     * 清除小掌机中的工单以及锁具信息
+     *
+     * @return
+     */
+    public static byte[] cloneLockWorkOrder() {
+        byte[] bytes = new byte[]{0x00, 0x00, 0x71};
+        bytes = increaseNullByte(bytes, 13);
+        bytes = increaseCRC(bytes);
+        bytes = increasePackage(bytes, (byte) 0xA0, (byte) 0xF0);
+        return bytes;
+    }
+
+    /**
+     * 请求上传开锁记录包
+     *
+     * @return
+     */
+    public static byte[] upLoadOpenLockRecord() {
+        byte[] bytes = new byte[]{0x00, 0x00, (byte) 0x80};
+        bytes = increaseNullByte(bytes, 13);
+        bytes = increaseCRC(bytes);
+        bytes = increasePackage(bytes, (byte) 0xA0, (byte) 0xF0);
+        return bytes;
+    }
+
+    /**
+     * 连接蓝牙
+     *
+     * @return
+     */
+    public static byte[] conBluetooth() {
+        byte[] bytes = new byte[]{0x00, 0x00, (byte) 0xA0};
+        bytes = increaseNullByte(bytes, 13);
+        bytes = increaseCRC(bytes);
+        bytes = increasePackage(bytes, (byte) 0xA0, (byte) 0xF0);
+        return bytes;
     }
 }
