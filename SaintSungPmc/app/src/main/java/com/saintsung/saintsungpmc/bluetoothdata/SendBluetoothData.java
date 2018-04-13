@@ -5,9 +5,6 @@ import android.util.Log;
 import com.clj.fastble.utils.HexUtil;
 import com.saintsung.saintsungpmc.tools.CRC;
 
-import java.math.BigInteger;
-import java.util.zip.CRC32;
-
 /**
  * Created by EvanShu on 2018/4/11.
  */
@@ -173,7 +170,7 @@ public class SendBluetoothData {
      * @param number 需要补充的个数
      * @return
      */
-     static byte[] increaseNullByte(byte[] bytes, int number) {
+    static byte[] increaseNullByte(byte[] bytes, int number) {
         byte[] newBytes = new byte[bytes.length + number];
         for (int i = 0; i < newBytes.length; i++) {
             if (i < bytes.length)
@@ -190,7 +187,7 @@ public class SendBluetoothData {
      * @param bytes 需要封装的数据
      * @return
      */
-     static byte[] increasePackage(byte[] bytes, byte packStar, byte packEnd) {
+    static byte[] increasePackage(byte[] bytes, byte packStar, byte packEnd) {
         byte[] newBytes = new byte[bytes.length + 2];
         newBytes[0] = packStar;
         newBytes[newBytes.length - 1] = packEnd;

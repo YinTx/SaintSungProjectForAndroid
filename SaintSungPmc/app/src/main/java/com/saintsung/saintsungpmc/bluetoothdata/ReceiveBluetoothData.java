@@ -16,16 +16,15 @@ public class ReceiveBluetoothData {
         if (result.equals("0"))
             startPackage(bytes[3]);
         else if (result.equals("1"))
-            startDara(bytes);
+            startData(bytes);
         else if (result.equals("2"))
-            endPackage(bytes);
+            endPackage(bytes[3]);
         else if (result.equals("CRCError"))
             Log.e("TAG", "CRC校验不正确！");
         else if (result.equals("PackageError")) {
             //数据包不完整
             Log.e("TAG", "数据包不完整!");
         }
-
     }
 
 
@@ -86,9 +85,6 @@ public class ReceiveBluetoothData {
             case 0x10:
                 //开始读取S00参数
                 break;
-            case 0x20:
-                //设置S00参数结果的返回
-                break;
             case 0x30:
                 //执行开设备操作
                 break;
@@ -130,9 +126,75 @@ public class ReceiveBluetoothData {
         }
     }
 
-    private static void endPackage(byte[] bytes) {
+    /**
+     * 结束包
+     *
+     * @param command
+     */
+    private static void endPackage(byte command) {
+        switch (command) {
+            case 0x10:
+                //结束读取S00参数
+                break;
+            case 0x20:
+                //设置S00参数结果的返回
+                break;
+            case (byte) 0x80:
+                //上传S00操作记录结束包
+                break;
+            default:
+                break;
+        }
     }
 
-    private static void startDara(byte[] bytes) {
+    /**
+     * 这个包是协议第一条接收读取掌机参数的方法
+     *
+     * @param bytes
+     */
+    private static void startData(byte[] bytes) {
+        byte packBytes = bytes[1];
+        switch (packBytes) {
+            case 0x01:
+                byte[] timeBytes = new byte[]{bytes[3], bytes[2], bytes[4], bytes[5], bytes[6]};
+                byte[] serialNumberBytes = new byte[]{bytes[10], bytes[9], bytes[8], bytes[7]};
+                break;
+            case 0x02:
+                byte[] secretKey = subBytes(bytes, 2, 18);
+                break;
+            case 0x03:
+                byte[] softwareVersion = new byte[]{bytes[4], bytes[3], bytes[2]};
+                byte[] hardwareVersion = new byte[]{bytes[7], bytes[6], bytes[5]};
+                break;
+            default:
+                break;
+        }
+    }
+
+    private static void upLoadOpenLockRecordStart(byte[] bytes) {
+        byte[] dataPackage = new byte[]{bytes[1], bytes[2]};
+        byte[] dataLength = new byte[]{bytes[7], bytes[6], bytes[5], bytes[4]};
+        byte result = bytes[8];
+    }
+
+    private static void upLoadOpenLockOneRecord(byte[] bytes) {
+        byte dataPack = bytes[1];
+        if (dataPack == 0x01) {
+            byte[] serialNumber = new byte[]{bytes[5], bytes[4], bytes[3], bytes[2]};
+            byte[] workOrderNumber = new byte[]{bytes[13], bytes[12], bytes[11], bytes[10], bytes[9], bytes[8], bytes[7], bytes[6]};
+        } else if (0x02 < dataPack && dataPack <= 0x65) {
+            byte[] lockNumber = new byte[]{bytes[5], bytes[4], bytes[3], bytes[2]};
+            byte[] lockTime = new byte[]{bytes[7], bytes[6], bytes[8], bytes[9], bytes[10], bytes[11], bytes[12]};
+            byte lockState = bytes[13];
+            byte lcokResult = bytes[14];
+        }
+    }
+
+    private static byte[] subBytes(byte[] bytes, int start, int end) {
+        byte[] newBytes = new byte[end - start];
+        for (int i = start; i < end; i++) {
+            newBytes[i - start] = bytes[i];
+        }
+        return newBytes;
     }
 }

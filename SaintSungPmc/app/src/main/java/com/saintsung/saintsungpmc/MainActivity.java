@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.ViewTarget;
 import com.saintsung.common.app.Activity;
+import com.saintsung.common.widget.BottomNavigationViewHelper;
 import com.saintsung.common.widget.PortraitView;
 import com.saintsung.saintsungpmc.bluetoothdata.ReceiveBluetoothData;
 import com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData;
@@ -74,6 +75,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     @Override
     protected void initWidget() {
         super.initWidget();
+        BottomNavigationViewHelper.disableShiftMode(mNavigation);
         mNevHelper = new NevHelper(this, getSupportFragmentManager(), R.id.lay_container, this);
         mNevHelper.add(R.id.menu_main_home, new NevHelper.Tab<>(MainHomeFragment.class, R.string.menu_home))
                 .add(R.id.menu_main_control, new NevHelper.Tab<>(MainControlFragment.class, R.string.menu_control))
@@ -120,7 +122,6 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
      */
     @Override
     public void onTabChanged(NevHelper.Tab<Integer> newTab, NevHelper.Tab<Integer> oldTab) {
-        //
         mTitle.setText(newTab.extra);
     }
 }

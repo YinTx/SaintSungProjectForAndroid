@@ -1,7 +1,6 @@
 package com.saintsung.saintsungpmc.networkconnections;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+
 
 import com.saintsung.saintsungpmc.configure.Constant;
 

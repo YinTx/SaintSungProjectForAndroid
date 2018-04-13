@@ -22,15 +22,18 @@
             android:paddingLeft="@dimen/len_4"
             android:paddingRight="@dimen/len_4">
 
-            <com.saintsung.common.widget.PortraitView
-                android:id="@+id/img_portrait"
+            <ImageView
+                android:id="@+id/img_search"
                 android:layout_width="@dimen/len_40"
                 android:layout_height="@dimen/len_40"
+
                 android:layout_margin="@dimen/len_4"
+                android:contentDescription="@string/app_name"
                 android:foreground="@drawable/ic_touch_menu"
-                android:padding="@dimen/len_4"
-                android:scaleType="centerCrop"
-                android:src="@drawable/default_portrait" />
+                android:padding="@dimen/len_10"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_search"
+                android:tint="?attr/toolbarMenuIconColor" />
 
             <TextView
                 android:id="@+id/txt_title"
@@ -41,19 +44,17 @@
                 android:text="@string/app_name"
                 android:textAppearance="@style/TextAppearance.Title"
                 android:textColor="@color/white" />
-
-            <ImageView
-                android:id="@+id/img_search"
+            <com.saintsung.common.widget.PortraitView
+                android:id="@+id/img_portrait"
                 android:layout_width="@dimen/len_40"
                 android:layout_height="@dimen/len_40"
-                android:layout_gravity="end|center"
                 android:layout_margin="@dimen/len_4"
-                android:contentDescription="@string/app_name"
                 android:foreground="@drawable/ic_touch_menu"
-                android:padding="@dimen/len_10"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_search"
-                android:tint="?attr/toolbarMenuIconColor" />
+                android:padding="@dimen/len_4"
+                android:scaleType="centerCrop"
+                android:layout_gravity="end|center"
+                android:src="@drawable/default_portrait" />
+
         </FrameLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -64,6 +65,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <net.qiujuer.genius.ui.widget.FloatActionButton
+        android:visibility="gone"
         android:id="@+id/btn_action"
         android:layout_width="@dimen/len_52"
         android:layout_height="@dimen/len_52"
