@@ -1,18 +1,28 @@
 package com.saintsung.saintsungpmc.bluetoothdata;
 
-import android.util.Log;
-
 import com.clj.fastble.utils.HexUtil;
 import com.saintsung.saintsungpmc.tools.CRC;
+
 
 /**
  * Created by EvanShu on 2018/4/11.
  */
 
 public class SendBluetoothData {
-    public static byte[] setS00Parameter = new byte[]{0x00, 0x00, 0x20};
+    private static byte[] setS00Parameter = new byte[]{0x00, 0x00, 0x20};
+    private static byte[] readS00Parameter=new byte[]{0x00,0x00,0x10};
 
-
+    /**
+     * 协议第一条读取小掌机参数
+     * @return
+     */
+    public static byte[] readS00(){
+        byte[] bytes=readS00Parameter;
+        bytes=increaseNullByte(bytes,13);
+        bytes=increaseCRC(bytes);
+        bytes=increasePackage(bytes,(byte) 0xA0,(byte) 0xF0);
+        return bytes;
+    }
     /**
      * 协议第二条设置参数 开始包
      *
@@ -43,21 +53,21 @@ public class SendBluetoothData {
     public static byte[] setParameterSubpackage2(String secretKeyName) {
         byte[] secretKeyNameBytes = secretKeyName.getBytes();
         byte[] bytes = new byte[]{0x02};
+        secretKeyNameBytes = fillNullByte(secretKeyNameBytes, 16);
         bytes = addBytes(bytes, secretKeyNameBytes);
-        bytes = increaseNullByte(bytes, 16);
         bytes = increaseCRC(bytes);
         bytes = DataStarPackage(bytes, (byte) 0xA1);
         return bytes;
     }
 
     public static byte[] setParameterSubpackage3(String softwareVersion, String hardwareVersion) {
-        byte[] largeSoftwareBytes = HexString2Bytes("0" + softwareVersion.substring(0, 1));
-        byte[] mediumSoftwareBytes = HexString2Bytes("0" + softwareVersion.substring(1, 2));
-        byte[] minorSoftwareBytes = HexString2Bytes("0" + softwareVersion.substring(2, 3));
+        byte[] largeSoftwareBytes = HexString2Bytes( softwareVersion.substring(0, 1));
+        byte[] mediumSoftwareBytes = HexString2Bytes(softwareVersion.substring(1, 2));
+        byte[] minorSoftwareBytes = HexString2Bytes(softwareVersion.substring(2, 3));
 
-        byte[] largeHardwareBytes = HexString2Bytes("0" + hardwareVersion.substring(0, 1));
-        byte[] mediumHardwareBytes = HexString2Bytes("0" + hardwareVersion.substring(1, 2));
-        byte[] minorHardwareBytes = HexString2Bytes("0" + hardwareVersion.substring(2, 3));
+        byte[] largeHardwareBytes = HexString2Bytes(hardwareVersion.substring(0, 1));
+        byte[] mediumHardwareBytes = HexString2Bytes(hardwareVersion.substring(1, 2));
+        byte[] minorHardwareBytes = HexString2Bytes(hardwareVersion.substring(2, 3));
         byte[] bytes = new byte[]{0x03, minorSoftwareBytes[0], mediumSoftwareBytes[0], largeSoftwareBytes[0], minorHardwareBytes[0], mediumHardwareBytes[0], largeHardwareBytes[0]};
         bytes = increaseNullByte(bytes, 10);
         bytes = increaseCRC(bytes);
@@ -65,7 +75,7 @@ public class SendBluetoothData {
         return bytes;
     }
 
-    public static byte[] sendEndPackage() {
+    public static byte[] sendParameterEndPack() {
         byte[] bytes = new byte[]{0x00, 0x00, 0x20};
         bytes = increaseNullByte(bytes, 13);
         bytes = increaseCRC(bytes);
@@ -140,9 +150,10 @@ public class SendBluetoothData {
         for (int i = 0; i < bytes.length; i++) {
             newBytes[i] = bytes[i];
         }
-        byte[] bytesCRC = HexString2Bytes(Integer.toHexString(CRC.calcCrc16(bytes)));
-        newBytes[newBytes.length - 2] = bytesCRC[0];
-        newBytes[newBytes.length - 1] = bytesCRC[1];
+        String crc=Integer.toHexString(CRC.calcCrc16(bytes));
+        byte[] bytesCRC = HexString2Bytes(crc);
+        newBytes[newBytes.length - 2] = bytesCRC[1];
+        newBytes[newBytes.length - 1] = bytesCRC[0];
         return newBytes;
     }
 
@@ -155,6 +166,9 @@ public class SendBluetoothData {
     }
 
     public static byte[] HexString2Bytes(String src) {
+        if(src.length()%2!=0){
+            src="0"+src;
+        }
         byte[] ret = new byte[src.length() / 2];
         byte[] tmp = src.getBytes();
         for (int i = 0; i < src.length() / 2; i++) {
@@ -164,7 +178,7 @@ public class SendBluetoothData {
     }
 
     /**
-     * 补充数据
+     * 增加数据
      *
      * @param bytes  需要补充的数据
      * @param number 需要补充的个数
@@ -182,6 +196,15 @@ public class SendBluetoothData {
     }
 
     /**
+     * 填充数据
+     * @param bytes
+     * @param number
+     * @return
+     */
+    static byte[] fillNullByte(byte[] bytes,int number){
+        return increaseNullByte(bytes,number-bytes.length);
+    }
+    /**
      * 该方法是对APP发送数据到下位机包进行封装
      *
      * @param bytes 需要封装的数据
@@ -195,21 +218,6 @@ public class SendBluetoothData {
             newBytes[i] = bytes[i - 1];
         }
         return newBytes;
-    }
-
-    public static byte[] hexStrToByteArray(String str) {
-        if (str == null) {
-            return null;
-        }
-        if (str.length() == 0) {
-            return new byte[0];
-        }
-        byte[] byteArray = new byte[str.length() / 2];
-        for (int i = 0; i < byteArray.length; i++) {
-            String subStr = str.substring(2 * i, 2 * i + 2);
-            byteArray[i] = ((byte) Integer.parseInt(subStr, 16));
-        }
-        return byteArray;
     }
 
     /**

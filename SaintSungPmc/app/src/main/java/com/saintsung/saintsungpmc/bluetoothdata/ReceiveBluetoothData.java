@@ -2,94 +2,64 @@ package com.saintsung.saintsungpmc.bluetoothdata;
 
 import android.util.Log;
 
-import com.saintsung.saintsungpmc.tools.CRC;
+import com.clj.fastble.utils.HexUtil;
 
-import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.*;
+import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataProcess.checkPackageStartEnd;
+import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataProcess.hexTime;
+import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.sendLockNumber;
+
 
 /**
  * Created by EvanShu on 2018/4/11.
  */
 
 public class ReceiveBluetoothData {
+    public static boolean flag = false;
+    public static byte mCommand;
+
     public static void getReceiveBluetoothData(byte[] bytes) {
+        Log.e("TAG", "接收到数据：" + HexUtil.formatHexString(bytes));
         String result = checkPackageStartEnd(bytes);
         if (result.equals("0"))
-            startPackage(bytes[3]);
+            startPackage(bytes);
         else if (result.equals("1"))
             startData(bytes);
         else if (result.equals("2"))
-            endPackage(bytes[3]);
+            endPackage(bytes);
         else if (result.equals("CRCError"))
             Log.e("TAG", "CRC校验不正确！");
         else if (result.equals("PackageError")) {
             //数据包不完整
             Log.e("TAG", "数据包不完整!");
+        }else if(result.equals("Error")){
+            Log.e("TAG","传输出错！");
         }
     }
 
 
-    /**
-     * 检查包的完整性
-     *
-     * @param bytes
-     * @return
-     */
-    private static String checkPackageStartEnd(byte[] bytes) {
-        byte startPack = bytes[0];
-        byte endPack = bytes[19];
-        if (startPack == 0xB0 && endPack == 0xF0) {
-            if (checkCRC(bytes, 4))
-                return "0";
-            else
-                return "CRCError";
-        } else if (startPack == 0xB1) {
-            if (checkCRC(bytes, 4))
-                return "1";
-            else
-                return "CRCError";
-        } else if (startPack == 0xB2 && endPack == 0xF2) {
-            if (checkCRC(bytes, 4))
-                return "2";
-            else
-                return "CRCError";
-        }
-        return "PackageError";
-    }
-
-    private static boolean checkCRC(byte[] bytes, int sum) {
-        byte[] newBytes = new byte[bytes.length - sum];
-        for (int i = 0; i < newBytes.length; i++)
-            newBytes[i] = bytes[i + 1];
-        if (sum == 4) {
-            byte crc1 = bytes[bytes.length - 1];
-            byte crc2 = bytes[bytes.length - 2];
-            byte[] mCRC = HexString2Bytes(Integer.toHexString(CRC.calcCrc16(newBytes)));
-            if (crc1 == mCRC[0] && crc2 == mCRC[1])
-                return true;
-            else
-                return false;
-        } else {
-            byte crc1 = bytes[bytes.length];
-            byte crc2 = bytes[bytes.length - 1];
-            byte[] mCRC = HexString2Bytes(Integer.toHexString(CRC.calcCrc16(newBytes)));
-            if (crc1 == mCRC[0] && crc2 == mCRC[1])
-                return true;
-            else
-                return false;
-        }
-
-    }
-
-    private static void startPackage(byte command) {
+    private static void startPackage(byte[] bytes) {
+        byte command=bytes[3];
         switch (command) {
             case 0x10:
                 //开始读取S00参数
+                Log.e("TAG", "开始读取小掌机参数！");
+                flag = true;
+                mCommand = command;
+                break;
+            case 0x20:
+                //设置S00参数结果的返回
+                Log.e("TAG", "设置掌机参数结束！");
+                isSetParameter(bytes);
                 break;
             case 0x30:
                 //执行开设备操作
+                Log.e("TAG", "开始执行开设备操作！");
+                sendLockNumber("210056125255147","1");
                 break;
             case 0x40:
                 //执行关设备操作
+                Log.e("TAG", "开始执行关设备操作！");
+
                 break;
             case 0x50:
                 //在线发送设备操作码
@@ -129,15 +99,14 @@ public class ReceiveBluetoothData {
     /**
      * 结束包
      *
-     * @param command
+     * @param bytes
      */
-    private static void endPackage(byte command) {
+    private static void endPackage(byte[] bytes) {
+        byte command=bytes[3];
         switch (command) {
             case 0x10:
                 //结束读取S00参数
-                break;
-            case 0x20:
-                //设置S00参数结果的返回
+                Log.e("TAG", "读取掌机参数结束！");
                 break;
             case (byte) 0x80:
                 //上传S00操作记录结束包
@@ -148,29 +117,57 @@ public class ReceiveBluetoothData {
     }
 
     /**
-     * 这个包是协议第一条接收读取掌机参数的方法
-     *
+     * 判断小掌机参数是否设置成功
+     * @param bytes
+     */
+    private static void isSetParameter(byte[] bytes) {
+        if(bytes[4]==0x00){
+            Log.e("TAG","Success");
+        }else {
+            Log.e("TAG","Fail");
+        }
+    }
+
+    /**
+     * 这个包是开始接收以0xb1为包头没有包尾的数据包
      * @param bytes
      */
     private static void startData(byte[] bytes) {
+        if (flag) {
+            if (mCommand == 0x10) {
+                readS00Parameter(bytes);
+            }
+//            else if (mCommand==0x20){
+//
+//            }
+        }
+    }
+
+    /**
+     * 读取S00参数
+     * @param bytes
+     */
+    public static void readS00Parameter(byte[] bytes){
         byte packBytes = bytes[1];
         switch (packBytes) {
             case 0x01:
                 byte[] timeBytes = new byte[]{bytes[3], bytes[2], bytes[4], bytes[5], bytes[6]};
                 byte[] serialNumberBytes = new byte[]{bytes[10], bytes[9], bytes[8], bytes[7]};
+                Log.e("TAG", "Time:" + hexTime(timeBytes) + "Serial:" + HexUtil.formatHexString(serialNumberBytes));
                 break;
             case 0x02:
                 byte[] secretKey = subBytes(bytes, 2, 18);
+                Log.e("TAG", "SecretKey:" + HexUtil.formatHexString(secretKey));
                 break;
             case 0x03:
                 byte[] softwareVersion = new byte[]{bytes[4], bytes[3], bytes[2]};
                 byte[] hardwareVersion = new byte[]{bytes[7], bytes[6], bytes[5]};
+                Log.e("TAG", "SoftwareVersion:" + HexUtil.formatHexString(softwareVersion) + "HardwareVersion:" + HexUtil.formatHexString(hardwareVersion));
                 break;
             default:
                 break;
         }
     }
-
     private static void upLoadOpenLockRecordStart(byte[] bytes) {
         byte[] dataPackage = new byte[]{bytes[1], bytes[2]};
         byte[] dataLength = new byte[]{bytes[7], bytes[6], bytes[5], bytes[4]};
@@ -197,4 +194,6 @@ public class ReceiveBluetoothData {
         }
         return newBytes;
     }
+
+
 }
