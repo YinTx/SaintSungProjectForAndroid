@@ -74,7 +74,17 @@ public class BluetoothDataProcess {
     }
 
     /**
-     * 将一个7byte的数据转换为String
+     * 将掌机序列号按高低位重新组合 转换为String
+     * @param bytes 固定长度为4byte
+     * @return Mac地址与序列号（其实两者为一致）
+     */
+    public static String hexMacAddres(byte[] bytes){
+        byte[] macAddreas=new byte[]{bytes[3],bytes[2],bytes[1],bytes[0]};
+        return HexUtil.formatHexString(macAddreas);
+
+    }
+    /**
+     * 将一个7byte的时间数据转换为String
      *
      * @param bytes
      * @return
@@ -97,5 +107,21 @@ public class BluetoothDataProcess {
 
     public static int getUnsignedByte(byte data) {      //将data字节型数据转换为0~255 (0xFF 即BYTE)。
         return data & 0x0FF;
+    }
+
+    /**
+     * 截取bytes的数据
+     * @param bytes 原数据
+     * @param start 开始位置
+     * @param end 结束位置
+     * @return 截取后的bytes
+     * 用法与subString类似
+     */
+    public static byte[] subBytes(byte[] bytes, int start, int end) {
+        byte[] newBytes = new byte[end - start];
+        for (int i = start; i < end; i++) {
+            newBytes[i - start] = bytes[i];
+        }
+        return newBytes;
     }
 }

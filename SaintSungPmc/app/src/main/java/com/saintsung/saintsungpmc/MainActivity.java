@@ -24,19 +24,16 @@ import com.saintsung.saintsungpmc.fragment.MainControlFragment;
 import com.saintsung.saintsungpmc.fragment.MainHomeFragment;
 import com.saintsung.saintsungpmc.fragment.MainPersonalFragment;
 import com.saintsung.saintsungpmc.tools.NevHelper;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.setS00Parameter;
+
 
 
 public class MainActivity extends Activity implements BottomNavigationView.OnNavigationItemSelectedListener, NevHelper.OnTabChangedListener<Integer> {
     private long exitTime = 0;//2次回退计时器
     @BindView(R.id.appbar)
     View mLayAppbar;
-    @BindView(R.id.txt_title)
-    TextView mTitle;
     @BindView(R.id.img_portrait)
     PortraitView mPortrait;
     @BindView(R.id.lay_container)
@@ -122,6 +119,6 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
      */
     @Override
     public void onTabChanged(NevHelper.Tab<Integer> newTab, NevHelper.Tab<Integer> oldTab) {
-        mTitle.setText(newTab.extra);
+//        mTitle.setText(newTab.extra);
     }
 }

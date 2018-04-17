@@ -24,33 +24,20 @@ import android.widget.Toast;
 
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleGattCallback;
-import com.clj.fastble.callback.BleNotifyCallback;
+
 import com.clj.fastble.callback.BleScanCallback;
-import com.clj.fastble.callback.BleWriteCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
 import com.clj.fastble.scan.BleScanRuleConfig;
-import com.clj.fastble.utils.HexUtil;
 import com.saintsung.saintsungpmc.R;
 import com.saintsung.saintsungpmc.adapter.DeviceAdapter;
-import com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData;
-import com.saintsung.saintsungpmc.configure.Constant;
+import com.saintsung.saintsungpmc.bluetoothdata.MyBluetoothManagement;
+
 import com.saintsung.saintsungpmc.observice.ObserverManager;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-
-import static com.saintsung.saintsungpmc.bluetoothdata.ReceiveBluetoothData.getReceiveBluetoothData;
-import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.addBytes;
-
-import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.sendParameterEndPack;
-import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.setParameterSubpackage1;
-import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.setParameterSubpackage2;
-import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.setParameterSubpackage3;
 
 
 /**
@@ -64,6 +51,7 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
     private DeviceAdapter mDeviceAdapter;//ListView的Adapter
     private ProgressDialog progressDialog;
     private Handler mHandler;
+    MyBluetoothManagement myBluetoothManagement;
     //使用ButterKnife框架进行注解
     @BindView(R.id.btn_scan)
     Button scanBLE;
@@ -175,23 +163,23 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
         @Override
         public void onDetail(BleDevice bleDevice) {
             if (BleManager.getInstance().isConnected(bleDevice)) {
-                byte[] bytes = SendBluetoothData.setParameterPackage();
-                write(bleDevice, bytes);
-                bytes = addBytes(setParameterSubpackage1("20181014135615", "E3C565A5"), setParameterSubpackage2("TensorFlow"));
-                bytes=addBytes(bytes,setParameterSubpackage3("103","302"));
-//  bytes = setParameterSubpackage1("20181014135615", "E3C565A5");
+//                byte[] bytes = connectBluetoothInterface();
 //                write(bleDevice, bytes);
-//                bytes = setParameterSubpackage2("TensorFlow");
+//                bytes = addBytes(setParameterSubpackage1("20181014135615", "E3C565A5"), setParameterSubpackage2("TensorFlow"));
+//                bytes=addBytes(bytes,setParameterSubpackage3("103","302"));
+////  bytes = setParameterSubpackage1("20181014135615", "E3C565A5");
+////                write(bleDevice, bytes);
+////                bytes = setParameterSubpackage2("TensorFlow");
+////                write(bleDevice, bytes);
+////                bytes = setParameterSubpackage3("103", "302");
 //                write(bleDevice, bytes);
-//                bytes = setParameterSubpackage3("103", "302");
-                write(bleDevice, bytes);
-                bytes = sendParameterEndPack();
-                try {
-                    Thread.sleep(150);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                write(bleDevice, bytes);
+//                bytes = sendParameterEndPack();
+//                try {
+//                    Thread.sleep(150);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                write(bleDevice, bytes);
 //                bytes=sendEndPackage();
 //                write(bleDevice,bytes);
 //                Intent intent = new Intent(getActivity(), OperationActivity.class);
@@ -202,26 +190,7 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
     };
 
 
-    private void write(BleDevice bleDevice, byte[] bytes) {
-        BleManager.getInstance().write(
-                bleDevice,
-                Constant.uuidService.toString(),
-                Constant.uuidWrite.toString(),
-                bytes,
-                new BleWriteCallback() {
-                    @Override
-                    public void onWriteSuccess() {
-                        // 发送数据到设备成功（UI线程）
-                        Log.e("TAG", "发送数据到设备成功");
-                    }
 
-                    @Override
-                    public void onWriteFailure(BleException exception) {
-                        // 发送数据到设备失败（UI线程）
-                        Log.e("TAG", "发送数据到设备失败" + exception.toString());
-                    }
-                });
-    }
 
     private void connect(BleDevice bleDevice) {
         BleManager.getInstance().connect(bleDevice, new BleGattCallback() {
@@ -245,7 +214,7 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
                 mDeviceAdapter.addDevice(bleDevice);
                 mDeviceAdapter.notifyDataSetChanged();
                 //连接成功后开始监听返回的数据
-                notifyBle(bleDevice);
+                myBluetoothManagement.notifyBle(bleDevice);
             }
 
             @Override
@@ -263,27 +232,7 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
         });
     }
 
-    private void notifyBle(BleDevice bleDevice) {
-        BleManager.getInstance().notify(bleDevice, Constant.uuidService.toString(), Constant.uuidNotify.toString(), new BleNotifyCallback() {
-            @Override
-            public void onNotifySuccess() {
-                // 打开通知操作成功（UI线程）
-                Log.e("TAG", "成功");
-            }
 
-            @Override
-            public void onNotifyFailure(BleException exception) {
-                // 打开通知操作失败（UI线程）
-                Log.e("TAG", "失败");
-            }
-
-            @Override
-            public void onCharacteristicChanged(byte[] data) {
-                getReceiveBluetoothData(data);
-//                Log.e("TAG", "下位机发送数据：" + HexUtil.formatHexString(data, true));
-            }
-        });
-    }
 
     /**
      * 搜索蓝牙
