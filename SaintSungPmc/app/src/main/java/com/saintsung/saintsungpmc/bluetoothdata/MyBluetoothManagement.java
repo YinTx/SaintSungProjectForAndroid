@@ -8,7 +8,10 @@ import com.clj.fastble.callback.BleWriteCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
 import com.saintsung.saintsungpmc.configure.Constant;
+
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.connectBluetoothInterface;
+import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendLockInfoData;
+import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendStartLockInfo;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendWorkOrderNumber;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendWorkOrderTime;
 import static com.saintsung.saintsungpmc.bluetoothdata.ReceiveBluetoothData.getReceiveBluetoothData;
@@ -20,9 +23,8 @@ import static com.saintsung.saintsungpmc.bluetoothdata.ReceiveBluetoothData.getR
 
 public class MyBluetoothManagement implements ReceiveBluetoothData.resultData {
     private BleDevice bleDevice;
-    private String starTime;
-    private String endTime;
-    private String workOrderNumber;
+    private String[] workOrderInfo;
+    private int signStrip = 0;
 
     MyBluetoothManagement(BleDevice bleDevice) {
         this.bleDevice = bleDevice;
@@ -58,21 +60,56 @@ public class MyBluetoothManagement implements ReceiveBluetoothData.resultData {
             write(bleDevice, bytesArr[i]);
         }
     }
-    public void downloadLockInfo(String[] workOrderInfo){
-        workOrderNumber=workOrderInfo[0];
-        starTime=workOrderInfo[1];
-        endTime=workOrderInfo[2];
+
+    public void downloadLockInfo(String[] workOrderInfo) {
+        this.workOrderInfo = workOrderInfo;
         downloadWorkOrderNumber();
     }
+
     /**
      * 下载工单编号
      */
     public void downloadWorkOrderNumber() {
-        write(bleDevice, sendWorkOrderNumber(workOrderNumber));
+        write(bleDevice, sendWorkOrderNumber(workOrderInfo[0]));
     }
 
+    /**
+     * 下载工单有效时间
+     *
+     * @param starTime
+     * @param endTime
+     */
     public void downloadTime(String starTime, String endTime) {
         write(bleDevice, sendWorkOrderTime(starTime, endTime));
+    }
+
+    public void downloadLockInfo() {
+        if (workOrderInfo.length >= 16 * (signStrip + 1) + 3) {
+            sendStartLockInfo(256);
+            String[][] workOrderArr = new String[16][];
+            for (int i = 0; i < 16; i++) {
+                String[] lockInfoArr = new String[3];
+                int pack = 16 * signStrip + 3 + i;
+                lockInfoArr[0] = workOrderInfo[pack].substring(0, 9);
+                lockInfoArr[1] = workOrderInfo[pack].substring(9, 24);
+                lockInfoArr[2] = workOrderInfo[pack].substring(24, 25);
+                workOrderArr[i] = lockInfoArr;
+            }
+            sendLockInfoData(workOrderArr);
+        } else {
+            int dataLength = (workOrderInfo.length - 3) % 16;
+            sendStartLockInfo(dataLength * 16);
+            String[][] workOrderArr = new String[dataLength][];
+            for (int i = 0; i < dataLength; i++) {
+                String[] lockInfoArr = new String[3];
+                int pack = 16 * signStrip + 3 + i;
+                lockInfoArr[0] = workOrderInfo[pack].substring(0, 9);
+                lockInfoArr[1] = workOrderInfo[pack].substring(9, 24);
+                lockInfoArr[2] = workOrderInfo[pack].substring(24, 25);
+                workOrderArr[i] = lockInfoArr;
+            }
+            sendLockInfoData(workOrderArr);
+        }
     }
 
     private void write(BleDevice bleDevice, byte[] bytes) {
@@ -121,7 +158,11 @@ public class MyBluetoothManagement implements ReceiveBluetoothData.resultData {
     @Override
     public void resultCommand(byte result) {
         if (result == 0x50) {
-            downloadTime(starTime, endTime);
+            downloadTime(workOrderInfo[1], workOrderInfo[2]);
+        } else if (result == 0x60) {
+            downloadLockInfo();
+        } else if (result == 0x70) {
+
         }
     }
 }

@@ -99,7 +99,7 @@ public class BluetoothDataManagement {
     public static byte[][] sendLockInfoData(String[][] lockInfo) {
         byte[][] newBytes = new byte[lockInfo.length][];
         for (int i = 0; i < lockInfo.length; i++) {
-            newBytes[i] = downLoadLockInfo(i + "", lockInfo[i][0], lockInfo[i][1], lockInfo[0][2]);
+            newBytes[i] = downLoadLockInfo(i + "", lockInfo[i][0], lockInfo[i][1], lockInfo[i][2]);
         }
         return newBytes;
     }
