@@ -26,7 +26,7 @@ public class MyBluetoothManagement implements ReceiveBluetoothData.resultData {
     private String[] workOrderInfo;
     private int signStrip = 0;
 
-    MyBluetoothManagement(BleDevice bleDevice) {
+    public MyBluetoothManagement(BleDevice bleDevice) {
         this.bleDevice = bleDevice;
     }
 
@@ -69,7 +69,7 @@ public class MyBluetoothManagement implements ReceiveBluetoothData.resultData {
     /**
      * 下载工单编号
      */
-    public void downloadWorkOrderNumber() {
+    private void downloadWorkOrderNumber() {
         write(bleDevice, sendWorkOrderNumber(workOrderInfo[0]));
     }
 
@@ -79,11 +79,11 @@ public class MyBluetoothManagement implements ReceiveBluetoothData.resultData {
      * @param starTime
      * @param endTime
      */
-    public void downloadTime(String starTime, String endTime) {
+    private void downloadTime(String starTime, String endTime) {
         write(bleDevice, sendWorkOrderTime(starTime, endTime));
     }
 
-    public void downloadLockInfo() {
+    private void downloadLockInfo() {
         if (workOrderInfo.length >= 16 * (signStrip + 1) + 3) {
             sendStartLockInfo(256);
             String[][] workOrderArr = new String[16][];

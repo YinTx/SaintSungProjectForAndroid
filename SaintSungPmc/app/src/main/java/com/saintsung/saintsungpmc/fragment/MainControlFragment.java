@@ -24,15 +24,14 @@ import android.widget.Toast;
 
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleGattCallback;
-
 import com.clj.fastble.callback.BleScanCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
 import com.clj.fastble.scan.BleScanRuleConfig;
 import com.saintsung.saintsungpmc.R;
+
 import com.saintsung.saintsungpmc.adapter.DeviceAdapter;
 import com.saintsung.saintsungpmc.bluetoothdata.MyBluetoothManagement;
-
 import com.saintsung.saintsungpmc.observice.ObserverManager;
 
 import java.util.List;
@@ -50,7 +49,6 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
     private Animation operatingAnim;
     private DeviceAdapter mDeviceAdapter;//ListView的Adapter
     private ProgressDialog progressDialog;
-    private Handler mHandler;
     MyBluetoothManagement myBluetoothManagement;
     //使用ButterKnife框架进行注解
     @BindView(R.id.btn_scan)
@@ -163,6 +161,8 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
         @Override
         public void onDetail(BleDevice bleDevice) {
             if (BleManager.getInstance().isConnected(bleDevice)) {
+                myBluetoothManagement=new MyBluetoothManagement(bleDevice);
+                myBluetoothManagement.downloadLockInfo(new String[]{"2018040916334516","20180408121020","20180512082010","8675761241252531203506521","2675761241252531203506521","3675761241252531203506521"});
 //                byte[] bytes = connectBluetoothInterface();
 //                write(bleDevice, bytes);
 //                bytes = addBytes(setParameterSubpackage1("20181014135615", "E3C565A5"), setParameterSubpackage2("TensorFlow"));
