@@ -10,24 +10,28 @@ import com.clj.fastble.exception.BleException;
 import com.saintsung.saintsungpmc.configure.Constant;
 
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.connectBluetoothInterface;
+import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendEndLockInfo;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendLockInfoData;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendStartLockInfo;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendWorkOrderNumber;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendWorkOrderTime;
 import static com.saintsung.saintsungpmc.bluetoothdata.ReceiveBluetoothData.getReceiveBluetoothData;
+import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.downLoadEndPackage;
 
 /**
  * 这个类是用于控制蓝牙接收发数据
  * Created by EvanShu on 2018/4/17.
  */
 
-public class MyBluetoothManagement implements ReceiveBluetoothData.resultData {
+public class MyBluetoothManagements implements ReceiveBluetoothData.resultData {
     private BleDevice bleDevice;
     private String[] workOrderInfo;
     private int signStrip = 0;
+    private ReceiveBluetoothData receiveBluetoothData;
 
-    public MyBluetoothManagement(BleDevice bleDevice) {
+    public MyBluetoothManagements(BleDevice bleDevice) {
         this.bleDevice = bleDevice;
+        receiveBluetoothData = new ReceiveBluetoothData();
     }
 
     /**
@@ -63,6 +67,7 @@ public class MyBluetoothManagement implements ReceiveBluetoothData.resultData {
 
     public void downloadLockInfo(String[] workOrderInfo) {
         this.workOrderInfo = workOrderInfo;
+        receiveBluetoothData.setCallResult(this);
         downloadWorkOrderNumber();
     }
 
@@ -84,8 +89,12 @@ public class MyBluetoothManagement implements ReceiveBluetoothData.resultData {
     }
 
     private void downloadLockInfo() {
+        if (workOrderInfo.length < 4) {
+            return;
+        }
+        byte[][] lockInfo;
         if (workOrderInfo.length >= 16 * (signStrip + 1) + 3) {
-            sendStartLockInfo(256);
+            write(bleDevice, sendStartLockInfo(256));
             String[][] workOrderArr = new String[16][];
             for (int i = 0; i < 16; i++) {
                 String[] lockInfoArr = new String[3];
@@ -95,10 +104,10 @@ public class MyBluetoothManagement implements ReceiveBluetoothData.resultData {
                 lockInfoArr[2] = workOrderInfo[pack].substring(24, 25);
                 workOrderArr[i] = lockInfoArr;
             }
-            sendLockInfoData(workOrderArr);
+            lockInfo = sendLockInfoData(workOrderArr);
         } else {
             int dataLength = (workOrderInfo.length - 3) % 16;
-            sendStartLockInfo(dataLength * 16);
+            write(bleDevice, sendStartLockInfo(dataLength * 16));
             String[][] workOrderArr = new String[dataLength][];
             for (int i = 0; i < dataLength; i++) {
                 String[] lockInfoArr = new String[3];
@@ -108,8 +117,21 @@ public class MyBluetoothManagement implements ReceiveBluetoothData.resultData {
                 lockInfoArr[2] = workOrderInfo[pack].substring(24, 25);
                 workOrderArr[i] = lockInfoArr;
             }
-            sendLockInfoData(workOrderArr);
+            lockInfo = sendLockInfoData(workOrderArr);
         }
+        for (int i = 0; i <= lockInfo.length; i++) {
+            try {
+                Thread.sleep(5);
+                if (lockInfo.length == i)
+                    write(bleDevice, sendEndLockInfo());
+                else
+                    write(bleDevice, lockInfo[i]);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+
     }
 
     private void write(BleDevice bleDevice, byte[] bytes) {
@@ -162,7 +184,20 @@ public class MyBluetoothManagement implements ReceiveBluetoothData.resultData {
         } else if (result == 0x60) {
             downloadLockInfo();
         } else if (result == 0x70) {
-
+            signStrip++;
+            int sum = (signStrip + 1) * 16 + 3;
+            if (sum < workOrderInfo.length) {
+                downloadLockInfo();
+            }else {
+                if(sum-workOrderInfo.length<16){
+                    downloadLockInfo();
+                }else {
+                    signStrip=0;
+                    workOrderInfo.clone();
+                    Log.e("TAG","工单下载完成！");
+                }
+            }
         }
+
     }
 }

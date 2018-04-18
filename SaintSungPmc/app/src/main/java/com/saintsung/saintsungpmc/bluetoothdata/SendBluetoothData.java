@@ -1,5 +1,7 @@
 package com.saintsung.saintsungpmc.bluetoothdata;
 
+import android.util.Log;
+
 import com.clj.fastble.utils.HexUtil;
 import com.saintsung.saintsungpmc.tools.CRC;
 
@@ -88,12 +90,12 @@ public class SendBluetoothData {
     private static byte[] setZeroData(byte[] bytes, int number) {
         byte[] newBytes = new byte[bytes.length + number];
         for (int i = 0; i < newBytes.length; i++) {
-            if (i < number)
+            if (i < bytes.length)
                 newBytes[i] = bytes[i];
             else
                 newBytes[i] = 0X00;
         }
-        return bytes;
+        return newBytes;
     }
 
     /**
@@ -224,7 +226,7 @@ public class SendBluetoothData {
     }
 
     /**
-     * 发送开锁
+     * 在线发送开锁
      *
      * @param lockNumber
      * @param lockType
@@ -264,6 +266,11 @@ public class SendBluetoothData {
         return newBytes;
     }
 
+    /**
+     * 十进制转十六进制
+     * @param string
+     * @return
+     */
     private static String decimalSystemHexadecimal(String string) {
         Integer integer = new Integer(string);
         if (integer > 256)
@@ -292,26 +299,28 @@ public class SendBluetoothData {
      * @return
      */
     public static byte[] downLoadWorkOrder(String workOrderNumber) {
-        byte[] bytes = new byte[]{0x8, 0x0, 0x50};
-        byte[] newBytes = HexUtil.hexStringToBytes(workOrderNumber);
-        bytes = transPositionBytes(bytes, newBytes);
+        byte[] yearBytes = HexString2Bytes(decimalSystemHexadecimal(workOrderNumber.substring(0, 4)));
+        byte[] monthBytes = HexString2Bytes(decimalSystemHexadecimal(workOrderNumber.substring(4, 6)));
+        byte[] dayBytes = HexString2Bytes(decimalSystemHexadecimal(workOrderNumber.substring(6, 8)));
+        byte[] number = HexString2Bytes(decimalSystemHexadecimal(workOrderNumber.substring(8, 10)));
+        byte[] number2 = HexString2Bytes(decimalSystemHexadecimal(workOrderNumber.substring(10, 12)));
+        byte[] bytes = new byte[]{0x8, 0x0, 0x50,yearBytes[1],yearBytes[0],monthBytes[0],dayBytes[0],number[0],number2[0],0x00,0x00};
         bytes = increaseNullByte(bytes, 5);
         bytes = increaseCRC(bytes);
         bytes = increasePackage(bytes, (byte) 0xA0, (byte) 0xF0);
         return bytes;
     }
 
-    private static byte[] transPositionBytes(byte[] bytes, byte[] addBytes) {
-        byte[] newBytes = new byte[bytes.length + addBytes.length];
-        for (int i = 0; i < newBytes.length; i++) {
-            if (i < bytes.length)
-                newBytes[i] = bytes[i];
-            else
-                newBytes[i] = addBytes[newBytes.length - i];
-        }
-        return newBytes;
-    }
-
+//    private static byte[] transPositionBytes(byte[] bytes, byte[] addBytes) {
+//        byte[] newBytes = new byte[bytes.length + addBytes.length];
+//        for (int i = 0; i < newBytes.length; i++) {
+//            if (i < bytes.length)
+//                newBytes[i] = bytes[i];
+//            else
+//                newBytes[i] = addBytes[newBytes.length - i];
+//        }
+//        return newBytes;
+//    }
     /**
      * 下载工单有效时间
      *
@@ -320,19 +329,18 @@ public class SendBluetoothData {
      * @return
      */
     public static byte[] downWorkOrderTime(String startTime, String endTime) {
-        byte[] yearStartBytes = HexString2Bytes(startTime.substring(0, 4));
-        byte[] monthStartBytes = HexString2Bytes(startTime.substring(4, 6));
-        byte[] dayStartBytes = HexString2Bytes(startTime.substring(6, 8));
-        byte[] hourStartBytes = HexString2Bytes(startTime.substring(8, 10));
-        byte[] minuteStartBytes = HexString2Bytes(startTime.substring(10, 12));
-        byte[] secondStartBytes = HexString2Bytes(startTime.substring(12, 14));
-
-        byte[] yearEndBytes = HexString2Bytes(endTime.substring(0, 4));
-        byte[] monthEndBytes = HexString2Bytes(endTime.substring(4, 6));
-        byte[] dayEndBytes = HexString2Bytes(endTime.substring(6, 8));
-        byte[] hourEndBytes = HexString2Bytes(endTime.substring(8, 10));
-        byte[] minuteEndBytes = HexString2Bytes(endTime.substring(10, 12));
-        byte[] secondEndBytes = HexString2Bytes(endTime.substring(12, 14));
+        byte[] yearStartBytes = HexString2Bytes(decimalSystemHexadecimal(startTime.substring(0, 4)));
+        byte[] monthStartBytes = HexString2Bytes(decimalSystemHexadecimal(startTime.substring(4, 6)));
+        byte[] dayStartBytes = HexString2Bytes(decimalSystemHexadecimal(startTime.substring(6, 8)));
+        byte[] hourStartBytes = HexString2Bytes(decimalSystemHexadecimal(startTime.substring(8, 10)));
+        byte[] minuteStartBytes = HexString2Bytes(decimalSystemHexadecimal(startTime.substring(10, 12)));
+        byte[] secondStartBytes = HexString2Bytes(decimalSystemHexadecimal(startTime.substring(12, 14)));
+        byte[] yearEndBytes = HexString2Bytes(decimalSystemHexadecimal(endTime.substring(0, 4)));
+        byte[] monthEndBytes = HexString2Bytes(decimalSystemHexadecimal(endTime.substring(4, 6)));
+        byte[] dayEndBytes = HexString2Bytes(decimalSystemHexadecimal(endTime.substring(6, 8)));
+        byte[] hourEndBytes = HexString2Bytes(decimalSystemHexadecimal(endTime.substring(8, 10)));
+        byte[] minuteEndBytes = HexString2Bytes(decimalSystemHexadecimal(endTime.substring(10, 12)));
+        byte[] secondEndBytes = HexString2Bytes(decimalSystemHexadecimal(endTime.substring(12, 14)));
         byte[] bytes = new byte[]{0x8, 0x00, 0x60, yearStartBytes[1], yearStartBytes[0], monthStartBytes[0], dayStartBytes[0], hourStartBytes[0], minuteStartBytes[0], secondStartBytes[0], yearEndBytes[1], yearEndBytes[0], monthEndBytes[0], dayEndBytes[0], hourEndBytes[0], minuteEndBytes[0], secondEndBytes[0]};
         bytes = increaseCRC(bytes);
         bytes = DataStarPackage(bytes, (byte) 0xA0);
@@ -370,7 +378,7 @@ public class SendBluetoothData {
         byte[] lockThreeGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(6, 9)));
         byte[] lockFourGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(9, 12)));
         byte[] lockFiveGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(12, 15)));
-        byte[] bytes = HexUtil.hexStringToBytes(packCon);
+        byte[] bytes =HexString2Bytes(decimalSystemHexadecimal(packCon));
         byte[] newBytes = new byte[]{lockBytes[3], lockBytes[2], lockBytes[1], lockBytes[0]};
         bytes = addBytes(bytes, newBytes);
         bytes = increaseHandle(lockOneGroup, bytes);
@@ -379,8 +387,9 @@ public class SendBluetoothData {
         bytes = increaseHandle(lockFourGroup, bytes);
         bytes = increaseHandle(lockFiveGroup, bytes);
         bytes = setZeroData(bytes, 1);
-        bytes = addBytes(bytes, HexUtil.hexStringToBytes(lockType));
+        bytes = addBytes(bytes, lockType.getBytes());
         bytes = increaseCRC(bytes);
+        bytes=DataStarPackage(bytes, (byte) 0xA1);
         return bytes;
     }
 

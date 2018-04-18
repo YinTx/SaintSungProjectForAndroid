@@ -1,17 +1,10 @@
 package com.saintsung.saintsungpmc.fragment;
 
 
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothGatt;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.Nullable;
 
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
@@ -31,7 +24,7 @@ import com.clj.fastble.scan.BleScanRuleConfig;
 import com.saintsung.saintsungpmc.R;
 
 import com.saintsung.saintsungpmc.adapter.DeviceAdapter;
-import com.saintsung.saintsungpmc.bluetoothdata.MyBluetoothManagement;
+import com.saintsung.saintsungpmc.bluetoothdata.MyBluetoothManagements;
 import com.saintsung.saintsungpmc.observice.ObserverManager;
 
 import java.util.List;
@@ -49,7 +42,7 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
     private Animation operatingAnim;
     private DeviceAdapter mDeviceAdapter;//ListView的Adapter
     private ProgressDialog progressDialog;
-    MyBluetoothManagement myBluetoothManagement;
+    MyBluetoothManagements myBluetoothManagement;
     //使用ButterKnife框架进行注解
     @BindView(R.id.btn_scan)
     Button scanBLE;
@@ -161,8 +154,7 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
         @Override
         public void onDetail(BleDevice bleDevice) {
             if (BleManager.getInstance().isConnected(bleDevice)) {
-                myBluetoothManagement=new MyBluetoothManagement(bleDevice);
-                myBluetoothManagement.downloadLockInfo(new String[]{"2018040916334516","20180408121020","20180512082010","8675761241252531203506521","2675761241252531203506521","3675761241252531203506521"});
+                myBluetoothManagement.downloadLockInfo(new String[]{"201804090001","20180408121020","20180512082010","8675761241252531203506521","2675761241252531203506521","3675761241252531203506521"});
 //                byte[] bytes = connectBluetoothInterface();
 //                write(bleDevice, bytes);
 //                bytes = addBytes(setParameterSubpackage1("20181014135615", "E3C565A5"), setParameterSubpackage2("TensorFlow"));
@@ -213,6 +205,8 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
                 progressDialog.dismiss();
                 mDeviceAdapter.addDevice(bleDevice);
                 mDeviceAdapter.notifyDataSetChanged();
+                myBluetoothManagement=new MyBluetoothManagements(bleDevice);
+
                 //连接成功后开始监听返回的数据
                 myBluetoothManagement.notifyBle(bleDevice);
             }

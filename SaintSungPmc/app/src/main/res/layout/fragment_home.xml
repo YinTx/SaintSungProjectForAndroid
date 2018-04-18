@@ -2,34 +2,129 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:background="@color/white"
+    android:gravity="center"
     android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/len_10"
+        android:background="@color/saint_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="20sp"
-        android:textColor="@color/red_200"
-        android:text="我是主页面"
-        />
+        android:layout_marginTop="@dimen/len_10"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/len_10"
+        android:paddingRight="@dimen/len_10">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="附近设备"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_18" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设备更新"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_18" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/len_167"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/len_10"
+            android:layout_marginRight="@dimen/len_10"
+            android:layout_marginTop="@dimen/len_10"
+            android:paddingLeft="@dimen/len_6">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/len_10"
+                android:layout_weight="1"
+                android:text="已授权设备名称"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/len_10"
+                android:layout_weight="1"
+                android:text="地址"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/lst_authorized"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="@dimen/len_10"
+            android:layout_marginRight="@dimen/len_10">
+
+        </ListView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/len_167"
+        android:layout_margin="@dimen/len_8"
+        android:layout_marginTop="@dimen/len_20"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/len_10"
+            android:layout_marginRight="@dimen/len_10"
+            android:layout_marginTop="@dimen/len_10">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="未授权设备名称"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="地址"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/lst_unauthorized"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="@dimen/len_10"
+            android:layout_marginRight="@dimen/len_10">
+
+        </ListView>
+    </LinearLayout>
+
     <com.baoyz.widget.PullRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <!-- ListView、ScrollView、RecyclerView、Other 多种-->
         <ListView
             android:id="@+id/list_view"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:scrollbars="none" >
-        </ListView>
+            android:scrollbars="none"></ListView>
     </com.baoyz.widget.PullRefreshLayout>
     <!--<Button-->
-        <!--android:id="@+id/sendData"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="请求数据"-->
-        <!--/>-->
+    <!--android:id="@+id/sendData"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:text="请求数据"--><!--/>-->
 </LinearLayout>

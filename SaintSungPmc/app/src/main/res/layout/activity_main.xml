@@ -77,7 +77,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="@dimen/len_12"
+                            android:layout_marginRight="@dimen/len_20"
                             android:text="11:11:11:11:11"
                             android:textColor="#484e54"
                             android:textSize="@dimen/font_12" />
@@ -85,9 +85,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/len_10"
                             android:layout_marginRight="@dimen/len_32"
-                            android:text="mac地址"
+                            android:text="Mac地址"
                             android:textColor="#484e54"
                             android:textSize="@dimen/font_12" />
                     </LinearLayout>
@@ -101,13 +100,15 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/len_12"
+                            android:layout_marginLeft="@dimen/len_20"
                             android:text="较差"
                             android:textColor="#484e54"
                             android:textSize="@dimen/font_12" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/len_10"
                             android:text="信号强弱"
                             android:textColor="#484e54"
                             android:textSize="@dimen/font_12" />

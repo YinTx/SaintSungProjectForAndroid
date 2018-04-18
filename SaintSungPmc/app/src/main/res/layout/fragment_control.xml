@@ -4,107 +4,108 @@
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
     android:orientation="vertical">
-   <LinearLayout
-       android:id="@+id/layout_setting"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:background="#eeeeee"
-       android:orientation="vertical"
-       android:padding="20dp">
 
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center_horizontal"
-          android:layout_marginBottom="10dp"
-          android:focusable="true"
-          android:focusableInTouchMode="true"
-          android:text="@string/scan_setting"
-          android:textColor="@color/colorPrimaryDark"
-          android:textSize="12sp" />
+    <LinearLayout
+        android:id="@+id/layout_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#eeeeee"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-      <EditText
-          android:id="@+id/et_name"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:text="@string/scan_setting"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="12sp" />
 
-          android:paddingLeft="5dp"
-          android:paddingRight="5dp"
-          android:textSize="13sp" />
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-      <EditText
-          android:id="@+id/et_mac"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textSize="13sp" />
 
-          android:paddingLeft="5dp"
-          android:paddingRight="5dp"
-          android:textSize="13sp" />
+        <EditText
+            android:id="@+id/et_mac"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-      <EditText
-          android:id="@+id/et_uuid"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textSize="13sp" />
 
-          android:paddingLeft="5dp"
-          android:paddingRight="5dp"
-          android:textSize="13sp" />
+        <EditText
+            android:id="@+id/et_uuid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-      <Switch
-          android:visibility="gone"
-          android:id="@+id/sw_auto"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:paddingLeft="5dp"
-          android:paddingRight="5dp"
-          android:text="AutoConnect ?"
-          android:textSize="13sp" />
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textSize="13sp" />
 
-   </LinearLayout>
+        <Switch
+            android:id="@+id/sw_auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="AutoConnect ?"
+            android:textSize="13sp"
+            android:visibility="gone" />
 
-   <TextView
-       android:id="@+id/txt_setting"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_gravity="center_horizontal"
-       android:background="#eeeeee"
-   android:padding="10dp" />
+    </LinearLayout>
 
-   <RelativeLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:orientation="horizontal"
-       android:padding="10dp">
+    <TextView
+        android:id="@+id/txt_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="#eeeeee"
+        android:padding="10dp" />
 
-      <Button
-          android:id="@+id/btn_scan"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_centerInParent="true"
-          android:text="@string/start_scan" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
-      <ImageView
-          android:id="@+id/img_loading"
-          android:layout_width="30dp"
-          android:layout_height="30dp"
-          android:layout_alignParentRight="true"
-          android:layout_centerVertical="true"
-          android:layout_marginRight="10dp"
-          android:src="@mipmap/ic_loading"
-          android:visibility="invisible" />
+        <Button
+            android:id="@+id/btn_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/start_scan" />
 
-   </RelativeLayout>
+        <ImageView
+            android:id="@+id/img_loading"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/ic_loading"
+            android:visibility="invisible" />
 
-   <ListView
-       android:id="@+id/list_device"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="10dp"
-       android:divider="@android:color/darker_gray"
-       android:dividerHeight="0.5dp"
-       android:paddingEnd="5dp"
-       android:paddingStart="5dp"
-       android:scrollbars="none" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/list_device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="0.5dp"
+        android:paddingEnd="5dp"
+        android:paddingStart="5dp"
+        android:scrollbars="none" />
 
 
 </LinearLayout>

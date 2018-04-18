@@ -16,10 +16,15 @@ import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.sendLoc
  */
 
 public class ReceiveBluetoothData {
-    static resultData resultDatacommand;
+    private static resultData resultDatacommand;
     private static byte mCommand;
     private static boolean flag = false;
-    private static String[] parameterS00=new String[3];
+    private static String[] parameterS00 = new String[3];
+
+    public void setCallResult(resultData callResult) {
+        this.resultDatacommand = callResult;
+    }
+
     public interface resultData {
         void resultCommand(byte result);
     }
@@ -88,7 +93,8 @@ public class ReceiveBluetoothData {
             case 0x70:
                 //工单下载反馈（一个大包）
                 Log.e("", "下载一个包结束！");
-                isSuccess(bytes[4]);
+                if (isSuccess(bytes[4]))
+                    backResultCommand(bytes);
                 break;
             case 0x71:
                 //清除记录反馈
@@ -140,8 +146,8 @@ public class ReceiveBluetoothData {
         switch (command) {
             case 0x10:
                 //结束读取S00参数
-                mCommand=0x00;
-                flag=false;
+                mCommand = 0x00;
+                flag = false;
                 Log.e("TAG", "读取掌机参数结束！");
                 break;
             case (byte) 0x80:
@@ -173,6 +179,9 @@ public class ReceiveBluetoothData {
             resultDatacommand.resultCommand(mCommand);
         else if (mCommand == 0x60)
             resultDatacommand.resultCommand(mCommand);
+        else if (mCommand == 0x70)
+            resultDatacommand.resultCommand(mCommand);
+
     }
 
     /**
@@ -198,7 +207,7 @@ public class ReceiveBluetoothData {
             case 0x01:
                 byte[] timeBytes = new byte[]{bytes[3], bytes[2], bytes[4], bytes[5], bytes[6]};
                 byte[] serialNumberBytes = new byte[]{bytes[10], bytes[9], bytes[8], bytes[7]};
-                parameterS00[0]= hexTime(timeBytes);
+                parameterS00[0] = hexTime(timeBytes);
 //                parameterS00[1]=;
                 Log.e("TAG", "Time:" + hexTime(timeBytes) + "Serial:" + HexUtil.formatHexString(serialNumberBytes));
                 break;
