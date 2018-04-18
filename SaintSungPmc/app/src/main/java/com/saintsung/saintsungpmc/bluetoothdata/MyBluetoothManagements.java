@@ -135,6 +135,7 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData {
     }
 
     private void write(BleDevice bleDevice, byte[] bytes) {
+
         BleManager.getInstance().write(
                 bleDevice,
                 Constant.uuidService.toString(),

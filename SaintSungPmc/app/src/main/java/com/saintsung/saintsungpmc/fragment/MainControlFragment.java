@@ -154,7 +154,7 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
         @Override
         public void onDetail(BleDevice bleDevice) {
             if (BleManager.getInstance().isConnected(bleDevice)) {
-                myBluetoothManagement.downloadLockInfo(new String[]{"201804090001","20180408121020","20180512082010","8675761241252531203506521","2675761241252531203506521","3675761241252531203506521"});
+                myBluetoothManagement.downloadLockInfo(new String[]{"201804090001", "20180408121020", "20180512082010", "8675761241252531203506521", "2675761241252531203506521", "3675761241252531203506521"});
 //                byte[] bytes = connectBluetoothInterface();
 //                write(bleDevice, bytes);
 //                bytes = addBytes(setParameterSubpackage1("20181014135615", "E3C565A5"), setParameterSubpackage2("TensorFlow"));
@@ -182,8 +182,6 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
     };
 
 
-
-
     private void connect(BleDevice bleDevice) {
         BleManager.getInstance().connect(bleDevice, new BleGattCallback() {
             @Override
@@ -205,7 +203,7 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
                 progressDialog.dismiss();
                 mDeviceAdapter.addDevice(bleDevice);
                 mDeviceAdapter.notifyDataSetChanged();
-                myBluetoothManagement=new MyBluetoothManagements(bleDevice);
+                myBluetoothManagement = new MyBluetoothManagements(bleDevice);
 
                 //连接成功后开始监听返回的数据
                 myBluetoothManagement.notifyBle(bleDevice);
@@ -225,7 +223,6 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
             }
         });
     }
-
 
 
     /**

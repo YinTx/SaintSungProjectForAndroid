@@ -15,6 +15,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.ViewTarget;
+import com.clj.fastble.BleManager;
+import com.clj.fastble.callback.BleScanCallback;
+import com.clj.fastble.data.BleDevice;
+import com.clj.fastble.scan.BleScanRuleConfig;
 import com.saintsung.common.app.Activity;
 import com.saintsung.common.widget.BottomNavigationViewHelper;
 import com.saintsung.common.widget.PortraitView;
@@ -24,10 +28,11 @@ import com.saintsung.saintsungpmc.fragment.MainControlFragment;
 import com.saintsung.saintsungpmc.fragment.MainHomeFragment;
 import com.saintsung.saintsungpmc.fragment.MainPersonalFragment;
 import com.saintsung.saintsungpmc.tools.NevHelper;
+
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
-
-
 
 
 public class MainActivity extends Activity implements BottomNavigationView.OnNavigationItemSelectedListener, NevHelper.OnTabChangedListener<Integer> {
@@ -84,18 +89,35 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 this.view.setBackground(glideDrawable.getCurrent());
             }
         });
+        BleManager.getInstance().init(getApplication());
+        BleScanRuleConfig bleScanRuleConfig = new BleScanRuleConfig.Builder()
+                .setScanTimeOut(0)
+                .build();
+        BleManager.getInstance().initScanRule(bleScanRuleConfig);
+        //isSupportBle  判断是否该机型能否使用BLE
+        if (BleManager.getInstance().isSupportBle()) {
+            //判断蓝牙是否打开
+            if (BleManager.getInstance().isBlueEnable())
+                scanBlutooth();
+            else {
+                //打开蓝牙
+                BleManager.getInstance().enableBluetooth();
+                scanBlutooth();
+            }
+
+        } else {
+            Toast.makeText(this, getString(R.string.please_replacePhone), Toast.LENGTH_LONG).show();
+        }
+
     }
 
     @Override
     protected void initData() {
         super.initData();
         //从底部接管Menu,模拟一次手动点击
-        Menu menu=mNavigation.getMenu();
+        Menu menu = mNavigation.getMenu();
         //触发一次点击
-        menu.performIdentifierAction(R.id.menu_main_home,0);
-//        byte[] bytes=SendBluetoothData.increaseCRC(setS00Parameter);
-
-
+        menu.performIdentifierAction(R.id.menu_main_home, 0);
     }
 
     @OnClick(R.id.img_search)
@@ -121,4 +143,35 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     public void onTabChanged(NevHelper.Tab<Integer> newTab, NevHelper.Tab<Integer> oldTab) {
 //        mTitle.setText(newTab.extra);
     }
+
+    /**
+     * 搜索蓝牙
+     */
+
+    private void scanBlutooth() {
+        BleManager.getInstance().scan(new BleScanCallback() {
+            @Override
+            public void onScanStarted(boolean success) {
+//                mDeviceAdapter.clearScanDevice();
+//                mDeviceAdapter.notifyDataSetChanged();
+//                imgLoading.setVisibility(View.VISIBLE);
+//                imgLoading.startAnimation(operatingAnim);
+//                scanBLE.setText(getString(R.string.stop_scan));
+            }
+
+            @Override
+            public void onScanning(BleDevice result) {
+//                mDeviceAdapter.addDevice(result);
+//                mDeviceAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onScanFinished(List<BleDevice> scanResultList) {
+//                imgLoading.clearAnimation();
+//                imgLoading.setVisibility(View.INVISIBLE);
+//                scanBLE.setText(getString(R.string.start_scan));
+            }
+        });
+    }
+
 }
