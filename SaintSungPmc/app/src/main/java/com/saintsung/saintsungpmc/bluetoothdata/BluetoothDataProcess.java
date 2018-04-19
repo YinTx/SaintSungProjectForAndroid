@@ -73,6 +73,50 @@ public class BluetoothDataProcess {
 
     }
 
+//    private static byte[] transPositionBytes(byte[] bytes, byte[] addBytes) {
+//        byte[] newBytes = new byte[bytes.length + addBytes.length];
+//        for (int i = 0; i < newBytes.length; i++) {
+//            if (i < bytes.length)
+//                newBytes[i] = bytes[i];
+//            else
+//                newBytes[i] = addBytes[newBytes.length - i];
+//        }
+//        return newBytes;
+//    }
+    public static byte[] hexOpenLockNumber(String openLockNumber){
+        byte[] lockOneGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(0, 3)));
+        byte[] lockTwoGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(3, 6)));
+        byte[] lockThreeGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(6, 9)));
+        byte[] lockFourGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(9, 12)));
+        byte[] lockFiveGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(12, 15)));
+        return null;
+    }
+    /**
+     * 十进制转十六进制
+     * @param string
+     * @return
+     */
+    private static String decimalSystemHexadecimal(String string) {
+        Integer integer = new Integer(string);
+        if (integer > 256)
+            return "0" + integer.toHexString(integer);
+        else
+            return integer.toHexString(integer);
+    }
+    /**
+     * 将String字符串转为byte数组
+     * @param timeStr
+     * @return
+     */
+    public static byte[] hexTime(String timeStr){
+        byte[] yearBytes = HexString2Bytes(timeStr.substring(0, 4));
+        byte[] monthBytes = HexString2Bytes(timeStr.substring(4, 6));
+        byte[] dayBytes = HexString2Bytes(timeStr.substring(6, 8));
+        byte[] hourBytes = HexString2Bytes(timeStr.substring(8, 10));
+        byte[] minuteBytes = HexString2Bytes(timeStr.substring(10, 12));
+        byte[] secondBytes = HexString2Bytes(timeStr.substring(12, 14));
+        return new byte[]{yearBytes[1],yearBytes[0],monthBytes[0],dayBytes[0],hourBytes[0],minuteBytes[0],secondBytes[0]};
+    }
     /**
      * 将掌机序列号按高低位重新组合 转换为String
      * @param bytes 固定长度为4byte
@@ -100,6 +144,11 @@ public class BluetoothDataProcess {
         return "" + year + month + day + hour + minute + secon;
     }
 
+    /**
+     * 将十进制字符串转换为十六进制
+     * @param s
+     * @return
+     */
     public static long hexTranslateToDecimal(String s) {
         BigInteger bigInteger = new BigInteger(s, 16);
         return bigInteger.longValue();

@@ -30,6 +30,7 @@ import com.saintsung.saintsungpmc.observice.ObserverManager;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 
 /**
@@ -75,7 +76,7 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
         txtSetting.setOnClickListener(this);
         layoutSetting.setVisibility(View.GONE);
         BleScanRuleConfig bleScanRuleConfig = new BleScanRuleConfig.Builder()
-                .setScanTimeOut(8000)
+                .setScanTimeOut(0)
                 .build();
         BleManager.getInstance().initScanRule(bleScanRuleConfig);
     }
@@ -154,29 +155,6 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
         @Override
         public void onDetail(BleDevice bleDevice) {
             if (BleManager.getInstance().isConnected(bleDevice)) {
-                myBluetoothManagement.downloadLockInfo(new String[]{"201804090001", "20180408121020", "20180512082010", "8675761241252531203506521", "2675761241252531203506521", "3675761241252531203506521"});
-//                byte[] bytes = connectBluetoothInterface();
-//                write(bleDevice, bytes);
-//                bytes = addBytes(setParameterSubpackage1("20181014135615", "E3C565A5"), setParameterSubpackage2("TensorFlow"));
-//                bytes=addBytes(bytes,setParameterSubpackage3("103","302"));
-////  bytes = setParameterSubpackage1("20181014135615", "E3C565A5");
-////                write(bleDevice, bytes);
-////                bytes = setParameterSubpackage2("TensorFlow");
-////                write(bleDevice, bytes);
-////                bytes = setParameterSubpackage3("103", "302");
-//                write(bleDevice, bytes);
-//                bytes = sendParameterEndPack();
-//                try {
-//                    Thread.sleep(150);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                write(bleDevice, bytes);
-//                bytes=sendEndPackage();
-//                write(bleDevice,bytes);
-//                Intent intent = new Intent(getActivity(), OperationActivity.class);
-//                intent.putExtra(OperationActivity.KEY_DATA, bleDevice);
-//                startActivity(intent);
             }
         }
     };
@@ -252,6 +230,36 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
                 scanBLE.setText(getString(R.string.start_scan));
             }
         });
+    }
+
+    @OnClick(R.id.read_parameter)
+    void readParameter() {
+        myBluetoothManagement.readParameter();
+    }
+
+    @OnClick(R.id.set_parameter)
+    void setParameter() {
+        myBluetoothManagement.setParameter("20181014135615", "E3C565A5","TensorFlow");
+    }
+
+    @OnClick(R.id.down_workorder)
+    void downWorkOrder() {
+        myBluetoothManagement.downloadLockInfo(new String[]{"201804090001", "20180408121020", "20180512082010", "8675761241252531203506521", "2675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521", "3675761241252531203506521"});
+    }
+
+    @OnClick(R.id.clean)
+    void clean() {
+        myBluetoothManagement.cleanInfo();
+    }
+
+    @OnClick(R.id.upload)
+    void upload() {
+        myBluetoothManagement.upload();
+    }
+
+    @OnClick(R.id.ble_connect)
+    void connect() {
+        myBluetoothManagement.connectBluetooth();
     }
 
     /**

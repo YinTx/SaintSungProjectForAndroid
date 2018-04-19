@@ -12,45 +12,50 @@
         android:background="#eeeeee"
         android:orientation="vertical"
         android:padding="20dp">
-
-        <TextView
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/read_parameter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:text="@string/scan_setting"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="12sp" />
-
-        <EditText
-            android:id="@+id/et_name"
-            android:layout_width="match_parent"
+            android:text="读取参数"
+            />
+        <Button
+            android:id="@+id/set_parameter"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:textSize="13sp" />
-
-        <EditText
-            android:id="@+id/et_mac"
-            android:layout_width="match_parent"
+            android:text="设置参数"
+            />
+        <Button
+            android:id="@+id/down_workorder"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:textSize="13sp" />
-
-        <EditText
-            android:id="@+id/et_uuid"
-            android:layout_width="match_parent"
+            android:text="下载工单"
+            />
+        <Button
+            android:id="@+id/clean"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:textSize="13sp" />
-
+            android:text="清除记录"
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/upload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上传记录"
+                />
+            <Button
+                android:id="@+id/ble_connect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="蓝牙连接"
+                />
+        </LinearLayout>
         <Switch
             android:id="@+id/sw_auto"
             android:layout_width="wrap_content"

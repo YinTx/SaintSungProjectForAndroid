@@ -83,12 +83,12 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 .add(R.id.menu_main_control, new NevHelper.Tab<>(MainControlFragment.class, R.string.menu_control))
                 .add(R.id.menu_main_personal, new NevHelper.Tab<>(MainPersonalFragment.class, R.string.menu_personal));
         mNavigation.setOnNavigationItemSelectedListener(this);
-        Glide.with(this).load(R.drawable.bg_src_morning).centerCrop().into(new ViewTarget<View, GlideDrawable>(mLayAppbar) {
-            @Override
-            public void onResourceReady(GlideDrawable glideDrawable, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                this.view.setBackground(glideDrawable.getCurrent());
-            }
-        });
+//        Glide.with(this).load(R.drawable.bg_src_morning).centerCrop().into(new ViewTarget<View, GlideDrawable>(mLayAppbar) {
+//            @Override
+//            public void onResourceReady(GlideDrawable glideDrawable, GlideAnimation<? super GlideDrawable> glideAnimation) {
+//                this.view.setBackground(glideDrawable.getCurrent());
+//            }
+//        });
         BleManager.getInstance().init(getApplication());
         BleScanRuleConfig bleScanRuleConfig = new BleScanRuleConfig.Builder()
                 .setScanTimeOut(0)
@@ -141,6 +141,11 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
      */
     @Override
     public void onTabChanged(NevHelper.Tab<Integer> newTab, NevHelper.Tab<Integer> oldTab) {
+        if (newTab.extra.equals(R.string.menu_home)) {
+            mLayAppbar.setVisibility(View.GONE);
+        } else {
+            mLayAppbar.setVisibility(View.VISIBLE);
+        }
 //        mTitle.setText(newTab.extra);
     }
 
