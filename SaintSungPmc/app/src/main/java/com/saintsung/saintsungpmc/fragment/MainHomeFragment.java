@@ -18,7 +18,6 @@ import butterknife.BindView;
 public class MainHomeFragment extends Fragment {
     @BindView(R.id.appbar)
     View mLayAppbar;
-
     @Override
     protected int getContentLayoutId() {
         return R.layout.fragment_home;

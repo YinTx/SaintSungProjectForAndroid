@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <stroke
+        android:width="@dimen/len_2"
+        android:color="@color/searchBackground" />
+    <corners
+        android:bottomLeftRadius="@dimen/len_4"
+        android:bottomRightRadius="@dimen/len_4"
+        android:topLeftRadius="@dimen/len_4"
+        android:topRightRadius="@dimen/len_4" />
+</shape>

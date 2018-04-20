@@ -4,6 +4,7 @@ package com.saintsung.saintsungpmc.fragment;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothGatt;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -21,6 +22,8 @@ import com.clj.fastble.callback.BleScanCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
 import com.clj.fastble.scan.BleScanRuleConfig;
+import com.jwkj.libzxing.activity.CaptureActivity;
+import com.saintsung.saintsungpmc.MainActivity;
 import com.saintsung.saintsungpmc.R;
 
 import com.saintsung.saintsungpmc.adapter.DeviceAdapter;
@@ -261,7 +264,11 @@ public class MainControlFragment extends com.saintsung.common.app.Fragment imple
     void connect() {
         myBluetoothManagement.connectBluetooth();
     }
-
+    @OnClick(R.id.erweima)
+    void saomiao(){
+      Intent intent = new Intent(getActivity(), CaptureActivity.class);
+        startActivityForResult(intent, 1);
+    }
     /**
      * 扫描到蓝牙刷新ListView
      */

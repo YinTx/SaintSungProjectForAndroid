@@ -5,10 +5,12 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <include layout="@layout/lay_top" />
+
     <TextView
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:text="我是个人中心页"
         android:textSize="30dp" />
 </LinearLayout>

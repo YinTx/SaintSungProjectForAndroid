@@ -6,8 +6,8 @@
     <string name="action_person">用户信息</string>
     <string name="action_follow">关注</string>
     <!--   主界面底部选择项     -->
-    <string name="menu_home">首页</string>
-    <string name="menu_control">设备控制</string>
-    <string name="menu_map">地图</string>
-    <string name="menu_personal">个人中心</string>
+    <string name="menu_terminal">执行终端</string>
+    <string name="menu_workorder">我的工单</string>
+    <string name="menu_lockseal">锁封管理</string>
+    <string name="menu_electric">用电户管理</string>
 </resources>

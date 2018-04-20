@@ -6,18 +6,18 @@
     <item
         android:id="@+id/menu_main_home"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/menu_home"
+        android:title="@string/menu_terminal"
         />
     <item
         android:id="@+id/menu_main_control"
         android:icon="@drawable/ic_build_black_24dp"
-        android:title="@string/menu_control" />
+        android:title="@string/menu_workorder" />
     <item
         android:id="@+id/menu_main_map"
         android:icon="@drawable/ic_map_black_24dp"
-        android:title="@string/menu_map" />
+        android:title="@string/menu_lockseal" />
     <item
         android:id="@+id/menu_main_personal"
         android:icon="@drawable/ic_person_black_24dp"
-        android:title="@string/menu_personal" />
+        android:title="@string/menu_electric" />
 </menu>

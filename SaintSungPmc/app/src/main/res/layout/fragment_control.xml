@@ -5,6 +5,8 @@
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 
+    <include layout="@layout/lay_top"/>
+
     <LinearLayout
         android:id="@+id/layout_setting"
         android:layout_width="match_parent"
@@ -12,50 +14,59 @@
         android:background="#eeeeee"
         android:orientation="vertical"
         android:padding="20dp">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/read_parameter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="读取参数"
-            />
-        <Button
-            android:id="@+id/set_parameter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="设置参数"
-            />
-        <Button
-            android:id="@+id/down_workorder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="下载工单"
-            />
-        <Button
-            android:id="@+id/clean"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="清除记录"
-            />
+
+            <Button
+                android:id="@+id/read_parameter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="读取参数" />
+
+            <Button
+                android:id="@+id/set_parameter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设置参数" />
+
+            <Button
+                android:id="@+id/down_workorder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="下载工单" />
+
+            <Button
+                android:id="@+id/clean"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="清除记录" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
             <Button
                 android:id="@+id/upload"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="上传记录"
-                />
+                android:text="上传记录" />
+
             <Button
                 android:id="@+id/ble_connect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="蓝牙连接"
-                />
+                android:text="蓝牙连接" />
+
+            <Button
+                android:id="@+id/erweima"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="二维码扫描" />
         </LinearLayout>
+
         <Switch
             android:id="@+id/sw_auto"
             android:layout_width="wrap_content"

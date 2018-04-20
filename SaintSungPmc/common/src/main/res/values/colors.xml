@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--基础主色-->
-    <color name="colorPrimary">#31373d</color>
-    <color name="colorPrimaryDark">#31373d</color>
-    <color name="colorAccent">#1572fc</color>
+    <color name="colorPrimary">#3b9dff</color>
+    <color name="colorPrimaryDark">#3b9dff</color>
+    <color name="colorAccent">#3b9dff</color>
     <color name="colorLight">@color/white</color>
     <color name="colorDark">@color/black</color>
-    <color name="colorAccentAlpha">#801572fc</color>
+    <color name="colorAccentAlpha">#3b9dff</color>
 
     <!--背景色-->
     <color name="windowsBackground">#f7f7f7</color>
@@ -29,4 +29,5 @@
     <color name="navIconTintLight">@color/white_alpha_240</color>
     <color name="IconSelected">#3b9dff</color>
     <color name="unIconSelected">#939699</color>
+    <color name="searchBackground">#f4f2f2</color>
 </resources>

@@ -1,5 +1,6 @@
 package com.saintsung.saintsungpmc;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.clj.fastble.scan.BleScanRuleConfig;
 import com.saintsung.common.app.Activity;
 import com.saintsung.common.widget.BottomNavigationViewHelper;
 import com.saintsung.common.widget.PortraitView;
+import com.saintsung.saintsungpmc.activity.UnauthorizedActivity;
 import com.saintsung.saintsungpmc.bluetoothdata.ReceiveBluetoothData;
 import com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData;
 import com.saintsung.saintsungpmc.fragment.MainControlFragment;
@@ -37,10 +39,6 @@ import butterknife.OnClick;
 
 public class MainActivity extends Activity implements BottomNavigationView.OnNavigationItemSelectedListener, NevHelper.OnTabChangedListener<Integer> {
     private long exitTime = 0;//2次回退计时器
-    @BindView(R.id.appbar)
-    View mLayAppbar;
-    @BindView(R.id.img_portrait)
-    PortraitView mPortrait;
     @BindView(R.id.lay_container)
     FrameLayout mContainer;
     @BindView(R.id.navigation)
@@ -61,8 +59,9 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
-                finish();
-                System.exit(0);
+                startActivity(new Intent(MainActivity.this, UnauthorizedActivity.class));
+//                finish();
+//                System.exit(0);
             }
             return true;
         }
@@ -83,12 +82,6 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 .add(R.id.menu_main_control, new NevHelper.Tab<>(MainControlFragment.class, R.string.menu_control))
                 .add(R.id.menu_main_personal, new NevHelper.Tab<>(MainPersonalFragment.class, R.string.menu_personal));
         mNavigation.setOnNavigationItemSelectedListener(this);
-//        Glide.with(this).load(R.drawable.bg_src_morning).centerCrop().into(new ViewTarget<View, GlideDrawable>(mLayAppbar) {
-//            @Override
-//            public void onResourceReady(GlideDrawable glideDrawable, GlideAnimation<? super GlideDrawable> glideAnimation) {
-//                this.view.setBackground(glideDrawable.getCurrent());
-//            }
-//        });
         BleManager.getInstance().init(getApplication());
         BleScanRuleConfig bleScanRuleConfig = new BleScanRuleConfig.Builder()
                 .setScanTimeOut(0)
@@ -120,9 +113,6 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
         menu.performIdentifierAction(R.id.menu_main_home, 0);
     }
 
-    @OnClick(R.id.img_search)
-    void onSearchMenuClick() {
-    }
 
     @OnClick(R.id.btn_action)
     void onActionClick() {
@@ -141,12 +131,6 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
      */
     @Override
     public void onTabChanged(NevHelper.Tab<Integer> newTab, NevHelper.Tab<Integer> oldTab) {
-        if (newTab.extra.equals(R.string.menu_home)) {
-            mLayAppbar.setVisibility(View.GONE);
-        } else {
-            mLayAppbar.setVisibility(View.VISIBLE);
-        }
-//        mTitle.setText(newTab.extra);
     }
 
     /**
