@@ -23,6 +23,7 @@ import com.clj.fastble.scan.BleScanRuleConfig;
 import com.saintsung.common.app.Activity;
 import com.saintsung.common.widget.BottomNavigationViewHelper;
 import com.saintsung.common.widget.PortraitView;
+import com.saintsung.saintsungpmc.activity.AccountSecurityActivity;
 import com.saintsung.saintsungpmc.activity.UnauthorizedActivity;
 import com.saintsung.saintsungpmc.bluetoothdata.ReceiveBluetoothData;
 import com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData;
@@ -59,7 +60,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
-                startActivity(new Intent(MainActivity.this, UnauthorizedActivity.class));
+                startActivity(new Intent(MainActivity.this, AccountSecurityActivity.class));
 //                finish();
 //                System.exit(0);
             }

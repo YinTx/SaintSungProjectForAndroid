@@ -70,11 +70,10 @@
         <activity android:name=".loading.WelcomeGuideActivity" />
         <!-- 未授权设备页面 -->
         <activity android:name=".activity.UnauthorizedActivity" />
-
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="6771be5712fff8dca0c7ae1e2b2a4565" />
-
+        <!--账号与安全页面-->
         <activity android:name=".activity.AccountSecurityActivity"></activity>
     </application>
 

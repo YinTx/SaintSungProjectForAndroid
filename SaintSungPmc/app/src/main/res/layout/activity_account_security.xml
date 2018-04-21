@@ -1,9 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey_100"
+    android:orientation="vertical"
     tools:context="com.saintsung.saintsungpmc.activity.AccountSecurityActivity">
-    <include layout="@layout/lay_top"/>
 
-</android.support.constraint.ConstraintLayout>
+    <include layout="@layout/lay_top" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/len_36"
+        android:layout_marginTop="@dimen/len_10"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/len_16">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/account_securitey_phone"
+            android:textColor="@color/black_alpha_80" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/len_10"
+            android:background="@null"
+            android:maxLines="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/len_36"
+        android:layout_marginTop="@dimen/len_10"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/len_16">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/account_securitey_confirm_phone"
+            android:textColor="@color/black_alpha_80" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/len_10"
+            android:background="@null"
+            android:maxLines="1" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/len_36"
+        android:layout_marginTop="@dimen/len_20"
+        android:background="@color/white"
+        android:text="@string/confirm"
+        android:textColor="@color/black_alpha_112" />
+</LinearLayout>

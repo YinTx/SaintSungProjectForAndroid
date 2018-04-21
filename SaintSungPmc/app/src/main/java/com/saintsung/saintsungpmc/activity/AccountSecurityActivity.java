@@ -1,6 +1,7 @@
 package com.saintsung.saintsungpmc.activity;
 
 
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,5 +25,6 @@ public class AccountSecurityActivity extends Activity {
     protected void initData() {
         super.initData();
         txtTitle.setText(R.string.account_securitey_title);
+        imgBack.setVisibility(View.VISIBLE);
     }
 }

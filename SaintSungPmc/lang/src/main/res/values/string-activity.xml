@@ -2,4 +2,7 @@
 <resources>
     <string name="unauthorized_title">未授权设备</string>
     <string name="account_securitey_title">账号与安全</string>
+    <string name="account_securitey_phone">请输入新手机号:</string>
+    <string name="account_securitey_confirm_phone">请再次输入新手机号:</string>
+    <string name="confirm">确认</string>
 </resources>
