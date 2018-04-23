@@ -7,6 +7,8 @@
     android:orientation="vertical">
 
 
+    
+
     <include layout="@layout/lay_top" />
 
     <LinearLayout
@@ -72,55 +74,6 @@
                 android:textColor="@color/IconSelected" />
         </LinearLayout>
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:text="@string/scan_setting"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="12sp" />
-
-        <EditText
-            android:id="@+id/et_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:textSize="13sp" />
-
-        <EditText
-            android:id="@+id/et_mac"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:textSize="13sp" />
-
-        <EditText
-            android:id="@+id/et_uuid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:textSize="13sp" />
-
-        <Switch
-            android:id="@+id/sw_auto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="AutoConnect ?"
-            android:textSize="13sp"
-            android:visibility="gone" />
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -151,8 +104,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/len_10"
             android:layout_marginTop="@dimen/len_14"
+            android:layout_marginLeft="@dimen/len_10"
             android:text="@string/workorder_complete"
             android:textColor="@color/black"
 

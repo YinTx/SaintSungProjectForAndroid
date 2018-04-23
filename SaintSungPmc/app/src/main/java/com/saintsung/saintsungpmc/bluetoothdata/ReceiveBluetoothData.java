@@ -20,6 +20,7 @@ public class ReceiveBluetoothData {
     private static byte mCommand;
     private static boolean flag = false;
     private static String[] parameterS00 = new String[3];
+    private static int dataLength, dataPackage;
 
     public void setCallResult(resultData callResult) {
         this.resultDatacommand = callResult;
@@ -27,10 +28,15 @@ public class ReceiveBluetoothData {
 
     public interface resultData {
         void resultCommand(byte result);
+        void resultLockNumber(String lockNumber);
     }
 
     public static void getReceiveBluetoothData(byte[] bytes) {
         Log.e("TAG", "接收到数据：" + HexUtil.formatHexString(bytes, true));
+        if(bytes.length!=20){
+            Log.e("TAG","数据包长度不够");
+            return;
+        }
         String result = checkPackageStartEnd(bytes);
         if (result.equals("0"))
             commamdType(bytes);
@@ -65,12 +71,14 @@ public class ReceiveBluetoothData {
             case 0x30:
                 //执行开设备操作
                 Log.e("TAG", "开始执行开设备操作！");
-                sendLockNumber("210056125255147", "1");
+                backResultCommand(bytes);
+                break;
+            case 0x31:
+                Log.e("TAG", "结束开设备操作！");
                 break;
             case 0x40:
                 //执行关设备操作
                 Log.e("TAG", "开始执行关设备操作！");
-
                 break;
             case 0x50:
                 //下载工单编号结束
@@ -104,7 +112,11 @@ public class ReceiveBluetoothData {
             case (byte) 0x80:
                 //上传S00操作记录响应包
                 Log.e("TAG", "上传S00操作记录响应包！");
-                isSuccess(bytes[4]);
+                mCommand = bytes[3];
+                flag = true;
+                if (isSuccess(bytes[8])) {
+                    upLoadOpenLockRecordStart(bytes);
+                }
                 break;
             case (byte) 0x90:
                 //告诉APP，掌机进入待机模式
@@ -152,6 +164,9 @@ public class ReceiveBluetoothData {
                 break;
             case (byte) 0x80:
                 //上传S00操作记录结束包
+                mCommand = 0x00;
+                flag = false;
+                Log.e("TAG", "读取记录结束！");
                 break;
             default:
                 break;
@@ -175,13 +190,14 @@ public class ReceiveBluetoothData {
 
     public static void backResultCommand(byte[] bytes) {
         byte mCommand = bytes[3];
-        if (mCommand == 0x50)
+        if(mCommand==0x30)
+            resultDatacommand.resultLockNumber(HexUtil.formatHexString(bytes));
+        else if (mCommand == 0x50)
             resultDatacommand.resultCommand(mCommand);
         else if (mCommand == 0x60)
             resultDatacommand.resultCommand(mCommand);
         else if (mCommand == 0x70)
             resultDatacommand.resultCommand(mCommand);
-
     }
 
     /**
@@ -193,6 +209,8 @@ public class ReceiveBluetoothData {
         if (flag) {
             if (mCommand == 0x10)
                 readS00Parameter(bytes);
+            if (mCommand == 0x80)
+                upLoadOpenLockOneRecord(bytes);
         }
     }
 

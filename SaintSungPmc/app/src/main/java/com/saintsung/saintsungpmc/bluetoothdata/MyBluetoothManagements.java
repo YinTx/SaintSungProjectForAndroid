@@ -10,11 +10,14 @@ import com.clj.fastble.exception.BleException;
 import com.saintsung.saintsungpmc.configure.Constant;
 
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.connectBluetoothInterface;
+import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendCleanData;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendEndLockInfo;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendLockInfoData;
+import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendOpenLockNumber;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendStartLockInfo;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendWorkOrderNumber;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendWorkOrderTime;
+import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.uploadOpenLockRecord;
 import static com.saintsung.saintsungpmc.bluetoothdata.ReceiveBluetoothData.getReceiveBluetoothData;
 import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.downLoadEndPackage;
 
@@ -32,6 +35,7 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData {
     public MyBluetoothManagements(BleDevice bleDevice) {
         this.bleDevice = bleDevice;
         receiveBluetoothData = new ReceiveBluetoothData();
+        receiveBluetoothData.setCallResult(this);
     }
 
     /**
@@ -67,8 +71,11 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData {
 
     public void downloadLockInfo(String[] workOrderInfo) {
         this.workOrderInfo = workOrderInfo;
-        receiveBluetoothData.setCallResult(this);
         downloadWorkOrderNumber();
+    }
+
+    public void upload() {
+        write(bleDevice, uploadOpenLockRecord());
     }
 
     /**
@@ -121,7 +128,7 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData {
         }
         for (int i = 0; i <= lockInfo.length; i++) {
             try {
-                Thread.sleep(5);
+                Thread.sleep(100);
                 if (lockInfo.length == i)
                     write(bleDevice, sendEndLockInfo());
                 else
@@ -132,6 +139,10 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData {
 
         }
 
+    }
+
+    public void cleanInfo() {
+        write(bleDevice, sendCleanData());
     }
 
     private void write(BleDevice bleDevice, byte[] bytes) {
@@ -189,16 +200,21 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData {
             int sum = (signStrip + 1) * 16 + 3;
             if (sum < workOrderInfo.length) {
                 downloadLockInfo();
-            }else {
-                if(sum-workOrderInfo.length<16){
+            } else {
+                if (sum - workOrderInfo.length < 16) {
                     downloadLockInfo();
-                }else {
-                    signStrip=0;
+                } else {
+                    signStrip = 0;
                     workOrderInfo.clone();
-                    Log.e("TAG","工单下载完成！");
+                    Log.e("TAG", "工单下载完成！");
                 }
             }
         }
 
+    }
+
+    @Override
+    public void resultLockNumber(String lockNumber) {
+        write(bleDevice,sendOpenLockNumber("078090186150264","1"));
     }
 }

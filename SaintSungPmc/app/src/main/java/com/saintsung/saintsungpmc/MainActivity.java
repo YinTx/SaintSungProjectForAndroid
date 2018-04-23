@@ -12,10 +12,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.ViewTarget;
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleScanCallback;
 import com.clj.fastble.data.BleDevice;
@@ -78,14 +74,6 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 .add(R.id.menu_main_control, new NevHelper.Tab<>(MainWorkOrderFragment.class, R.string.menu_control))
                 .add(R.id.menu_main_personal, new NevHelper.Tab<>(MainPersonalFragment.class, R.string.menu_personal));
         mNavigation.setOnNavigationItemSelectedListener(this);
-
-//        Glide.with(this).load(R.drawable.bg_src_morning).centerCrop().into(new ViewTarget<View, GlideDrawable>(mLayAppbar) {
-//            @Override
-//            public void onResourceReady(GlideDrawable glideDrawable, GlideAnimation<? super GlideDrawable> glideAnimation) {
-//                this.view.setBackground(glideDrawable.getCurrent());
-//            }
-//        });
-
         BleManager.getInstance().init(getApplication());
         BleScanRuleConfig bleScanRuleConfig = new BleScanRuleConfig.Builder()
                 .setScanTimeOut(0)
@@ -135,8 +123,6 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
      */
     @Override
     public void onTabChanged(NevHelper.Tab<Integer> newTab, NevHelper.Tab<Integer> oldTab) {
-
-//        mTitle.setText(newTab.extra);
     }
 
     /**

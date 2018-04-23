@@ -7,7 +7,9 @@ import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.downLoa
 import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.downLoadWorkOrder;
 import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.downWorkOrderTime;
 import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.readS00;
+import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.sendLockNumber;
 import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.sendParameterEndPack;
+import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.setParameterPackage;
 import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.setParameterSubpackage1;
 import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.setParameterSubpackage2;
 import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.startLockInfo;
@@ -39,17 +41,20 @@ public class BluetoothDataManagement {
      *                           第三个为名称 最长可设置16个数字、字母、汉字
      */
     public static byte[][] setParameter(String[] parameterStringArr) {
-        byte[][] bytes = new byte[3][20];
+        byte[][] bytes = new byte[4][20];
+        bytes[0]=setParameterPackage();
         if (parameterStringArr.length == 3) {
-            bytes[0] = setParameterSubpackage1(parameterStringArr[1], parameterStringArr[2]);
-            bytes[1] = setParameterSubpackage2(parameterStringArr[3]);
-            bytes[2] = sendParameterEndPack();
+            bytes[1] = setParameterSubpackage1(parameterStringArr[0], parameterStringArr[1]);
+            bytes[2] = setParameterSubpackage2(parameterStringArr[2]);
+            bytes[3] = sendParameterEndPack();
             return bytes;
         } else {
             return null;
         }
     }
-
+    public static byte[] sendOpenLockNumber(String openLockNumber,String type){
+        return sendLockNumber(openLockNumber,type);
+    }
     /**
      * 发送工单编号
      *
