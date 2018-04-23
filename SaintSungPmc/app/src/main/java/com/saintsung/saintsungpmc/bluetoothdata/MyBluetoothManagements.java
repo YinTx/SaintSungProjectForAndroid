@@ -149,7 +149,7 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData {
 
         BleManager.getInstance().write(
                 bleDevice,
-                Constant.uuidService.toString(),
+                Constant.uuidWriteService.toString(),
                 Constant.uuidWrite.toString(),
                 bytes,
                 new BleWriteCallback() {
@@ -168,7 +168,7 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData {
     }
 
     public void notifyBle(BleDevice bleDevice) {
-        BleManager.getInstance().notify(bleDevice, Constant.uuidService.toString(), Constant.uuidNotify.toString(), new BleNotifyCallback() {
+        BleManager.getInstance().notify(bleDevice, Constant.uuidNotifyService.toString(), Constant.uuidNotify.toString(), new BleNotifyCallback() {
             @Override
             public void onNotifySuccess() {
                 // 打开通知操作成功（UI线程）

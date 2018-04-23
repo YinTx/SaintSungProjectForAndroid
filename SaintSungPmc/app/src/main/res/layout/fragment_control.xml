@@ -6,9 +6,6 @@
     android:background="@color/grey_200"
     android:orientation="vertical">
 
-
-    
-
     <include layout="@layout/lay_top" />
 
     <LinearLayout
@@ -104,13 +101,128 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/len_14"
             android:layout_marginLeft="@dimen/len_10"
+            android:layout_marginTop="@dimen/len_14"
             android:text="@string/workorder_complete"
             android:textColor="@color/black"
 
             />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/layout_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#eeeeee"
+        android:orientation="vertical"
+        android:padding="20dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/ble_connect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="连接蓝牙" />
+
+            <Button
+                android:id="@+id/read_parameter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="读取参数" />
+
+            <Button
+                android:id="@+id/set_parameter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设置参数" />
+
+            <Button
+                android:id="@+id/down_workorder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="下载工单" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/clean"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="清除记录" />
+
+            <Button
+                android:id="@+id/upload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上传记录" />
+
+            <Button
+                android:id="@+id/erweima"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="二维码扫描" />
+        </LinearLayout>
+
+        <Switch
+            android:id="@+id/sw_auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="AutoConnect ?"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txt_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="#eeeeee"
+        android:padding="10dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <Button
+            android:id="@+id/btn_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/start_scan" />
+
+        <ImageView
+            android:id="@+id/img_loading"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/ic_loading"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/list_device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="0.5dp"
+        android:paddingEnd="5dp"
+        android:paddingStart="5dp"
+        android:scrollbars="none" />
 </LinearLayout>

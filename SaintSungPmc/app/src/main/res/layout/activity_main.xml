@@ -30,8 +30,9 @@
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/len_52"
+        android:layout_height="@dimen/len_48"
         android:layout_gravity="bottom"
+        android:paddingTop="@dimen/len_8"
         android:background="@color/white"
         android:elevation="@dimen/len_4"
         android:outlineProvider="bounds"

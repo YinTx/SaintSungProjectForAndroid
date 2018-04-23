@@ -1,5 +1,6 @@
 package com.saintsung.saintsungpmc;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -68,6 +69,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     @Override
     protected void initWidget() {
         super.initWidget();
+        Log.e("TAG",""+sp2px(this,18));
         BottomNavigationViewHelper.disableShiftMode(mNavigation);
         mNevHelper = new NevHelper(this, getSupportFragmentManager(), R.id.lay_container, this);
         mNevHelper.add(R.id.menu_main_home, new NevHelper.Tab<>(MainHomeFragment.class, R.string.menu_home))
@@ -95,7 +97,15 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
         }
 
     }
-
+    /**
+     * 将sp值转换为px值，保证文字大小不变
+     * @param spValue
+     * @return
+     */
+    public static int sp2px(Context context, float spValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
+    }
     @Override
     protected void initData() {
         super.initData();

@@ -5,4 +5,7 @@
     <string name="workorder_uncomplete">未完成工单</string>
     <string name="workorder_record">工单记录</string>
     <string name="workorder_apply">工单申请</string>
+    <string name="electric_title">用电户管理</string>
+    <string name="electric_my">我的用电户</string>
+    <string name="electric_name">用电户名称</string>
 </resources>

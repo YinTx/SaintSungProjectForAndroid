@@ -32,8 +32,6 @@
         <item name="toolbarTitleSize">@dimen/font_18</item>
         <item name="toolbarTitleColor">@color/white_alpha_224</item>
         <item name="toolbarMenuIconColor">@color/white_alpha_224</item>
-
     </style>
-
     <style name="AppTheme.Base" parent="Theme.private" />
 </resources>
