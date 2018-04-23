@@ -74,6 +74,15 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 .add(R.id.menu_main_control, new NevHelper.Tab<>(MainWorkOrderFragment.class, R.string.menu_control))
                 .add(R.id.menu_main_personal, new NevHelper.Tab<>(MainPersonalFragment.class, R.string.menu_personal));
         mNavigation.setOnNavigationItemSelectedListener(this);
+<<<<<<< HEAD
+=======
+        Glide.with(this).load(R.drawable.bg_src_morning).centerCrop().into(new ViewTarget<View, GlideDrawable>(mLayAppbar) {
+            @Override
+            public void onResourceReady(GlideDrawable glideDrawable, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                this.view.setBackground(glideDrawable.getCurrent());
+            }
+        });
+>>>>>>> parent of d995cf3... 蓝牙接口调试
         BleManager.getInstance().init(getApplication());
         BleScanRuleConfig bleScanRuleConfig = new BleScanRuleConfig.Builder()
                 .setScanTimeOut(0)
@@ -123,6 +132,10 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
      */
     @Override
     public void onTabChanged(NevHelper.Tab<Integer> newTab, NevHelper.Tab<Integer> oldTab) {
+<<<<<<< HEAD
+=======
+//        mTitle.setText(newTab.extra);
+>>>>>>> parent of d995cf3... 蓝牙接口调试
     }
 
     /**

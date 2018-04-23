@@ -245,8 +245,7 @@ public class SendBluetoothData {
         bytes = increaseHandle(lockFourGroup, bytes);
         bytes = increaseHandle(lockFiveGroup, bytes);
         bytes = setZeroData(bytes, 1);
-        bytes=increaseNullByte(bytes,1);
-        bytes = addBytes(bytes, HexString2Bytes(decimalSystemHexadecimal(lockType)));
+        bytes = addBytes(bytes, lockType.getBytes());
         bytes = increaseCRC(bytes);
         bytes = increasePackage(bytes, (byte) 0xA0, (byte) 0xF0);
         return bytes;
@@ -258,8 +257,8 @@ public class SendBluetoothData {
             newBytes[i] = oldBytes[i];
         }
         if (bytes.length < 2) {
-            newBytes[newBytes.length - 1] = 0x00;
-            newBytes[newBytes.length - 2] = bytes[0];
+            newBytes[newBytes.length - 2] = 0x00;
+            newBytes[newBytes.length - 1] = bytes[0];
         } else {
             newBytes[newBytes.length - 2] = bytes[1];
             newBytes[newBytes.length - 1] = bytes[0];
@@ -312,6 +311,16 @@ public class SendBluetoothData {
         return bytes;
     }
 
+//    private static byte[] transPositionBytes(byte[] bytes, byte[] addBytes) {
+//        byte[] newBytes = new byte[bytes.length + addBytes.length];
+//        for (int i = 0; i < newBytes.length; i++) {
+//            if (i < bytes.length)
+//                newBytes[i] = bytes[i];
+//            else
+//                newBytes[i] = addBytes[newBytes.length - i];
+//        }
+//        return newBytes;
+//    }
     /**
      * 下载工单有效时间
      *

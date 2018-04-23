@@ -6,6 +6,7 @@
     android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical">
+<<<<<<< HEAD
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -104,6 +105,9 @@
             </LinearLayout>
         </FrameLayout>
     </android.support.design.widget.AppBarLayout>
+=======
+
+>>>>>>> parent of d995cf3... 蓝牙接口调试
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/len_10"
