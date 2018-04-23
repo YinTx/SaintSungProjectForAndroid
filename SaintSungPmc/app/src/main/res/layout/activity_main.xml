@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.saintsung.saintsungpmc.MainActivity">
-<<<<<<< HEAD
-=======
+
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"

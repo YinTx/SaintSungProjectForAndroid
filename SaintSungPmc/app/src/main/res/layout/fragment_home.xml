@@ -6,7 +6,6 @@
     android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical">
-<<<<<<< HEAD
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"

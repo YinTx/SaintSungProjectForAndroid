@@ -7,13 +7,10 @@
     android:orientation="vertical">
 
 
-    
-
     <include layout="@layout/lay_top" />
 
     <LinearLayout
         android:layout_width="match_parent"
-<<<<<<< HEAD
         android:layout_height="@dimen/len_96"
         android:background="@color/white"
         android:orientation="horizontal">
@@ -74,11 +71,7 @@
                 android:text="@string/workorder_record"
                 android:textColor="@color/IconSelected" />
         </LinearLayout>
-=======
-        android:layout_height="wrap_content"
-        android:background="#eeeeee"
-        android:orientation="vertical"
-        android:padding="20dp">
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -127,7 +120,6 @@
             android:text="AutoConnect ?"
             android:textSize="13sp"
             android:visibility="gone" />
->>>>>>> parent of d995cf3... 蓝牙接口调试
 
         <LinearLayout
             android:layout_width="0dp"
@@ -159,8 +151,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/len_14"
             android:layout_marginLeft="@dimen/len_10"
+            android:layout_marginTop="@dimen/len_14"
             android:text="@string/workorder_complete"
             android:textColor="@color/black"
 
