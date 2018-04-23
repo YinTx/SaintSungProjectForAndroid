@@ -18,7 +18,7 @@
             android:layout_width="@dimen/len_86"
             android:layout_height="@dimen/len_86"
             android:layout_gravity="center"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/ic_electric" />
     </LinearLayout>
 
     <View

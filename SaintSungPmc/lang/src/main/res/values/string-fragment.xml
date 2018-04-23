@@ -8,4 +8,8 @@
     <string name="electric_title">用电户管理</string>
     <string name="electric_my">我的用电户</string>
     <string name="electric_name">用电户名称</string>
+    <string name="lockseal_grant">已授权锁封</string>
+    <string name="lockseal_ungrant">未授权锁封</string>
+    <string name="lockseal_apply">申请管理</string>
+    <string name="lockseal_electric">用电户</string>
 </resources>

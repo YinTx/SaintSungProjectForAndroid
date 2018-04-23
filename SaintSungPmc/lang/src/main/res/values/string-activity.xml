@@ -17,4 +17,13 @@
     <string name="apply_recovery">回收</string>
     <string name="apply_replace">更换</string>
     <string name="apply_newdress">新装</string>
+    <string name="personal_title">个人中心</string>
+    <string name="personal_portrait">头像</string>
+    <string name="personal_message">消息</string>
+    <string name="personal_map">地图</string>
+    <string name="personal_factorymodel">出厂调试</string>
+    <string name="personal_accountsecurity">账号安全</string>
+    <string name="personal_about">关于我们</string>
+    <string name="personal_singout">退出登录</string>
+    
 </resources>

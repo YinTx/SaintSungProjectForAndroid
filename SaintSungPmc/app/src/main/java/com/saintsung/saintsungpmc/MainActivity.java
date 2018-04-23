@@ -20,7 +20,9 @@ import com.clj.fastble.scan.BleScanRuleConfig;
 import com.saintsung.common.app.Activity;
 import com.saintsung.common.widget.BottomNavigationViewHelper;
 import com.saintsung.saintsungpmc.activity.ApplyManageActivity;
+import com.saintsung.saintsungpmc.activity.PersonalActivity;
 import com.saintsung.saintsungpmc.fragment.MainHomeFragment;
+import com.saintsung.saintsungpmc.fragment.MainMapFragment;
 import com.saintsung.saintsungpmc.fragment.MainPersonalFragment;
 import com.saintsung.saintsungpmc.fragment.MainWorkOrderFragment;
 import com.saintsung.saintsungpmc.tools.NevHelper;
@@ -38,6 +40,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     @BindView(R.id.navigation)
     BottomNavigationView mNavigation;
     private NevHelper<Integer> mNevHelper;
+
     /**
      * 主界面监听返回按钮，在2秒内连续点击2次返回按钮则退出程序
      *
@@ -52,7 +55,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
-                startActivity(new Intent(MainActivity.this, ApplyManageActivity.class));
+                startActivity(new Intent(MainActivity.this, PersonalActivity.class));
 //                finish();
 //                System.exit(0);
             }
@@ -69,11 +72,11 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     @Override
     protected void initWidget() {
         super.initWidget();
-        Log.e("TAG",""+sp2px(this,18));
         BottomNavigationViewHelper.disableShiftMode(mNavigation);
         mNevHelper = new NevHelper(this, getSupportFragmentManager(), R.id.lay_container, this);
         mNevHelper.add(R.id.menu_main_home, new NevHelper.Tab<>(MainHomeFragment.class, R.string.menu_home))
                 .add(R.id.menu_main_control, new NevHelper.Tab<>(MainWorkOrderFragment.class, R.string.menu_control))
+                .add(R.id.menu_main_map, new NevHelper.Tab<>(MainMapFragment.class, R.string.menu_map))
                 .add(R.id.menu_main_personal, new NevHelper.Tab<>(MainPersonalFragment.class, R.string.menu_personal));
         mNavigation.setOnNavigationItemSelectedListener(this);
         BleManager.getInstance().init(getApplication());
@@ -97,15 +100,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
         }
 
     }
-    /**
-     * 将sp值转换为px值，保证文字大小不变
-     * @param spValue
-     * @return
-     */
-    public static int sp2px(Context context, float spValue) {
-        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * fontScale + 0.5f);
-    }
+
     @Override
     protected void initData() {
         super.initData();
