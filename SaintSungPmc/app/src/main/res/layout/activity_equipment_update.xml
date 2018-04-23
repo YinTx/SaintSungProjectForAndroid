@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context="com.saintsung.saintsungpmc.activity.EquipmentUpdateActivity">
+    <include layout="@layout/lay_top"/>
+    <ImageView
+        android:layout_marginTop="@dimen/len_72"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="@dimen/len_96"
+        android:layout_height="@dimen/len_140"
+        android:background="@drawable/ic_equipment"
+        />
+    <TextView
+        android:layout_marginTop="@dimen/len_24"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black_alpha_112"
+        android:text="当前设备号"
+        />
+    <Button
+        android:layout_marginTop="@dimen/len_52"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/len_40"
+        android:background="@color/grey_100"
+        android:textColor="@color/red_300"
+        android:text="@string/equipment_updata"
+        />
+</LinearLayout>

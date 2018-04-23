@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="workorder_title">我的工单</string>
+    <string name="workorder_complete">已完成工单</string>
+    <string name="workorder_uncomplete">未完成工单</string>
+    <string name="workorder_record">工单记录</string>
+    <string name="workorder_apply">工单申请</string>
+</resources>

@@ -12,24 +12,16 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.ViewTarget;
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleScanCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.scan.BleScanRuleConfig;
 import com.saintsung.common.app.Activity;
 import com.saintsung.common.widget.BottomNavigationViewHelper;
-import com.saintsung.common.widget.PortraitView;
-import com.saintsung.saintsungpmc.activity.AccountSecurityActivity;
-import com.saintsung.saintsungpmc.activity.UnauthorizedActivity;
-import com.saintsung.saintsungpmc.bluetoothdata.ReceiveBluetoothData;
-import com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData;
-import com.saintsung.saintsungpmc.fragment.MainControlFragment;
+import com.saintsung.saintsungpmc.activity.ApplyManageActivity;
 import com.saintsung.saintsungpmc.fragment.MainHomeFragment;
 import com.saintsung.saintsungpmc.fragment.MainPersonalFragment;
+import com.saintsung.saintsungpmc.fragment.MainWorkOrderFragment;
 import com.saintsung.saintsungpmc.tools.NevHelper;
 
 import java.util.List;
@@ -45,7 +37,6 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     @BindView(R.id.navigation)
     BottomNavigationView mNavigation;
     private NevHelper<Integer> mNevHelper;
-
     /**
      * 主界面监听返回按钮，在2秒内连续点击2次返回按钮则退出程序
      *
@@ -60,7 +51,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
-                startActivity(new Intent(MainActivity.this, AccountSecurityActivity.class));
+                startActivity(new Intent(MainActivity.this, ApplyManageActivity.class));
 //                finish();
 //                System.exit(0);
             }
@@ -80,7 +71,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
         BottomNavigationViewHelper.disableShiftMode(mNavigation);
         mNevHelper = new NevHelper(this, getSupportFragmentManager(), R.id.lay_container, this);
         mNevHelper.add(R.id.menu_main_home, new NevHelper.Tab<>(MainHomeFragment.class, R.string.menu_home))
-                .add(R.id.menu_main_control, new NevHelper.Tab<>(MainControlFragment.class, R.string.menu_control))
+                .add(R.id.menu_main_control, new NevHelper.Tab<>(MainWorkOrderFragment.class, R.string.menu_control))
                 .add(R.id.menu_main_personal, new NevHelper.Tab<>(MainPersonalFragment.class, R.string.menu_personal));
         mNavigation.setOnNavigationItemSelectedListener(this);
         BleManager.getInstance().init(getApplication());

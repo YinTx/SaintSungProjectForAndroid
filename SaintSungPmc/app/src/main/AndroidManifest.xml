@@ -70,11 +70,24 @@
         <activity android:name=".loading.WelcomeGuideActivity" />
         <!-- 未授权设备页面 -->
         <activity android:name=".activity.UnauthorizedActivity" />
+
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="6771be5712fff8dca0c7ae1e2b2a4565" />
-        <!--账号与安全页面-->
-        <activity android:name=".activity.AccountSecurityActivity"></activity>
+        <!-- 账号与安全页面 -->
+        <activity android:name=".activity.AccountSecurityActivity" />
+        <activity
+            android:name=".activity.WorkOrderApplyActivity"
+            android:label="@string/title_activity_work_order_apply"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.EquipmentUpdateActivity"
+            android:label="@string/title_activity_equipment_update"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.ApplyManageActivity"
+            android:label="@string/title_activity_apply_manage"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

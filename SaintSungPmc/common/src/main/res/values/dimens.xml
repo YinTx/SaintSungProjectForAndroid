@@ -19,4 +19,5 @@
     <dimen name="design_bottom_navigation_text_size">10sp</dimen>
     <dimen name="len_167">167dp</dimen>
     <color name="saint_gray">#f2f4f5</color>
+    <dimen name="len_140">140dp</dimen>
 </resources>
