@@ -55,4 +55,5 @@ dependencies {
     compile 'com.github.jwkj:LibZXing:v1.0.4'
     compile project(':common')
     compile project(':lang')
+    compile 'com.android.support.constraint:constraint-layout:+'
 }

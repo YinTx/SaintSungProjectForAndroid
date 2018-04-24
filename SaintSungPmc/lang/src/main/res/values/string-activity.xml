@@ -26,4 +26,8 @@
     <string name="personal_about">关于我们</string>
     <string name="personal_singout">退出登录</string>
     
+    <string name="electricdetails_title">用电户详情</string>
+    <string name="electricdetails_name">名称:</string>
+    <string name="electricdetails_type">类型</string>
+    
 </resources>

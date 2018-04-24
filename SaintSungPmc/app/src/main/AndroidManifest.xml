@@ -88,7 +88,8 @@
             android:name=".activity.ApplyManageActivity"
             android:label="@string/title_activity_apply_manage"
             android:theme="@style/AppTheme" />
-        <activity android:name=".activity.PersonalActivity"></activity>
+        <activity android:name=".activity.PersonalActivity" />
+        <activity android:name=".activity.ElectricDetailsActivity"></activity>
     </application>
 
 </manifest>
