@@ -56,4 +56,5 @@ dependencies {
     compile 'com.github.codbking:PickTime:v1.0.1'/////7
     compile project(':common')
     compile project(':lang')
+    compile 'com.android.support.constraint:constraint-layout:+'
 }
