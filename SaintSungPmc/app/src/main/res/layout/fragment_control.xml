@@ -15,6 +15,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/fragment_complete"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -27,6 +28,7 @@
                 android:src="@drawable/ic_fragment_complete" />
 
             <TextView
+                android:layout_marginTop="@dimen/len_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/workorder_complete"
@@ -34,6 +36,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/fragment_uncomplete"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -46,6 +49,7 @@
                 android:src="@drawable/ic_fragment_uncomplete" />
 
             <TextView
+                android:layout_marginTop="@dimen/len_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/workorder_uncomplete"
@@ -53,6 +57,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/fragment_record"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -65,6 +70,7 @@
                 android:src="@drawable/ic_fragment_record" />
 
             <TextView
+                android:layout_marginTop="@dimen/len_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/workorder_record"
@@ -72,6 +78,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/fragment_apply"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -84,6 +91,7 @@
                 android:src="@drawable/ic_fragment_apply" />
 
             <TextView
+                android:layout_marginTop="@dimen/len_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/workorder_apply"
@@ -104,7 +112,7 @@
             android:layout_marginLeft="@dimen/len_10"
             android:layout_marginTop="@dimen/len_14"
             android:text="@string/workorder_complete"
-            android:textColor="@color/black"
+            android:textAppearance="@style/thirdLevelBlackText"
 
             />
     </LinearLayout>

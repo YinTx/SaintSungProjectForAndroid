@@ -89,7 +89,12 @@
             android:label="@string/title_activity_apply_manage"
             android:theme="@style/AppTheme" />
         <activity android:name=".activity.PersonalActivity" />
-        <activity android:name=".activity.ElectricDetailsActivity"></activity>
+        <activity android:name=".activity.ElectricDetailsActivity" />
+        <activity android:name=".activity.FactoryCommissionActivity" />
+        <activity android:name=".activity.PersonalMapActivity" />
+        <activity android:name=".activity.ScrapApplyActivity" />
+        <activity android:name=".activity.ApplyRecoveryActivity" />
+        <activity android:name=".activity.ReplaceApplyActivity"></activity>
     </application>
 
 </manifest>

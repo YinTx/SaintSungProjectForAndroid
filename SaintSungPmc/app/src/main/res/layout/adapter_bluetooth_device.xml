@@ -4,40 +4,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp">
+        android:layout_height="@dimen/len_32"
+        android:gravity="center_vertical">
 
-        <ImageView
-            android:id="@+id/img_blue"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/ic_blue_remote" />
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/thirdLevelGreyText"
+            />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/img_blue"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txt_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/txt_mac"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:textSize="12sp" />
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/txt_mac"
+            android:layout_width="0dp"
+            android:layout_marginLeft="@dimen/len_16"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/thirdLevelGreyText"
+            />
 
         <LinearLayout
             android:id="@+id/layout_idle"
@@ -54,19 +41,12 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp" />
 
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginLeft="5dp"
-                android:src="@mipmap/ic_rssi" />
-
             <Button
                 android:id="@+id/btn_connect"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/len_16"
+                android:layout_height="@dimen/len_16"
                 android:layout_marginLeft="5dp"
-                android:text="@string/connect"
-                android:textSize="12sp" />
+                android:background="@drawable/ic_direction_right" />
 
         </LinearLayout>
 
@@ -83,7 +63,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/connected"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btn_disconnect"
@@ -91,20 +72,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="@string/disconnect"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btn_detail"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/len_16"
+                android:layout_height="@dimen/len_16"
                 android:layout_marginLeft="5dp"
-                android:text="@string/enter"
-                android:textSize="12sp" />
+                android:background="@drawable/ic_direction_right" />
 
+            <ImageView
+                android:id="@+id/img_blue"
+                android:layout_width="@dimen/len_16"
+                android:layout_height="@dimen/len_16"
+                android:src="@drawable/ic_direction_right"
+                android:visibility="gone" />
         </LinearLayout>
-
-
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </LinearLayout>

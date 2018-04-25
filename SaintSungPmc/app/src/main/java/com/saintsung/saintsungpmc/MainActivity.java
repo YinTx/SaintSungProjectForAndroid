@@ -1,16 +1,12 @@
 package com.saintsung.saintsungpmc;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.clj.fastble.BleManager;
@@ -19,8 +15,7 @@ import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.scan.BleScanRuleConfig;
 import com.saintsung.common.app.Activity;
 import com.saintsung.common.widget.BottomNavigationViewHelper;
-import com.saintsung.saintsungpmc.activity.ApplyManageActivity;
-import com.saintsung.saintsungpmc.activity.PersonalActivity;
+import com.saintsung.saintsungpmc.activity.PersonalMapActivity;
 import com.saintsung.saintsungpmc.fragment.MainHomeFragment;
 import com.saintsung.saintsungpmc.fragment.MainMapFragment;
 import com.saintsung.saintsungpmc.fragment.MainPersonalFragment;
@@ -55,7 +50,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
-                startActivity(new Intent(MainActivity.this, PersonalActivity.class));
+                startActivity(new Intent(MainActivity.this, PersonalMapActivity.class));
 //                finish();
 //                System.exit(0);
             }
@@ -79,26 +74,6 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 .add(R.id.menu_main_map, new NevHelper.Tab<>(MainMapFragment.class, R.string.menu_map))
                 .add(R.id.menu_main_personal, new NevHelper.Tab<>(MainPersonalFragment.class, R.string.menu_personal));
         mNavigation.setOnNavigationItemSelectedListener(this);
-        BleManager.getInstance().init(getApplication());
-        BleScanRuleConfig bleScanRuleConfig = new BleScanRuleConfig.Builder()
-                .setScanTimeOut(0)
-                .build();
-        BleManager.getInstance().initScanRule(bleScanRuleConfig);
-        //isSupportBle  判断是否该机型能否使用BLE
-        if (BleManager.getInstance().isSupportBle()) {
-            //判断蓝牙是否打开
-            if (BleManager.getInstance().isBlueEnable())
-                scanBlutooth();
-            else {
-                //打开蓝牙
-                BleManager.getInstance().enableBluetooth();
-                scanBlutooth();
-            }
-
-        } else {
-            Toast.makeText(this, getString(R.string.please_replacePhone), Toast.LENGTH_LONG).show();
-        }
-
     }
 
     @Override
@@ -129,35 +104,4 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     @Override
     public void onTabChanged(NevHelper.Tab<Integer> newTab, NevHelper.Tab<Integer> oldTab) {
     }
-
-    /**
-     * 搜索蓝牙
-     */
-
-    private void scanBlutooth() {
-        BleManager.getInstance().scan(new BleScanCallback() {
-            @Override
-            public void onScanStarted(boolean success) {
-//                mDeviceAdapter.clearScanDevice();
-//                mDeviceAdapter.notifyDataSetChanged();
-//                imgLoading.setVisibility(View.VISIBLE);
-//                imgLoading.startAnimation(operatingAnim);
-//                scanBLE.setText(getString(R.string.stop_scan));
-            }
-
-            @Override
-            public void onScanning(BleDevice result) {
-//                mDeviceAdapter.addDevice(result);
-//                mDeviceAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onScanFinished(List<BleDevice> scanResultList) {
-//                imgLoading.clearAnimation();
-//                imgLoading.setVisibility(View.INVISIBLE);
-//                scanBLE.setText(getString(R.string.start_scan));
-            }
-        });
-    }
-
 }

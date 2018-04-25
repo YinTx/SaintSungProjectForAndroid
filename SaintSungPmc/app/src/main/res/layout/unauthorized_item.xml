@@ -19,6 +19,6 @@
         android:layout_height="@dimen/len_16"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:src="@drawable/ic_edit"
+        android:src="@drawable/ic_electric_edit"
         />
 </LinearLayout>

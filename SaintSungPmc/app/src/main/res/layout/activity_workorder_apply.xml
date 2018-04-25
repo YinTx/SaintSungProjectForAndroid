@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/workorder_electric_number"
-            android:textColor="@color/black_alpha_112" />
+            android:textAppearance="@style/thirdLevelBlackText" />
 
         <EditText
             android:layout_width="0dp"
@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/start_time"
-            android:textColor="@color/black_alpha_112" />
+            android:textAppearance="@style/thirdLevelBlackText" />
 
         <EditText
             android:layout_width="0dp"
@@ -96,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/end_time"
-            android:textColor="@color/black_alpha_112" />
+            android:textAppearance="@style/thirdLevelBlackText" />
 
         <EditText
             android:layout_width="0dp"
@@ -118,5 +118,5 @@
         android:layout_height="@dimen/len_36"
         android:background="@color/white"
         android:text="@string/submit_apply"
-        android:textColor="@color/black_alpha_112" />
+        android:textAppearance="@style/thirdLevelBlackText" />
 </LinearLayout>

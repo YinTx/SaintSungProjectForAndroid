@@ -38,8 +38,7 @@
             android:layout_height="@dimen/len_36"
             android:gravity="center"
             android:text="@string/electric_my"
-            android:textColor="@color/black_alpha_112"
-            android:textSize="@dimen/font_18" />
+            android:textAppearance="@style/fourthLevelBlackText" />
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -50,16 +49,21 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="@dimen/len_10"
+                android:orientation="vertical"
                 android:background="@drawable/fragment_line">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/len_24"
                     android:gravity="center"
                     android:text="@string/electric_name"
-                    android:textColor="@color/black_alpha_112"
+                    android:layout_marginLeft="@dimen/len_10"
+                    android:textAppearance="@style/secondLevelBlackText"
                     />
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/saint_gray"
+                    />
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>

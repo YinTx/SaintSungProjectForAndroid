@@ -19,9 +19,13 @@
     <dimen name="design_bottom_navigation_text_size">10sp</dimen>
     <dimen name="len_167">167dp</dimen>
     <color name="saint_gray">#f2f4f5</color>
+    <color name="saint_red">#f53838</color>
+    <color name="second_level_black">#2b2f33</color>
+    <color name="text_grey">#484E54</color>
     <dimen name="len_140">140dp</dimen>
     <dimen name="len_204">204dp</dimen>
     <dimen name="len_104">104dp</dimen>
+    <dimen name="len_242">242dp</dimen>
     <dimen name="len_86">86dp</dimen>
     <dimen name="font_48">48sp</dimen>
     <dimen name="font_36">36sp</dimen>

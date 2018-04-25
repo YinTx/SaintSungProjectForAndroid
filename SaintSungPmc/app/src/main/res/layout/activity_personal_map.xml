@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.saintsung.saintsungpmc.activity.PersonalMapActivity">
+
+    <include layout="@layout/lay_top" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null">
+
+        <com.amap.api.maps.MapView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></com.amap.api.maps.MapView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/len_28"
+            android:layout_marginLeft="@dimen/len_16"
+            android:layout_marginRight="@dimen/len_16"
+            android:layout_marginTop="@dimen/len_12"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:cursorVisible="false"
+            android:background="@drawable/shape_corner_white">
+
+            <ImageView
+                android:layout_width="@dimen/len_20"
+                android:layout_height="@dimen/len_20"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/len_16"
+                android:paddingTop="@dimen/len_2"
+                android:paddingBottom="@dimen/len_2"
+                android:src="@drawable/ic_search" />
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/len_10"
+                android:background="@null"
+                android:textColorHint="@color/black_alpha_112"
+                android:hint="@string/personal_about"
+                android:textColor="@color/second_level_black"
+                android:textSize="@dimen/font_12"
+                />
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

@@ -26,6 +26,9 @@ import com.clj.fastble.scan.BleScanRuleConfig;
 import com.jwkj.libzxing.activity.CaptureActivity;
 import com.saintsung.saintsungpmc.R;
 
+import com.saintsung.saintsungpmc.activity.ApplyManageActivity;
+import com.saintsung.saintsungpmc.activity.UnauthorizedActivity;
+import com.saintsung.saintsungpmc.activity.WorkOrderApplyActivity;
 import com.saintsung.saintsungpmc.adapter.DeviceAdapter;
 import com.saintsung.saintsungpmc.bluetoothdata.MyBluetoothManagements;
 import com.saintsung.saintsungpmc.observice.ObserverManager;
@@ -60,6 +63,7 @@ public class MainWorkOrderFragment extends com.saintsung.common.app.Fragment imp
     ImageView imgLoading;
     @BindView(R.id.txt_title)
     TextView txtTitle;
+
     @Override
     protected int getContentLayoutId() {
         return R.layout.fragment_control;
@@ -245,7 +249,7 @@ public class MainWorkOrderFragment extends com.saintsung.common.app.Fragment imp
 
     @OnClick(R.id.set_parameter)
     void setParameter() {
-        myBluetoothManagement.setParameter("20181014135615", "E3C565A5","TensorFlow");
+        myBluetoothManagement.setParameter("20181014135615", "E3C565A5", "TensorFlow");
     }
 
     @OnClick(R.id.down_workorder)
@@ -253,7 +257,7 @@ public class MainWorkOrderFragment extends com.saintsung.common.app.Fragment imp
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true){
+                while (true) {
                     try {
                         Thread.sleep(50);
                     } catch (InterruptedException e) {
@@ -263,7 +267,7 @@ public class MainWorkOrderFragment extends com.saintsung.common.app.Fragment imp
                 }
             }
         }).start();
-       }
+    }
 
     @OnClick(R.id.clean)
     void clean() {
@@ -279,11 +283,33 @@ public class MainWorkOrderFragment extends com.saintsung.common.app.Fragment imp
     void connect() {
         myBluetoothManagement.connectBluetooth();
     }
+
     @OnClick(R.id.erweima)
-    void saomiao(){
-      Intent intent = new Intent(getActivity(), CaptureActivity.class);
+    void saomiao() {
+        Intent intent = new Intent(getActivity(), CaptureActivity.class);
         startActivityForResult(intent, 1);
     }
+
+    @OnClick(R.id.fragment_complete)
+    void complete() {
+        startActivity(new Intent(getActivity(), UnauthorizedActivity.class));
+    }
+
+    @OnClick(R.id.fragment_uncomplete)
+    void unComplete() {
+        startActivity(new Intent(getActivity(), UnauthorizedActivity.class));
+    }
+
+    @OnClick(R.id.fragment_record)
+    void record() {
+        startActivity(new Intent(getActivity(), UnauthorizedActivity.class));
+    }
+
+    @OnClick(R.id.fragment_apply)
+    void apply() {
+        startActivity(new Intent(getActivity(), WorkOrderApplyActivity.class));
+    }
+
     /**
      * 扫描到蓝牙刷新ListView
      */

@@ -23,11 +23,29 @@
     <string name="personal_map">地图</string>
     <string name="personal_factorymodel">出厂调试</string>
     <string name="personal_accountsecurity">账号安全</string>
+    <string name="personal_clean">清除缓存</string>
     <string name="personal_about">关于我们</string>
     <string name="personal_singout">退出登录</string>
-    
+
     <string name="electricdetails_title">用电户详情</string>
     <string name="electricdetails_name">名称:</string>
-    <string name="electricdetails_type">类型</string>
-    
+    <string name="electricdetails_type">类型:</string>
+    <string name="electricdetails_number">编号:</string>
+    <string name="electricdetails_phone">电话:</string>
+    <string name="electricdetails_address">地址:</string>
+    <string name="electricdetails_meter">表计号:</string>
+    <string name="electricdetails_state">锁封状态显示:</string>
+    <string name="factory_commission_title">出厂调试</string>
+    <string name="factory_commission_default">恢复出厂默认</string>
+    <string name="factory_commission_test">测试</string>
+    <string name="personal_map_title">地图工具</string>
+    <string name="scrap_apply_title">报废申请</string>
+    <string name="scrap_apply_type">锁封类型:</string>
+    <string name="scrap_apply_meter">表记号:</string>
+    <string name="recovery_apply_title">申请回收</string>
+    <string name="replace_apply_title">申请更换</string>
+    <string name="replace_apply_primary_lock_type">原锁封类型:</string>
+    <string name="replace_apply_primary_pattern">原锁封出来方式:</string>
+    <string name="replace_apply_newdress">新装编号:</string>
+    <string name="replace_apply_electric_number">用电户编号:</string>
 </resources>

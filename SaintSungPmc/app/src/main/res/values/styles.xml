@@ -37,4 +37,40 @@
         <item name="android:textSize">?attr/toolbarTitleSize</item>
         <item name="android:textColor">?attr/toolbarTitleColor</item>
     </style>
+
+
+
+    <style name="fifthLevelGreyText">
+        <item name="android:textColor">@color/text_grey</item>
+        <item name="android:textSize">@dimen/font_18</item>
+    </style>
+    <style name="fourthLevelGreyText">
+        <item name="android:textColor">@color/text_grey</item>
+        <item name="android:textSize">@dimen/font_16</item>
+    </style>
+    <style name="thirdLevelGreyText">
+        <item name="android:textColor">@color/text_grey</item>
+        <item name="android:textSize">@dimen/font_14</item>
+    </style>
+    <style name="secondLevelGreykText">
+        <item name="android:textColor">@color/text_grey</item>
+        <item name="android:textSize">@dimen/font_12</item>
+    </style>
+
+    <style name="fifthLevelBlackText">
+        <item name="android:textColor">@color/second_level_black</item>
+        <item name="android:textSize">@dimen/font_18</item>
+    </style>
+    <style name="fourthLevelBlackText">
+        <item name="android:textColor">@color/second_level_black</item>
+        <item name="android:textSize">@dimen/font_16</item>
+    </style>
+    <style name="thirdLevelBlackText">
+        <item name="android:textColor">@color/second_level_black</item>
+        <item name="android:textSize">@dimen/font_14</item>
+    </style>
+    <style name="secondLevelBlackText">
+        <item name="android:textColor">@color/second_level_black</item>
+        <item name="android:textSize">@dimen/font_12</item>
+    </style>
 </resources>

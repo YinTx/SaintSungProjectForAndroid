@@ -14,6 +14,8 @@
         android:layout_marginLeft="@dimen/len_16"
         android:layout_marginRight="@dimen/len_16"
         android:layout_marginTop="@dimen/len_12"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:background="@drawable/shape_corner"
         android:orientation="horizontal">
 

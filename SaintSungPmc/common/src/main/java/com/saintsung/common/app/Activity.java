@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  * @author qiujuer
  */
 
-public abstract class Activity extends AppCompatActivity {
+public abstract class Activity extends CheckPermissionsActivity {
 
 //    protected PlaceHolderView mPlaceHolderView;
 

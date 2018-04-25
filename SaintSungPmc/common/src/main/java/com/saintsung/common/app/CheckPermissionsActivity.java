@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.saintsung.saintsungpmc.map;
+package com.saintsung.common.app;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 
-import com.saintsung.saintsungpmc.R;
+import com.saintsung.common.R;
+
 
 /**
  * 继承了Activity，实现Android6.0的运行时权限检测

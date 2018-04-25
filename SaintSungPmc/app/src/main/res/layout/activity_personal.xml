@@ -16,19 +16,23 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/len_72"
+        android:layout_marginLeft="@dimen/len_14"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/personal_portrait" />
+            android:layout_weight="1"
+            android:text="@string/personal_portrait"
+            android:textAppearance="@style/thirdLevelBlackText" />
 
         <ImageView
-            android:layout_width="@dimen/len_32"
-            android:layout_height="@dimen/len_32" />
+            android:layout_width="@dimen/len_60"
+            android:layout_height="@dimen/len_60"
+            android:layout_marginRight="@dimen/len_36" />
     </LinearLayout>
 
     <View
@@ -38,20 +42,25 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/len_40"
         android:layout_marginTop="@dimen/len_10"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/personal_message" />
+            android:layout_marginLeft="@dimen/len_14"
+            android:layout_weight="1"
+            android:text="@string/personal_message"
+            android:textAppearance="@style/thirdLevelBlackText" />
 
         <ImageView
-            android:layout_width="@dimen/len_32"
-            android:layout_height="@dimen/len_32" />
+            android:layout_width="@dimen/len_16"
+            android:layout_height="@dimen/len_16"
+            android:layout_marginRight="@dimen/len_36"
+            android:src="@drawable/ic_direction_right" />
     </LinearLayout>
 
     <View
@@ -61,19 +70,24 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/len_40"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/personal_map" />
+            android:layout_marginLeft="@dimen/len_14"
+            android:layout_weight="1"
+            android:text="@string/personal_map"
+            android:textAppearance="@style/thirdLevelBlackText" />
 
         <ImageView
-            android:layout_width="@dimen/len_32"
-            android:layout_height="@dimen/len_32" />
+            android:layout_width="@dimen/len_16"
+            android:layout_height="@dimen/len_16"
+            android:layout_marginRight="@dimen/len_36"
+            android:src="@drawable/ic_direction_right" />
     </LinearLayout>
 
     <View
@@ -83,20 +97,53 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/len_40"
         android:layout_marginTop="@dimen/len_10"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/personal_factorymodel" />
+            android:layout_marginLeft="@dimen/len_14"
+            android:layout_weight="1"
+            android:text="@string/personal_factorymodel"
+            android:textAppearance="@style/thirdLevelBlackText" />
 
         <ImageView
-            android:layout_width="@dimen/len_32"
-            android:layout_height="@dimen/len_32" />
+            android:layout_width="@dimen/len_16"
+            android:layout_height="@dimen/len_16"
+            android:layout_marginRight="@dimen/len_36"
+            android:src="@drawable/ic_direction_right" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/saint_gray" />
+
+    <LinearLayout
+        android:id="@+id/personal_accountsecurity"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/len_40"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/len_14"
+            android:layout_weight="1"
+            android:text="@string/personal_accountsecurity"
+            android:textAppearance="@style/thirdLevelBlackText" />
+
+        <ImageView
+            android:layout_width="@dimen/len_16"
+            android:layout_height="@dimen/len_16"
+            android:layout_marginRight="@dimen/len_36"
+            android:src="@drawable/ic_direction_right" />
     </LinearLayout>
 
     <View
@@ -106,19 +153,24 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/len_40"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/personal_accountsecurity" />
+            android:layout_marginLeft="@dimen/len_14"
+            android:layout_weight="1"
+            android:text="@string/personal_clean"
+            android:textAppearance="@style/thirdLevelBlackText" />
 
         <ImageView
-            android:layout_width="@dimen/len_32"
-            android:layout_height="@dimen/len_32" />
+            android:layout_width="@dimen/len_16"
+            android:layout_height="@dimen/len_16"
+            android:layout_marginRight="@dimen/len_36"
+            android:src="@drawable/ic_direction_right" />
     </LinearLayout>
 
     <View
@@ -128,41 +180,24 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/len_40"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/personal_about" />
+            android:layout_marginLeft="@dimen/len_14"
+            android:layout_weight="1"
+            android:text="@string/personal_about"
+            android:textAppearance="@style/thirdLevelBlackText" />
 
         <ImageView
-            android:layout_width="@dimen/len_32"
-            android:layout_height="@dimen/len_32" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/saint_gray" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/personal_portrait" />
-
-        <ImageView
-            android:layout_width="@dimen/len_32"
-            android:layout_height="@dimen/len_32" />
+            android:layout_width="@dimen/len_16"
+            android:layout_height="@dimen/len_16"
+            android:layout_marginRight="@dimen/len_36"
+            android:src="@drawable/ic_direction_right" />
     </LinearLayout>
 
     <View
@@ -172,11 +207,11 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/len_40"
         android:background="@color/white"
         android:gravity="center"
         android:text="@string/personal_singout"
-        android:textColor="@color/red_200" />
+        android:textColor="@color/saint_red" />
 
     <View
         android:layout_width="match_parent"

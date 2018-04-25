@@ -37,7 +37,6 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData {
         receiveBluetoothData = new ReceiveBluetoothData();
         receiveBluetoothData.setCallResult(this);
     }
-
     /**
      * 每次连接蓝牙自动发送该连接方法验证是否能通讯
      */

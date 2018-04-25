@@ -3,14 +3,9 @@ package com.saintsung.saintsungpmc.configure;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 
-import com.saintsung.saintsungpmc.R;
-import com.saintsung.saintsungpmc.map.CheckPermissionsActivity;
-import com.saintsung.saintsungpmc.tools.DataProcess;
-import com.saintsung.saintsungpmc.tools.ToastUtil;
+import com.saintsung.common.app.CheckPermissionsActivity;
 
 /**
  * Created by XLzY on 2017/7/28.

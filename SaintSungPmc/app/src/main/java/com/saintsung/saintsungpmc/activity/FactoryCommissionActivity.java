@@ -1,35 +1,33 @@
 package com.saintsung.saintsungpmc.activity;
 
 
-import android.content.Intent;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.saintsung.common.app.Activity;
 import com.saintsung.saintsungpmc.R;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
-public class PersonalActivity extends Activity {
-    @BindView(R.id.img_back)
-    ImageView imgBack;
+public class FactoryCommissionActivity extends Activity {
     @BindView(R.id.txt_title)
     TextView txtTitle;
+    @BindView(R.id.img_back)
+    ImageView imgBack;
+
     @Override
     protected int getContentLayoutId() {
-        return R.layout.activity_personal;
+        return R.layout.activity_factory_commission;
     }
 
     @Override
     protected void initData() {
         super.initData();
-        txtTitle.setText(R.string.personal_title);
+        txtTitle.setText(R.string.personal_map_title);
         imgBack.setVisibility(View.VISIBLE);
     }
-    @OnClick(R.id.personal_accountsecurity)
-    void accountSecurity(){
-        startActivity(new Intent(PersonalActivity.this,AccountSecurityActivity.class));
-    }
+
+
+
 }

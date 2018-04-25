@@ -53,7 +53,7 @@ dependencies {
     compile 'com.baoyz.pullrefreshlayout:library:1.2.0'
     //     二维码扫描
     compile 'com.github.jwkj:LibZXing:v1.0.4'
+    compile 'com.github.codbking:PickTime:v1.0.1'/////7
     compile project(':common')
     compile project(':lang')
-    compile 'com.android.support.constraint:constraint-layout:+'
 }
