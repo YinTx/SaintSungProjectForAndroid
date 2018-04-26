@@ -279,10 +279,15 @@ public class MainWorkOrderFragment extends com.saintsung.common.app.Fragment imp
         myBluetoothManagement.upload();
     }
 
+
+
+
     @OnClick(R.id.ble_connect)
     void connect() {
         myBluetoothManagement.connectBluetooth();
     }
+
+
 
     @OnClick(R.id.erweima)
     void saomiao() {

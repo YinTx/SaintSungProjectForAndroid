@@ -13,12 +13,13 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.saintsung.common.app.Activity;
 import com.saintsung.saintsungpmc.MainActivity;
+import com.saintsung.saintsungpmc.MyApplication;
 import com.saintsung.saintsungpmc.R;
 import com.saintsung.saintsungpmc.bean.LoginBean;
 import com.saintsung.saintsungpmc.bean.LoginDataBean;
 import com.saintsung.saintsungpmc.configure.Constant;
 import com.saintsung.saintsungpmc.loading.SharedPreferencesUtil;
-import com.saintsung.saintsungpmc.text.RetrofitService;
+import com.saintsung.saintsungpmc.networkconnections.RetrofitRxAndroidHttp;
 import com.saintsung.saintsungpmc.tools.DiaLog;
 import com.saintsung.saintsungpmc.tools.MD5;
 
@@ -45,7 +46,7 @@ public class LoginActivity extends Activity {
      * 判断是否存在端口号
      */
     private boolean isPort() {
-        String port = SharedPreferencesUtil.getSharedPreferences(LoginActivity.this, "Port", "");
+        String port = SharedPreferencesUtil.getSharedPreferences(LoginActivity.this, "port", "");
         if (port.equals("")) {
             getDiaLog();
             return false;
@@ -90,11 +91,11 @@ public class LoginActivity extends Activity {
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getResources().getString(R.string.Login_in));
         progressDialog.setCanceledOnTouchOutside(false);
-//        progressDialog.show();
-//
-//        String username = userNameText.getText().toString();
-//        String password = passWordText.getText().toString();
-//        senDataService(username,password);
+        progressDialog.show();
+
+        String username = userNameText.getText().toString();
+        String password = passWordText.getText().toString();
+        senDataService(username,password);
 
 
 //        final String parameter = Constant.loginServiceLable + DataProcess.ComplementSpace(username, 10) + DataProcess.ComplementSpace(password, 10) + baseApplication.getIEME();
@@ -137,11 +138,11 @@ public class LoginActivity extends Activity {
         loginDataBean.setUserPwd(MD5.toMD5(password));
         loginBean.setOptCode("OptUserLogin");
         loginBean.setData(loginDataBean);
-
+        MyApplication.setUrl(Constant.addressHttp + SharedPreferencesUtil.getSharedPreferences(this, "port", "") + Constant.serviceTail);
         sing = MD5.toMD5(loginBean.getOptCode() + gson.toJson(loginBean.getData()));
         loginBean.setSign(sing);
-        RetrofitService retrofitService = new RetrofitService();
-        retrofitService.sendRequest(gson.toJson(loginBean), Constant.LoginService, action1);
+        RetrofitRxAndroidHttp retrofitService = new RetrofitRxAndroidHttp();
+        retrofitService.serviceConnect(MyApplication.getUrl(),gson.toJson(loginBean), action1);
     }
 
     private Action1<ResponseBody> action1 = new Action1<ResponseBody>() {
@@ -198,5 +199,9 @@ public class LoginActivity extends Activity {
     @OnClick(R.id.btnLogin)
     void loginLoading(){
         login();
+    }
+    @OnClick(R.id.setPort)
+    void setPort(){
+        getDiaLog();
     }
 }

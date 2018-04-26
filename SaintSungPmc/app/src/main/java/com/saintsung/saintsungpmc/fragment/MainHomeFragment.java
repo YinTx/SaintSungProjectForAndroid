@@ -26,10 +26,7 @@ import com.saintsung.saintsungpmc.activity.PersonalActivity;
 import com.saintsung.saintsungpmc.adapter.DeviceAdapter;
 import com.saintsung.saintsungpmc.bluetoothdata.MyBluetoothManagements;
 import com.saintsung.saintsungpmc.observice.ObserverManager;
-
 import java.util.List;
-import java.util.logging.Handler;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 

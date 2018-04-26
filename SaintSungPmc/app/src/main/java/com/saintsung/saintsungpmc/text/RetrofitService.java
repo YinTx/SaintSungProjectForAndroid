@@ -4,6 +4,7 @@ package com.saintsung.saintsungpmc.text;
 import android.util.Log;
 
 
+import com.saintsung.saintsungpmc.MyApplication;
 import com.saintsung.saintsungpmc.configure.BaseApplication;
 
 import java.io.IOException;
@@ -38,7 +39,7 @@ public class RetrofitService {
         Retrofit retrofit = new Retrofit
                 .Builder()
                 .baseUrl(url)
-                .client(BaseApplication.getokHttpClient())
+                .client(MyApplication.getokHttpClient())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create()) // 使用RxJava作为回调适配器
                 .addConverterFactory(GsonConverterFactory.create()) // 使用Gson作为数据转换器
                 .build();

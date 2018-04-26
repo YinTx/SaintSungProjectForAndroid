@@ -23,6 +23,7 @@ public class Constant {
 //    public static String uuidService="0000ffe0-0000-1000-8000-00805f9b34fb";
 //    public static String uuidWrite="0000ffe1-0000-1000-8000-00805f9b34fb";
 //    public static String uuidNotify="0000ffe1-0000-1000-8000-00805f9b34fb";
-    public static String ip = "http://gc.ditu.aliyun.com/";
     public static String LoginService = "http://192.169.3.39/modifysaintsung/api/";
+    public static final String serviceTail="/api/";
+    public static final String addressHttp="http://210.22.164.146:";
 }
