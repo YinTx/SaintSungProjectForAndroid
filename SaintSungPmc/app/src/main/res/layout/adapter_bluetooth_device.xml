@@ -36,6 +36,7 @@
             android:visibility="gone">
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/txt_rssi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,7 +80,7 @@
                 android:id="@+id/btn_detail"
                 android:layout_width="@dimen/len_16"
                 android:layout_height="@dimen/len_16"
-                android:layout_marginLeft="5dp"
+                android:layout_marginRight="@dimen/len_6"
                 android:background="@drawable/ic_direction_right" />
 
             <ImageView

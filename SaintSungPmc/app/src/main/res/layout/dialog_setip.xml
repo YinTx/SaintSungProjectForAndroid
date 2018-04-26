@@ -11,7 +11,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:text="@string/login_prompt"
-        android:textColor="#999999"
+        android:textColor="@color/saint_red"
         android:textSize="18sp" />
 
     <LinearLayout
@@ -20,19 +20,26 @@
 
         >
 
-        <EditText
-            android:id="@+id/port"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:inputType="number"
-            android:hint="@string/login_setport"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:textColor="@android:color/darker_gray"
-            android:textColorHint="@android:color/darker_gray"
-            android:textSize="16sp" />
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
+
+            <EditText
+                android:id="@+id/port"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:hint="@string/login_setport"
+                android:inputType="number"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textColor="@android:color/darker_gray"
+                android:textColorHint="@android:color/darker_gray"
+                android:textSize="16sp" />
+        </android.support.design.widget.TextInputLayout>
 
 
     </LinearLayout>
@@ -49,8 +56,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:text="@string/login_confirm"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="16sp" />
+            android:textAppearance="@style/fourthLevelBlackText" />
 
         <Button
             android:id="@+id/ip_cancel"
@@ -58,7 +64,6 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:text="@string/login_cancel"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="16sp" />
+            android:textAppearance="@style/fourthLevelBlackText" />
     </LinearLayout>
 </LinearLayout>

@@ -28,6 +28,7 @@ import com.saintsung.saintsungpmc.bluetoothdata.MyBluetoothManagements;
 import com.saintsung.saintsungpmc.observice.ObserverManager;
 
 import java.util.List;
+import java.util.logging.Handler;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,6 +50,7 @@ public class MainHomeFragment extends Fragment {
     TextView macAddress;
     @BindView(R.id.fragment_signal)
     TextView signal;
+
 
     @Override
     protected int getContentLayoutId() {
@@ -77,6 +79,10 @@ public class MainHomeFragment extends Fragment {
                 .setScanTimeOut(0)
                 .build();
         BleManager.getInstance().initScanRule(bleScanRuleConfig);
+        openBluetooth();
+    }
+
+    private void openBluetooth(){
         //isSupportBle  判断是否该机型能否使用BLE
         if (BleManager.getInstance().isSupportBle()) {
             //判断蓝牙是否打开
@@ -85,14 +91,12 @@ public class MainHomeFragment extends Fragment {
             else {
                 //打开蓝牙
                 BleManager.getInstance().enableBluetooth();
-                scanBlutooth();
             }
 
         } else {
             Toast.makeText(getActivity(), getString(R.string.please_replacePhone), Toast.LENGTH_LONG).show();
         }
     }
-
     /**
      * 搜索蓝牙
      */
@@ -165,16 +169,15 @@ public class MainHomeFragment extends Fragment {
                 //连接成功后开始监听返回的数据
                 myBluetoothManagement.notifyBle(bleDevice);
                 macAddress.setText(bleDevice.getMac());
-                signal.setText(bleDevice.getRssi());
+                int s=bleDevice.getRssi();
+                signal.setText(String.valueOf(s));
             }
 
             @Override
             public void onDisConnected(boolean isActiveDisConnected, BleDevice bleDevice, BluetoothGatt gatt, int status) {
                 progressDialog.dismiss();
-
                 mDeviceAdapter.removeDevice(bleDevice);
                 mDeviceAdapter.notifyDataSetChanged();
-
                 if (!isActiveDisConnected) {
                     Toast.makeText(getActivity(), getString(R.string.disconnected), Toast.LENGTH_LONG).show();
                     ObserverManager.getInstance().notifyObserver(bleDevice);

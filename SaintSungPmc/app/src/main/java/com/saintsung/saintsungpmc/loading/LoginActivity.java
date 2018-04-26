@@ -17,18 +17,13 @@ import com.saintsung.saintsungpmc.MainActivity;
 import com.saintsung.saintsungpmc.R;
 import com.saintsung.saintsungpmc.bean.LoginBean;
 import com.saintsung.saintsungpmc.bean.LoginDataBean;
-import com.saintsung.saintsungpmc.configure.BaseActivity;
 import com.saintsung.saintsungpmc.configure.Constant;
-import com.saintsung.saintsungpmc.myinterface.IGetResultInService;
-import com.saintsung.saintsungpmc.networkconnections.AsyncTaskConnetion;
 import com.saintsung.saintsungpmc.text.RetrofitService;
-import com.saintsung.saintsungpmc.tools.DataProcess;
 import com.saintsung.saintsungpmc.tools.MD5;
 
 import java.io.IOException;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import okhttp3.ResponseBody;
 import rx.functions.Action1;
 
@@ -44,7 +39,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     Button btnLogin;
     @BindView(R.id.portSet)
     TextView portSetText;
-//    @Override
+
+    //    @Override
 //    public void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_login);
@@ -55,8 +51,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     protected int getContentLayoutId() {
         return R.layout.activity_login;
     }
+
     @Override
-    protected void initWidget(){
+    protected void initWidget() {
         super.initWidget();
         btnLogin.setOnClickListener(this);
         portSetText.setOnClickListener(this);
@@ -64,8 +61,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 //        TelephonyManager tm = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
 //        baseApplication.setIEME(DataProcess.ComplementZeor(tm.getDeviceId(),18));
     }
+
     @Override
-    protected void initData(){
+    protected void initData() {
 
     }
 //    private void initView() {
@@ -80,7 +78,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
      * 判断是否存在端口号
      */
     private boolean isPort() {
-        String port=SharedPreferencesUtil.getSharedPreferences(LoginActivity.this,"Port","");
+        String port = SharedPreferencesUtil.getSharedPreferences(LoginActivity.this, "Port", "");
         if (port.equals("")) {
 //            getDiaLog();
             return false;
@@ -137,7 +135,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 //
 //
 ////        final String parameter = Constant.loginServiceLable + DataProcess.ComplementSpace(username, 10) + DataProcess.ComplementSpace(password, 10) + baseApplication.getIEME();
-////        AsyncTaskConnetion asyncTaskConnetion = new AsyncTaskConnetion();
+////
 ////        asyncTaskConnetion.execute(baseApplication.getPort(), DataProcess.createRequestPacket(parameter));
 ////        asyncTaskConnetion.getResult(new IGetResultInService() {
 ////            @Override
@@ -166,29 +164,29 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 ////        });
 //
 //    }
-
     private void senDataService(String username, String password) {
-        Gson gson=new Gson();
-        LoginBean loginBean=new LoginBean();
-        LoginDataBean loginDataBean=new LoginDataBean();
-        String sing="";
+        Gson gson = new Gson();
+        LoginBean loginBean = new LoginBean();
+        LoginDataBean loginDataBean = new LoginDataBean();
+        String sing = "";
         loginDataBean.setUserNo(username);
         loginDataBean.setUserPwd(MD5.toMD5(password));
         loginBean.setOptCode("OptUserLogin");
         loginBean.setData(loginDataBean);
 
-        sing=MD5.toMD5(loginBean.getOptCode()+gson.toJson(loginBean.getData()));
+        sing = MD5.toMD5(loginBean.getOptCode() + gson.toJson(loginBean.getData()));
         loginBean.setSign(sing);
-        RetrofitService retrofitService=new RetrofitService();
-        retrofitService.sendRequest(gson.toJson(loginBean),Constant.LoginService,action1);
+        RetrofitService retrofitService = new RetrofitService();
+        retrofitService.sendRequest(gson.toJson(loginBean), Constant.LoginService, action1);
     }
-    private Action1<ResponseBody> action1=new Action1<ResponseBody>() {
+
+    private Action1<ResponseBody> action1 = new Action1<ResponseBody>() {
 
         @Override
         public void call(ResponseBody responseBody) {
             try {
 //                startActivity(new Intent(LoginActivity.this,MainActivity.class));
-                Log.e("TAG",""+responseBody.string());
+                Log.e("TAG", "" + responseBody.string());
             } catch (IOException e) {
                 e.printStackTrace();
             }

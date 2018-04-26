@@ -3,6 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fitsSystemWindows="false"
+    android:background="@color/IconSelected"
     android:orientation="vertical">
 
     <LinearLayout
@@ -18,7 +19,7 @@
             android:layout_height="72dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"
-            android:src="@drawable/logo" />
+            android:src="@mipmap/ic_login_logo" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -56,6 +57,7 @@
             android:layout_marginBottom="24dp"
             android:layout_marginTop="24dp"
             android:padding="12dp"
+            android:background="@color/IconSelected"
             android:text="@string/Login" />
 
         <TextView

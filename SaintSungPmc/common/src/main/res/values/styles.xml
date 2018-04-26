@@ -34,4 +34,9 @@
         <item name="toolbarMenuIconColor">@color/white_alpha_224</item>
     </style>
     <style name="AppTheme.Base" parent="Theme.private" />
+    <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:background">#00796B</item>
+    </style>
 </resources>
