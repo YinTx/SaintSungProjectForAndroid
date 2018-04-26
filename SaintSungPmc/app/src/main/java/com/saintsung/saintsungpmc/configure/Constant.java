@@ -26,4 +26,5 @@ public class Constant {
     public static String LoginService = "http://192.169.3.39/modifysaintsung/api/";
     public static final String serviceTail="/api/";
     public static final String addressHttp="http://210.22.164.146:";
+    public static final String addressHttps="";
 }
