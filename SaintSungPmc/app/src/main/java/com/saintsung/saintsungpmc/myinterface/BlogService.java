@@ -20,7 +20,7 @@ import rx.Observable;
 
 public interface BlogService {
     @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
-    @POST("httpInterface.php")
+    @POST("api")
     Observable<ResponseBody> getCall(@Body RequestBody route);
 
     @Multipart

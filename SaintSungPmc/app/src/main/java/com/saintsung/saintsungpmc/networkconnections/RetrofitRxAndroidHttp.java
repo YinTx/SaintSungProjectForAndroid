@@ -3,6 +3,8 @@ package com.saintsung.saintsungpmc.networkconnections;
 import android.util.Log;
 
 
+import com.saintsung.saintsungpmc.MyApplication;
+import com.saintsung.saintsungpmc.configure.Constant;
 import com.saintsung.saintsungpmc.myinterface.BlogService;
 
 import java.io.File;
@@ -36,7 +38,8 @@ public class RetrofitRxAndroidHttp {
 
     public void serviceConnect(String url, String result, Action1<ResponseBody> action1) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
+                .baseUrl(Constant.addressHttps)
+                .client(MyApplication.getokHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();

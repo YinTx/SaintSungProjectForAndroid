@@ -1,6 +1,6 @@
 package com.saintsung.saintsungpmc;
 
-import android.content.Intent;
+
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.view.KeyEvent;
@@ -8,22 +8,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
-
-import com.clj.fastble.BleManager;
-import com.clj.fastble.callback.BleScanCallback;
-import com.clj.fastble.data.BleDevice;
-import com.clj.fastble.scan.BleScanRuleConfig;
 import com.saintsung.common.app.Activity;
 import com.saintsung.common.widget.BottomNavigationViewHelper;
-import com.saintsung.saintsungpmc.activity.PersonalMapActivity;
 import com.saintsung.saintsungpmc.fragment.MainHomeFragment;
 import com.saintsung.saintsungpmc.fragment.MainMapFragment;
 import com.saintsung.saintsungpmc.fragment.MainPersonalFragment;
 import com.saintsung.saintsungpmc.fragment.MainWorkOrderFragment;
+import com.saintsung.saintsungpmc.networkconnections.ConntentService;
 import com.saintsung.saintsungpmc.tools.NevHelper;
-
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -50,9 +42,9 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
-                startActivity(new Intent(MainActivity.this, PersonalMapActivity.class));
-//                finish();
-//                System.exit(0);
+//                startActivity(new Intent(MainActivity.this, PersonalMapActivity.class));
+                finish();
+                System.exit(0);
             }
             return true;
         }
@@ -74,6 +66,8 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 .add(R.id.menu_main_map, new NevHelper.Tab<>(MainMapFragment.class, R.string.menu_map))
                 .add(R.id.menu_main_personal, new NevHelper.Tab<>(MainPersonalFragment.class, R.string.menu_personal));
         mNavigation.setOnNavigationItemSelectedListener(this);
+        ConntentService conntentService=new ConntentService();
+        conntentService.getWorkOrder();
     }
 
     @Override

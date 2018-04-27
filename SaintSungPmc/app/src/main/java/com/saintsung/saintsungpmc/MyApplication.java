@@ -3,7 +3,7 @@ package com.saintsung.saintsungpmc;
 import android.app.Application;
 import android.util.Log;
 
-import com.saintsung.saintsungpmc.configure.BaseApplication;
+import com.saintsung.saintsungpmc.bean.WorkOrderBean;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +20,17 @@ public class MyApplication extends Application {
     private static String userName;
     private static String userId;
     private static String url;
+    private static WorkOrderBean workOrderBean;
     public static OkHttpClient okHttpClient;
+
+    public static WorkOrderBean getWorkOrderBean() {
+        return workOrderBean;
+    }
+
+    public static void setWorkOrderBean(WorkOrderBean workOrderBean) {
+        MyApplication.workOrderBean = workOrderBean;
+    }
+
     public static String getUrl() {
         return url;
     }

@@ -31,6 +31,7 @@ import okhttp3.ResponseBody;
 import rx.functions.Action1;
 
 public class LoginActivity extends Activity {
+     ProgressDialog progressDialog;
     @BindView(R.id.btnLogin)
     Button btnLogin;
     @BindView(R.id.userNameText)
@@ -86,7 +87,7 @@ public class LoginActivity extends Activity {
             return;
         }
         btnLogin.setEnabled(false);
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
+        progressDialog= new ProgressDialog(LoginActivity.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getResources().getString(R.string.Login_in));
@@ -150,13 +151,29 @@ public class LoginActivity extends Activity {
         @Override
         public void call(ResponseBody responseBody) {
             try {
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                Log.e("TAG", "" + responseBody.string());
+                dataPress(responseBody.string());
+//                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                Log.e("TAG", "" + responseBody.string());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     };
+
+    private void dataPress(String string) {
+        Gson gson=new Gson();
+        LoginBean loginBean=gson.fromJson(string,LoginBean.class);
+        if(loginBean!=null){
+            if(loginBean.getResult().equals("0000")){
+                MyApplication.setUserId(loginBean.getData().getOptUserNumber());
+                onLoginSuccess();
+            }else {
+                Toast.makeText(LoginActivity.this,loginBean.getResultMessage(),Toast.LENGTH_LONG).show();
+            }
+
+        }
+        progressDialog.dismiss();
+    }
 
     /**
      * 登录成功运行该方法

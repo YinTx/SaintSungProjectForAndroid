@@ -57,6 +57,9 @@ public class BluetoothDataProcess {
             int crc1 = bytes[bytes.length - 2];
             int crc2 = bytes[bytes.length - 3];
             byte[] mCRC = HexString2Bytes(Integer.toHexString(CRC.calcCrc16(newBytes)));
+            if(mCRC.length==1){
+                mCRC=new byte[]{0x00,mCRC[0]};
+            }
             if (crc1 == mCRC[0] && crc2 == mCRC[1])
                 return true;
             else
@@ -90,6 +93,22 @@ public class BluetoothDataProcess {
         byte[] lockFourGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(9, 12)));
         byte[] lockFiveGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(12, 15)));
         return null;
+    }
+
+    /**
+     * 将锁号转为String
+     * @param openLockNumber
+     * @return
+     */
+    public static String hexOpenLockNumber(byte[] openLockNumber){
+        byte[] bytes=subBytes(openLockNumber,5,9);
+        bytes=new byte[]{bytes[3],bytes[2],bytes[1],bytes[0]};
+        String hexString=HexUtil.formatHexString(bytes);
+        Long lockNumber= Long.parseLong(hexString,16);
+//       lockNumber=lockNumber+String.valueOf(Integer.parseInt(String.valueOf(bytes[2]),16));
+//        lockNumber=lockNumber+String.valueOf(Integer.parseInt(String.valueOf(bytes[1]),16));
+//        lockNumber=lockNumber+String.valueOf(Integer.parseInt(String.valueOf(bytes[0]),16));
+        return String.valueOf(lockNumber);
     }
     /**
      * 十进制转十六进制

@@ -7,7 +7,6 @@ package com.saintsung.saintsungpmc.bean;
 public class LoginBean {
     private String optCode;
     private LoginDataBean data;
-    private String optUserNumber;
     private String result;
     private String resultMessage;
     private String sign;
@@ -26,14 +25,6 @@ public class LoginBean {
 
     public void setData(LoginDataBean data) {
         this.data = data;
-    }
-
-    public String getOptUserNumber() {
-        return optUserNumber;
-    }
-
-    public void setOptUserNumber(String optUserNumber) {
-        this.optUserNumber = optUserNumber;
     }
 
     public String getResult() {
