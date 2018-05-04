@@ -8,7 +8,9 @@ import android.widget.TextView;
 
 
 import com.saintsung.saintsungpmc.R;
-import com.saintsung.saintsungpmc.bean.WorkOrderBean;
+import com.saintsung.saintsungpmc.bean.WorkOrderDataBean;
+
+import java.util.List;
 
 /**
  * Created by EvanShu on 2018/4/27.
@@ -17,24 +19,24 @@ import com.saintsung.saintsungpmc.bean.WorkOrderBean;
 public class WorkOrderAdapter extends BaseAdapter {
 
     private Context context;
-    private WorkOrderBean workOrderNumber;
+    private List<WorkOrderDataBean> workOrderNumberArr;
 
-    public WorkOrderAdapter(Context context, WorkOrderBean workOrderNumber) {
+    public WorkOrderAdapter(Context context, List<WorkOrderDataBean> workOrderNumberArr) {
         this.context = context;
-        this.workOrderNumber = workOrderNumber;
+        this.workOrderNumberArr = workOrderNumberArr;
     }
 
     @Override
     public int getCount() {
-        if (workOrderNumber == null)
+        if (workOrderNumberArr == null)
             return 0;
         else
-            return workOrderNumber.getData().size();
+            return workOrderNumberArr.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return workOrderNumber.getData().size();
+        return workOrderNumberArr.size();
     }
 
     @Override
@@ -53,7 +55,7 @@ public class WorkOrderAdapter extends BaseAdapter {
             convertView.setTag(holder);
             holder.workorderNumber = (TextView) convertView.findViewById(R.id.workorder_number);
         }
-        holder.workorderNumber.setText(workOrderNumber.getData().get(position).getWorkOrderNo());
+        holder.workorderNumber.setText(workOrderNumberArr.get(position).getWorkOrderNo());
         return convertView;
     }
 

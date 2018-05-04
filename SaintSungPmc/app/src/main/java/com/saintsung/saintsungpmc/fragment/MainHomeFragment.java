@@ -97,7 +97,6 @@ public class MainHomeFragment extends Fragment {
     /**
      * 搜索蓝牙
      */
-
     private void scanBlutooth() {
         BleManager.getInstance().scan(new BleScanCallback() {
             @Override
@@ -156,13 +155,13 @@ public class MainHomeFragment extends Fragment {
                 progressDialog.dismiss();
                 Toast.makeText(getActivity(), getString(R.string.connect_fail), Toast.LENGTH_LONG).show();
             }
-
             @Override
             public void onConnectSuccess(final BleDevice bleDevice, BluetoothGatt gatt, int status) {
                 progressDialog.dismiss();
                 mDeviceAdapter.addDevice(bleDevice);
                 mDeviceAdapter.notifyDataSetChanged();
                 myBluetoothManagement = new MyBluetoothManagements(bleDevice);
+                myBluetoothManagement.connectBluetooth();
                 //连接成功后开始监听返回的数据
                 myBluetoothManagement.notifyBle(bleDevice);
                 macAddress.setText(bleDevice.getMac());

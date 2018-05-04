@@ -1,6 +1,8 @@
 package com.saintsung.saintsungpmc.bluetoothdata;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleNotifyCallback;
@@ -8,6 +10,7 @@ import com.clj.fastble.callback.BleWriteCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
 import com.saintsung.saintsungpmc.configure.Constant;
+import com.saintsung.saintsungpmc.networkconnections.ConntentService;
 
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.connectBluetoothInterface;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendCleanData;
@@ -18,6 +21,7 @@ import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.s
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendWorkOrderNumber;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendWorkOrderTime;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.uploadOpenLockRecord;
+import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataProcess.hexOpenLockNumber;
 import static com.saintsung.saintsungpmc.bluetoothdata.ReceiveBluetoothData.getReceiveBluetoothData;
 import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.downLoadEndPackage;
 
@@ -26,17 +30,21 @@ import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.downLoa
  * Created by EvanShu on 2018/4/17.
  */
 
-public class MyBluetoothManagements implements ReceiveBluetoothData.resultData {
+public class MyBluetoothManagements implements ReceiveBluetoothData.resultData, ConntentService.resultServiceData {
     private BleDevice bleDevice;
     private String[] workOrderInfo;
     private int signStrip = 0;
     private ReceiveBluetoothData receiveBluetoothData;
-
+    private ConntentService conntentService;
     public MyBluetoothManagements(BleDevice bleDevice) {
         this.bleDevice = bleDevice;
         receiveBluetoothData = new ReceiveBluetoothData();
         receiveBluetoothData.setCallResult(this);
+        conntentService=new ConntentService();
+        conntentService.setResultServiceData(this);
+
     }
+
     /**
      * 每次连接蓝牙自动发送该连接方法验证是否能通讯
      */
@@ -214,6 +222,11 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData {
 
     @Override
     public void resultLockNumber(String lockNumber) {
-        write(bleDevice,sendOpenLockNumber("078090186150264","1"));
+        conntentService.getLockOnLine((lockNumber), bleDevice.getMac());
+    }
+
+    @Override
+    public void resultServiceData(String openLockNumber, String type) {
+        write(bleDevice, sendOpenLockNumber(openLockNumber, type));
     }
 }

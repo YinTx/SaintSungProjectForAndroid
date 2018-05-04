@@ -6,6 +6,7 @@ import com.clj.fastble.utils.HexUtil;
 
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataProcess.checkPackageStartEnd;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataProcess.hexMacAddres;
+import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataProcess.hexOpenLockNumber;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataProcess.hexTime;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataProcess.subBytes;
 import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.sendLockNumber;
@@ -21,16 +22,13 @@ public class ReceiveBluetoothData {
     private static boolean flag = false;
     private static String[] parameterS00 = new String[3];
     private static int dataLength, dataPackage;
-
     public void setCallResult(resultData callResult) {
         this.resultDatacommand = callResult;
     }
-
     public interface resultData {
         void resultCommand(byte result);
         void resultLockNumber(String lockNumber);
     }
-
     public static void getReceiveBluetoothData(byte[] bytes) {
         Log.e("TAG", "接收到数据：" + HexUtil.formatHexString(bytes, true));
         if(bytes.length!=20){
@@ -53,8 +51,6 @@ public class ReceiveBluetoothData {
             Log.e("TAG", "传输出错！");
         }
     }
-
-
     private static void commamdType(byte[] bytes) {
         switch (bytes[3]) {
             case 0x10:
@@ -74,6 +70,7 @@ public class ReceiveBluetoothData {
                 backResultCommand(bytes);
                 break;
             case 0x31:
+                backResultCommand(bytes);
                 Log.e("TAG", "结束开设备操作！");
                 break;
             case 0x40:
@@ -172,7 +169,6 @@ public class ReceiveBluetoothData {
                 break;
         }
     }
-
     /**
      * 判断小掌机参数是否设置成功
      *
@@ -191,7 +187,9 @@ public class ReceiveBluetoothData {
     public static void backResultCommand(byte[] bytes) {
         byte mCommand = bytes[3];
         if(mCommand==0x30)
-            resultDatacommand.resultLockNumber(HexUtil.formatHexString(bytes));
+            resultDatacommand.resultLockNumber(hexOpenLockNumber(bytes));
+        else if(mCommand==0x31)
+            resultDatacommand.resultLockNumber(bytes.toString());
         else if (mCommand == 0x50)
             resultDatacommand.resultCommand(mCommand);
         else if (mCommand == 0x60)
@@ -199,7 +197,6 @@ public class ReceiveBluetoothData {
         else if (mCommand == 0x70)
             resultDatacommand.resultCommand(mCommand);
     }
-
     /**
      * 这个包是开始接收以0xb1为包头没有包尾的数据包
      *
@@ -213,7 +210,6 @@ public class ReceiveBluetoothData {
                 upLoadOpenLockOneRecord(bytes);
         }
     }
-
     /**
      * 读取S00参数
      *
@@ -242,7 +238,6 @@ public class ReceiveBluetoothData {
                 break;
         }
     }
-
     private static void upLoadOpenLockRecordStart(byte[] bytes) {
         byte[] dataPackage = new byte[]{bytes[1], bytes[2]};
         byte[] dataLength = new byte[]{bytes[7], bytes[6], bytes[5], bytes[4]};

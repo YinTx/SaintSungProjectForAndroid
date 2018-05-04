@@ -40,6 +40,7 @@
             android:paddingRight="15dp"
             android:singleLine="true"
             android:textColorHint="#999999"
+            android:textColor="@color/second_level_black"
             android:textSize="18sp" />
     </LinearLayout>
 

@@ -224,7 +224,6 @@
                 android:layout_marginRight="@dimen/len_10"></ListView>
         </LinearLayout>
     </android.support.v7.widget.CardView>
-
     <com.baoyz.widget.PullRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"

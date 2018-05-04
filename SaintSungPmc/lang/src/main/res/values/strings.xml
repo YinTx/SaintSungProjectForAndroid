@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SaintSungPmc</string>
+    <string name="app_name">圣享物控</string>
 
     <string name="btn_follow">Follow</string>
     <string name="btn_send_start">发起聊天</string>

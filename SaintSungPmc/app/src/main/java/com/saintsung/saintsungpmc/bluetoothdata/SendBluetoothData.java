@@ -5,6 +5,11 @@ import android.util.Log;
 import com.clj.fastble.utils.HexUtil;
 import com.saintsung.saintsungpmc.tools.CRC;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataProcess.hexTime;
+
 
 /**
  * Created by EvanShu on 2018/4/11.
@@ -430,7 +435,12 @@ public class SendBluetoothData {
      */
     public static byte[] connectBluetooth() {
         byte[] bytes = new byte[]{0x00, 0x00, (byte) 0xA0};
-        bytes = increaseNullByte(bytes, 13);
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date=new Date();
+        String time=sdf.format(date);
+        byte[] timeBytes=hexTime(time);
+        bytes=addBytes(bytes,timeBytes);
+        bytes = increaseNullByte(bytes, 6);
         bytes = increaseCRC(bytes);
         bytes = increasePackage(bytes, (byte) 0xA0, (byte) 0xF0);
         return bytes;

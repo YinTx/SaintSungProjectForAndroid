@@ -106,10 +106,8 @@ public class DeviceAdapter extends BaseAdapter {
             boolean isConnected = BleManager.getInstance().isConnected(bleDevice);
             String name = bleDevice.getName();
             String mac = bleDevice.getMac();
-//            int rssi = bleDevice.getRssi();
             holder.txt_name.setText(name);
             holder.txt_mac.setText(mac);
-//            holder.txt_rssi.setText(String.valueOf(rssi));
             if (isConnected) {
                 holder.img_blue.setImageResource(R.mipmap.ic_blue_connected);
                 holder.txt_name.setTextColor(context.getResources().getColor(R.color.IconSelected));
@@ -159,7 +157,6 @@ public class DeviceAdapter extends BaseAdapter {
         ImageView img_blue;
         TextView txt_name;
         TextView txt_mac;
-        TextView txt_rssi;
         LinearLayout layout_idle;
         LinearLayout layout_connected;
         Button btn_disconnect;
@@ -180,5 +177,4 @@ public class DeviceAdapter extends BaseAdapter {
     public void setOnDeviceClickListener(OnDeviceClickListener listener) {
         this.mListener = listener;
     }
-
 }
