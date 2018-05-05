@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/lay_connect"
         android:layout_width="match_parent"
         android:layout_height="@dimen/len_32"
         android:gravity="center_vertical">
@@ -26,70 +27,12 @@
             android:textAppearance="@style/thirdLevelGreyText"
             />
 
-        <LinearLayout
-            android:id="@+id/layout_idle"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/txt_rssi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp" />
-
-            <Button
-                android:id="@+id/btn_connect"
-                android:layout_width="@dimen/len_16"
-                android:layout_height="@dimen/len_16"
-                android:layout_marginLeft="5dp"
-                android:background="@drawable/ic_direction_right" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_connected"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/connected"
-                android:textColor="@color/colorPrimary"
-                android:textSize="14sp"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/btn_disconnect"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="@string/disconnect"
-                android:textSize="12sp"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/btn_detail"
-                android:layout_width="@dimen/len_16"
-                android:layout_height="@dimen/len_16"
-                android:layout_marginRight="@dimen/len_6"
-                android:background="@drawable/ic_direction_right" />
-
-            <ImageView
-                android:id="@+id/img_blue"
-                android:layout_width="@dimen/len_16"
-                android:layout_height="@dimen/len_16"
-                android:src="@drawable/ic_direction_right"
-                android:visibility="gone" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/btn_connect"
+            android:layout_width="@dimen/len_16"
+            android:layout_height="@dimen/len_16"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/ic_direction_right" />
     </LinearLayout>
 
 

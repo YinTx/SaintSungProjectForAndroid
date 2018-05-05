@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
+import com.clj.fastble.BleManager;
 import com.saintsung.common.app.Activity;
 import com.saintsung.common.widget.BottomNavigationViewHelper;
 import com.saintsung.saintsungpmc.fragment.MainHomeFragment;
@@ -42,7 +44,8 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
-//                startActivity(new Intent(MainActivity.this, PersonalMapActivity.class));
+//                Intent intent = new Intent(this, CaptureActivity.class);
+//                startActivityForResult(intent, 1);
                 finish();
                 System.exit(0);
             }
@@ -66,7 +69,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 .add(R.id.menu_main_map, new NevHelper.Tab<>(MainMapFragment.class, R.string.menu_map))
                 .add(R.id.menu_main_personal, new NevHelper.Tab<>(MainPersonalFragment.class, R.string.menu_personal));
         mNavigation.setOnNavigationItemSelectedListener(this);
-        ConntentService conntentService=new ConntentService();
+        ConntentService conntentService = new ConntentService();
         conntentService.getWorkOrder();
     }
 
@@ -97,5 +100,10 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
      */
     @Override
     public void onTabChanged(NevHelper.Tab<Integer> newTab, NevHelper.Tab<Integer> oldTab) {
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        BleManager.getInstance().disconnectAllDevice();
     }
 }

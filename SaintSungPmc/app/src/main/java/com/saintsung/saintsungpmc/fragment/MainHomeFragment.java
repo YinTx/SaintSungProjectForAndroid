@@ -76,6 +76,11 @@ public class MainHomeFragment extends Fragment {
                 .setScanTimeOut(0)
                 .build();
         BleManager.getInstance().initScanRule(bleScanRuleConfig);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         openBluetooth();
     }
 
@@ -148,12 +153,14 @@ public class MainHomeFragment extends Fragment {
             @Override
             public void onStartConnect() {
                 progressDialog.show();
+                BleManager.getInstance().disconnectAllDevice();
             }
 
             @Override
             public void onConnectFail(BleException exception) {
                 progressDialog.dismiss();
                 Toast.makeText(getActivity(), getString(R.string.connect_fail), Toast.LENGTH_LONG).show();
+                scanBlutooth();
             }
             @Override
             public void onConnectSuccess(final BleDevice bleDevice, BluetoothGatt gatt, int status) {
@@ -167,6 +174,7 @@ public class MainHomeFragment extends Fragment {
                 macAddress.setText(bleDevice.getMac());
                 int s=bleDevice.getRssi();
                 signal.setText(String.valueOf(s));
+                scanBlutooth();
             }
 
             @Override
@@ -204,4 +212,5 @@ public class MainHomeFragment extends Fragment {
         super.onResume();
         showConnectedDevice();
     }
+
 }
