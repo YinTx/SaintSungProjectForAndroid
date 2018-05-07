@@ -3,6 +3,7 @@ package com.saintsung.saintsungpmc.fragment;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothGatt;
 import android.content.Intent;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -21,6 +22,7 @@ import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
 import com.clj.fastble.scan.BleScanRuleConfig;
 import com.saintsung.common.app.Fragment;
+import com.saintsung.saintsungpmc.MyApplication;
 import com.saintsung.saintsungpmc.R;
 import com.saintsung.saintsungpmc.activity.PersonalActivity;
 import com.saintsung.saintsungpmc.adapter.DeviceAdapter;
@@ -34,11 +36,12 @@ import butterknife.OnClick;
  * Created by XLzY on 2017/7/28.
  */
 
-public class MainHomeFragment extends Fragment {
+public class MainHomeFragment extends Fragment implements MyBluetoothManagements.showState {
     private Animation operatingAnim;
     private DeviceAdapter mDeviceAdapter;//ListView的Adapter
     private ProgressDialog progressDialog;
     MyBluetoothManagements myBluetoothManagement;
+    private String string;
     @BindView(R.id.appbar)
     View mLayAppbar;
     @BindView(R.id.lst_authorized)
@@ -47,13 +50,13 @@ public class MainHomeFragment extends Fragment {
     TextView macAddress;
     @BindView(R.id.fragment_signal)
     TextView signal;
-
+    @BindView(R.id.operation_record)
+    TextView operationRecord;
 
     @Override
     protected int getContentLayoutId() {
         return R.layout.fragment_home;
     }
-
     @Override
     protected void initData() {
         super.initData();
@@ -71,6 +74,7 @@ public class MainHomeFragment extends Fragment {
         bleListView.setAdapter(mDeviceAdapter);
         operatingAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate);
         operatingAnim.setInterpolator(new LinearInterpolator());
+        operationRecord.setMovementMethod(ScrollingMovementMethod.getInstance());
         BleManager.getInstance().init(getActivity().getApplication());
         BleScanRuleConfig bleScanRuleConfig = new BleScanRuleConfig.Builder()
                 .setScanTimeOut(0)
@@ -82,6 +86,7 @@ public class MainHomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         openBluetooth();
+        operationRecord.setText(MyApplication.getOperationRecord());
     }
 
     private void openBluetooth(){
@@ -168,6 +173,7 @@ public class MainHomeFragment extends Fragment {
                 mDeviceAdapter.addDevice(bleDevice);
                 mDeviceAdapter.notifyDataSetChanged();
                 myBluetoothManagement = new MyBluetoothManagements(bleDevice);
+                myBluetoothManagement.setShowState(MainHomeFragment.this);
                 myBluetoothManagement.connectBluetooth();
                 //连接成功后开始监听返回的数据
                 myBluetoothManagement.notifyBle(bleDevice);
@@ -213,4 +219,9 @@ public class MainHomeFragment extends Fragment {
         showConnectedDevice();
     }
 
+    @Override
+    public void showState(String state) {
+        string=string+state+"\r\n";
+        operationRecord.setText(string);
+    }
 }

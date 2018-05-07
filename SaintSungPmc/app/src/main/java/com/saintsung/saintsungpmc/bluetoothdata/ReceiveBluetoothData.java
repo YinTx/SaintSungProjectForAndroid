@@ -27,7 +27,7 @@ public class ReceiveBluetoothData {
     }
     public interface resultData {
         void resultCommand(byte result);
-        void resultLockNumber(String lockNumber);
+        void resultLockNumber(String lockNumber,int i);
     }
     public static void getReceiveBluetoothData(byte[] bytes) {
         Log.e("TAG", "接收到数据：" + HexUtil.formatHexString(bytes, true));
@@ -71,6 +71,7 @@ public class ReceiveBluetoothData {
                 break;
             case 0x31:
                 backResultCommand(bytes);
+                resultDatacommand.resultLockNumber("开锁结束",3);
                 Log.e("TAG", "结束开设备操作！");
                 break;
             case 0x40:
@@ -187,9 +188,14 @@ public class ReceiveBluetoothData {
     public static void backResultCommand(byte[] bytes) {
         byte mCommand = bytes[3];
         if(mCommand==0x30)
-            resultDatacommand.resultLockNumber(hexOpenLockNumber(bytes));
-        else if(mCommand==0x31)
-            resultDatacommand.resultLockNumber(bytes.toString());
+            resultDatacommand.resultLockNumber(hexOpenLockNumber(bytes),0);
+        else if(mCommand==0x31){
+            String openLock=hexOpenLockNumber(bytes);
+            if(bytes[10]==0x00)
+                openLock=openLock+"0";
+            if (bytes[10]==0x01)
+                openLock=openLock+"1";
+            resultDatacommand.resultLockNumber(openLock,1);}
         else if (mCommand == 0x50)
             resultDatacommand.resultCommand(mCommand);
         else if (mCommand == 0x60)

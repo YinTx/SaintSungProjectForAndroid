@@ -36,6 +36,8 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData, 
     private int signStrip = 0;
     private ReceiveBluetoothData receiveBluetoothData;
     private ConntentService conntentService;
+    private showState showState;
+
     public MyBluetoothManagements(BleDevice bleDevice) {
         this.bleDevice = bleDevice;
         receiveBluetoothData = new ReceiveBluetoothData();
@@ -43,6 +45,17 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData, 
         conntentService=new ConntentService();
         conntentService.setResultServiceData(this);
 
+    }
+    public interface showState{
+        void showState(String state);
+    }
+
+    public MyBluetoothManagements.showState getShowState() {
+        return showState;
+    }
+
+    public void setShowState(MyBluetoothManagements.showState showState) {
+        this.showState = showState;
     }
 
     /**
@@ -221,8 +234,15 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData, 
     }
 
     @Override
-    public void resultLockNumber(String lockNumber) {
+    public void resultLockNumber(String lockNumber,int i) {
+        if(i==0){
         conntentService.getLockOnLine((lockNumber), bleDevice.getMac());
+        showState.showState("读锁号："+lockNumber);}
+        if(i==1){
+            showState.showState("正在开锁");
+        }
+        if(i==3)
+            showState.showState(lockNumber);
     }
 
     @Override

@@ -22,6 +22,15 @@ public class MyApplication extends Application {
     private static String url;
     private static WorkOrderBean workOrderBean;
     public static OkHttpClient okHttpClient;
+    private static String operationRecord;
+
+    public static String getOperationRecord() {
+        return operationRecord;
+    }
+
+    public static void setOperationRecord(String operationRecord) {
+        MyApplication.operationRecord = operationRecord;
+    }
 
     public static WorkOrderBean getWorkOrderBean() {
         return workOrderBean;
