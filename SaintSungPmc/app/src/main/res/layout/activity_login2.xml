@@ -49,6 +49,9 @@
         android:layout_marginLeft="@dimen/len_10"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:hint="@string/login_user_hint"
+        android:textColorHint="@color/second_level_black"
+        android:textSize="@dimen/len_14"
         android:textColor="@color/second_level_black"
         android:background="@null"
         />
@@ -79,6 +82,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textPassword"
+            android:hint="@string/login_pass_hint"
+            android:textSize="@dimen/len_14"
+            android:textColorHint="@color/second_level_black"
             android:textColor="@color/second_level_black"
             android:background="@null"
             />

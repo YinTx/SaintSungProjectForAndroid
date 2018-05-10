@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.saintsung.common.app.Activity;
 import com.saintsung.saintsungpmc.R;
+import com.saintsung.saintsungpmc.loading.SharedPreferencesUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -31,5 +32,11 @@ public class PersonalActivity extends Activity {
     @OnClick(R.id.personal_accountsecurity)
     void accountSecurity(){
         startActivity(new Intent(PersonalActivity.this,AccountSecurityActivity.class));
+    }
+    @OnClick(R.id.personal_out)
+    void personalOut(){
+        SharedPreferencesUtil.putSharedPreferences(PersonalActivity.this, "Login", "");
+        finish();
+        startActivity(new Intent(PersonalActivity.this,LoginActivity.class));
     }
 }

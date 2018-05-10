@@ -6,9 +6,16 @@ import com.google.gson.Gson;
 import com.saintsung.saintsungpmc.MyApplication;
 import com.saintsung.saintsungpmc.bean.LockOnLineBean;
 import com.saintsung.saintsungpmc.bean.LockOnLineDataBean;
+import com.saintsung.saintsungpmc.bean.UpLoadDataBean;
+import com.saintsung.saintsungpmc.bean.UpLoadLockBena;
 import com.saintsung.saintsungpmc.bean.WorkOrderBean;
 import com.saintsung.saintsungpmc.configure.Constant;
 import com.saintsung.saintsungpmc.tools.MD5;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import rx.functions.Action1;
@@ -41,6 +48,12 @@ public class ConntentService {
     }
     public void getLockOnLine(String number,String macAddress){
         retrofitRxAndroidHttp.serviceConnect(Constant.addressHttps,getlockOnLine(number,macAddress),lockOnLineAct);
+    }
+    public void uploadService(String string,String keyNumber){
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date=new Date();
+        String times=sdf.format(date);
+        retrofitRxAndroidHttp.serviceConnect(Constant.addressHttps,getUploadRecord(keyNumber,string.substring(0,string.length()-1),"5",times,string.substring(string.length()-1,string.length())),uploadRecordAct);
     }
     private String getWorkOrderStr() {
         Gson gson = new Gson();
@@ -115,4 +128,32 @@ public class ConntentService {
         lockOnLineBean.setSign(MD5.toMD5(sss));
         return gson.toJson(lockOnLineBean);
     }
+    private String getUploadRecord(String keyNumber,String lockNumber,String type,String time,String resultId) {
+        Gson gson = new Gson();
+        UpLoadLockBena upLoadLockBena=new UpLoadLockBena();
+        UpLoadDataBean upLoadDataBean=new UpLoadDataBean();
+        List<UpLoadDataBean> upLoadDataBeanList=new ArrayList<>();
+        upLoadLockBena.setOptCode("LockLogUpload");
+        upLoadDataBean.setOptUserNumber(MyApplication.getUserId());
+        upLoadDataBean.setKeyNumber(keyNumber);
+        upLoadDataBean.setLockNumber(lockNumber);
+        upLoadDataBean.setOptType(type);
+        upLoadDataBean.setDateTime(time);
+        upLoadDataBean.setResultId(resultId);
+        upLoadDataBeanList.add(upLoadDataBean);
+        upLoadLockBena.setData(upLoadDataBeanList);
+        String sign=MD5.toMD5(upLoadLockBena.getOptCode()+gson.toJson(upLoadLockBena.getData()));
+        upLoadLockBena.setSign(sign);
+        return gson.toJson(upLoadLockBena);
+    }
+    private Action1<ResponseBody> uploadRecordAct = new Action1<ResponseBody>() {
+        @Override
+        public void call(ResponseBody responseBody) {
+            try {
+                Log.e("TAG",responseBody.string());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
 }

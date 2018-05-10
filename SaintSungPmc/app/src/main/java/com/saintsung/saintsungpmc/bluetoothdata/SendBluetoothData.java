@@ -69,21 +69,6 @@ public class SendBluetoothData {
         return bytes;
     }
 
-//    public static byte[] setParameterSubpackage3(String softwareVersion, String hardwareVersion) {
-//        byte[] largeSoftwareBytes = HexString2Bytes(softwareVersion.substring(0, 1));
-//        byte[] mediumSoftwareBytes = HexString2Bytes(softwareVersion.substring(1, 2));
-//        byte[] minorSoftwareBytes = HexString2Bytes(softwareVersion.substring(2, 3));
-//
-//        byte[] largeHardwareBytes = HexString2Bytes(hardwareVersion.substring(0, 1));
-//        byte[] mediumHardwareBytes = HexString2Bytes(hardwareVersion.substring(1, 2));
-//        byte[] minorHardwareBytes = HexString2Bytes(hardwareVersion.substring(2, 3));
-//        byte[] bytes = new byte[]{0x03, minorSoftwareBytes[0], mediumSoftwareBytes[0], largeSoftwareBytes[0], minorHardwareBytes[0], mediumHardwareBytes[0], largeHardwareBytes[0]};
-//        bytes = increaseNullByte(bytes, 10);
-//        bytes = increaseCRC(bytes);
-//        bytes = DataStarPackage(bytes, (byte) 0xA1);
-//        return bytes;
-//    }
-
     public static byte[] sendParameterEndPack() {
         byte[] bytes = new byte[]{0x00, 0x00, 0x20};
         bytes = increaseNullByte(bytes, 13);
@@ -249,8 +234,12 @@ public class SendBluetoothData {
         bytes = increaseHandle(lockThreeGroup, bytes);
         bytes = increaseHandle(lockFourGroup, bytes);
         bytes = increaseHandle(lockFiveGroup, bytes);
-        bytes = setZeroData(bytes, 1);
-        bytes=increaseNullByte(bytes,1);
+        if (lockType.equals("0001") ||lockType.equals("0006")) {
+            bytes=addBytes(bytes,new byte[]{0x5A});
+        } else {
+            bytes = setZeroData(bytes, 1);
+        }
+        bytes = increaseNullByte(bytes, 1);
         bytes = addBytes(bytes, HexString2Bytes(decimalSystemHexadecimal(lockType)));
         bytes = increaseCRC(bytes);
         bytes = increasePackage(bytes, (byte) 0xA0, (byte) 0xF0);
@@ -274,6 +263,7 @@ public class SendBluetoothData {
 
     /**
      * 十进制转十六进制
+     *
      * @param string
      * @return
      */
@@ -310,7 +300,7 @@ public class SendBluetoothData {
         byte[] dayBytes = HexString2Bytes(decimalSystemHexadecimal(workOrderNumber.substring(6, 8)));
         byte[] number = HexString2Bytes(decimalSystemHexadecimal(workOrderNumber.substring(8, 10)));
         byte[] number2 = HexString2Bytes(decimalSystemHexadecimal(workOrderNumber.substring(10, 12)));
-        byte[] bytes = new byte[]{0x8, 0x0, 0x50,yearBytes[1],yearBytes[0],monthBytes[0],dayBytes[0],number[0],number2[0],0x00,0x00};
+        byte[] bytes = new byte[]{0x8, 0x0, 0x50, yearBytes[1], yearBytes[0], monthBytes[0], dayBytes[0], number[0], number2[0], 0x00, 0x00};
         bytes = increaseNullByte(bytes, 5);
         bytes = increaseCRC(bytes);
         bytes = increasePackage(bytes, (byte) 0xA0, (byte) 0xF0);
@@ -374,7 +364,7 @@ public class SendBluetoothData {
         byte[] lockThreeGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(6, 9)));
         byte[] lockFourGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(9, 12)));
         byte[] lockFiveGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(12, 15)));
-        byte[] bytes =HexString2Bytes(decimalSystemHexadecimal(packCon));
+        byte[] bytes = HexString2Bytes(decimalSystemHexadecimal(packCon));
         byte[] newBytes = new byte[]{lockBytes[3], lockBytes[2], lockBytes[1], lockBytes[0]};
         bytes = addBytes(bytes, newBytes);
         bytes = increaseHandle(lockOneGroup, bytes);
@@ -385,7 +375,7 @@ public class SendBluetoothData {
         bytes = setZeroData(bytes, 1);
         bytes = addBytes(bytes, lockType.getBytes());
         bytes = increaseCRC(bytes);
-        bytes=DataStarPackage(bytes, (byte) 0xA1);
+        bytes = DataStarPackage(bytes, (byte) 0xA1);
         return bytes;
     }
 
@@ -435,11 +425,11 @@ public class SendBluetoothData {
      */
     public static byte[] connectBluetooth() {
         byte[] bytes = new byte[]{0x00, 0x00, (byte) 0xA0};
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
-        Date date=new Date();
-        String time=sdf.format(date);
-        byte[] timeBytes=hexTime(time);
-        bytes=addBytes(bytes,timeBytes);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date();
+        String time = sdf.format(date);
+        byte[] timeBytes = hexTime(time);
+        bytes = addBytes(bytes, timeBytes);
         bytes = increaseNullByte(bytes, 6);
         bytes = increaseCRC(bytes);
         bytes = increasePackage(bytes, (byte) 0xA0, (byte) 0xF0);

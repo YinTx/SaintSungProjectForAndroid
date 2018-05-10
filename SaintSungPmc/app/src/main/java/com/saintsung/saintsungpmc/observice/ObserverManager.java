@@ -6,7 +6,7 @@ import com.clj.fastble.data.BleDevice;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ObserverManager implements Observable {
+public class  ObserverManager implements Observable {
 
     public static ObserverManager getInstance() {
 

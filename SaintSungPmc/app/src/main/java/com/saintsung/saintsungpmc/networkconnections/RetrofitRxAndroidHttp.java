@@ -1,7 +1,5 @@
 package com.saintsung.saintsungpmc.networkconnections;
 
-import android.util.Log;
-
 
 import com.saintsung.saintsungpmc.MyApplication;
 import com.saintsung.saintsungpmc.configure.Constant;
@@ -11,15 +9,10 @@ import java.io.File;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-
 import okhttp3.RequestBody;
-
 import okhttp3.ResponseBody;
-
-
 import retrofit2.Call;
 import retrofit2.Callback;
-
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -50,6 +43,7 @@ public class RetrofitRxAndroidHttp {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(action1, onErrorAction);
     }
+
     public void serviceFileConnect(String url, String filePath, String result, Callback callback) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
@@ -69,7 +63,8 @@ public class RetrofitRxAndroidHttp {
     Action1<Throwable> onErrorAction = new Action1<Throwable>() {
         @Override
         public void call(Throwable throwable) {
-            Log.e("TAG", "wd", throwable);
+
+
         }
     };
 }

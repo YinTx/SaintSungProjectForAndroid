@@ -174,7 +174,7 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData, 
                 bytes,
                 new BleWriteCallback() {
                     @Override
-                    public void onWriteSuccess() {
+                    public void onWriteSuccess(int i, int i1, byte[] bytes) {
                         // 发送数据到设备成功（UI线程）
                         Log.e("TAG", "发送数据到设备成功");
                     }
@@ -239,7 +239,7 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData, 
         conntentService.getLockOnLine((lockNumber), bleDevice.getMac());
         showState.showState("读锁号："+lockNumber);}
         if(i==1){
-            showState.showState("正在开锁");
+            conntentService.uploadService(lockNumber,bleDevice.getMac());
         }
         if(i==3)
             showState.showState(lockNumber);
@@ -247,6 +247,7 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData, 
 
     @Override
     public void resultServiceData(String openLockNumber, String type) {
+        showState.showState("正在开锁");
         write(bleDevice, sendOpenLockNumber(openLockNumber, type));
     }
 }

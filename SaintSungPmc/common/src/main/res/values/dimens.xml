@@ -17,7 +17,7 @@
     <!--BottomNavigationView 的选中没有选中的字体大小-->
     <dimen name="design_bottom_navigation_active_text_size">10sp</dimen>
     <dimen name="design_bottom_navigation_text_size">10sp</dimen>
-    <dimen name="len_167">167dp</dimen>
+    <dimen name="len_166">166dp</dimen>
     <color name="saint_gray">#f2f4f5</color>
     <color name="saint_red">#f53838</color>
     <color name="second_level_black">#2b2f33</color>

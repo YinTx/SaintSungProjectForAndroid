@@ -10,8 +10,8 @@ public class UpLoadDataBean {
     private String lockNumber;
     private String resultId;
     private String dateTime;
-    private String pointX;
-    private String pointY;
+    private String pointX="";
+    private String pointY="" ;
     private String optType;
 
     public String getOptUserNumber() {

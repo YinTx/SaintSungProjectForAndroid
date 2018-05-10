@@ -26,7 +26,6 @@
     <string name="personal_clean">清除缓存</string>
     <string name="personal_about">关于我们</string>
     <string name="personal_singout">退出登录</string>
-
     <string name="electricdetails_title">用电户详情</string>
     <string name="electricdetails_name">名称:</string>
     <string name="electricdetails_type">类型:</string>
@@ -48,4 +47,6 @@
     <string name="replace_apply_primary_pattern">原锁封出来方式:</string>
     <string name="replace_apply_newdress">新装编号:</string>
     <string name="replace_apply_electric_number">用电户编号:</string>
+    <string name="login_user_hint">请输入手机号码/账户编号</string>
+    <string name="login_pass_hint">请输入6~18位数字或小写字母密码</string>
 </resources>

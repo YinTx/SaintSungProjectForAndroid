@@ -19,6 +19,7 @@ import com.saintsung.saintsungpmc.bean.LoginBean;
 import com.saintsung.saintsungpmc.bean.LoginDataBean;
 import com.saintsung.saintsungpmc.configure.Constant;
 import com.saintsung.saintsungpmc.loading.SharedPreferencesUtil;
+import com.saintsung.saintsungpmc.networkconnections.ConntentService;
 import com.saintsung.saintsungpmc.networkconnections.RetrofitRxAndroidHttp;
 import com.saintsung.saintsungpmc.tools.DiaLog;
 import com.saintsung.saintsungpmc.tools.MD5;
@@ -30,17 +31,30 @@ import butterknife.OnClick;
 import okhttp3.ResponseBody;
 import rx.functions.Action1;
 
+import static com.saintsung.saintsungpmc.tools.NetworkUtils.isNetworkAvailable;
+
 public class LoginActivity extends Activity {
-     ProgressDialog progressDialog;
+    ProgressDialog progressDialog;
     @BindView(R.id.btnLogin)
     Button btnLogin;
     @BindView(R.id.userNameText)
     EditText userNameText;
     @BindView(R.id.passWordText)
     EditText passWordText;
+    private String loginStr;
     @Override
     protected int getContentLayoutId() {
         return R.layout.activity_login2;
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+        loginStr  = SharedPreferencesUtil.getSharedPreferences(LoginActivity.this, "Login", "");
+        if(!loginStr.equals("")){
+            RetrofitRxAndroidHttp retrofitService = new RetrofitRxAndroidHttp();
+            retrofitService.serviceConnect(MyApplication.getUrl(),loginStr, action1);
+        }
     }
 
     /**
@@ -75,30 +89,25 @@ public class LoginActivity extends Activity {
     /**
      * 登录方法
      */
-    public void login() {
+    public void login(String username,String password) {
         //验证用户名密码的格式是否符合要求
-        if (!validate()) {
-            onLoginFailed(getResources().getString(R.string.login_errlenth));
-            return;
-        }
+//        if (!validate()) {
+//            onLoginFailed(getResources().getString(R.string.login_errlenth));
+//            return;
+//        }
         //判断是否有端口号
         if (!isPort()) {
             onLoginFailed(getResources().getString(R.string.login_errport));
             return;
         }
         btnLogin.setEnabled(false);
-        progressDialog= new ProgressDialog(LoginActivity.this,
+        progressDialog = new ProgressDialog(LoginActivity.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getResources().getString(R.string.Login_in));
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
-
-        String username = userNameText.getText().toString();
-        String password = passWordText.getText().toString();
-        senDataService(username,password);
-
-
+        senDataService(username, password);
 //        final String parameter = Constant.loginServiceLable + DataProcess.ComplementSpace(username, 10) + DataProcess.ComplementSpace(password, 10) + baseApplication.getIEME();
 //
 //        asyncTaskConnetion.execute(baseApplication.getPort(), DataProcess.createRequestPacket(parameter));
@@ -143,7 +152,9 @@ public class LoginActivity extends Activity {
         sing = MD5.toMD5(loginBean.getOptCode() + gson.toJson(loginBean.getData()));
         loginBean.setSign(sing);
         RetrofitRxAndroidHttp retrofitService = new RetrofitRxAndroidHttp();
-        retrofitService.serviceConnect(MyApplication.getUrl(),gson.toJson(loginBean), action1);
+        loginStr=gson.toJson(loginBean);
+        retrofitService.serviceConnect(MyApplication.getUrl(),loginStr, action1);
+
     }
 
     private Action1<ResponseBody> action1 = new Action1<ResponseBody>() {
@@ -161,14 +172,15 @@ public class LoginActivity extends Activity {
     };
 
     private void dataPress(String string) {
-        Gson gson=new Gson();
-        LoginBean loginBean=gson.fromJson(string,LoginBean.class);
-        if(loginBean!=null){
-            if(loginBean.getResult().equals("0000")){
+        Gson gson = new Gson();
+        LoginBean loginBean = gson.fromJson(string, LoginBean.class);
+        if (loginBean != null) {
+            if (loginBean.getResult().equals("0000")) {
+                SharedPreferencesUtil.putSharedPreferences(LoginActivity.this,"Login",loginStr);
                 MyApplication.setUserId(loginBean.getData().getOptUserNumber());
                 onLoginSuccess();
-            }else {
-                Toast.makeText(LoginActivity.this,loginBean.getResultMessage(),Toast.LENGTH_LONG).show();
+            } else {
+                onLoginFailed(loginBean.getResultMessage());
             }
 
         }
@@ -213,12 +225,21 @@ public class LoginActivity extends Activity {
 
         return valid;
     }
+
     @OnClick(R.id.btnLogin)
-    void loginLoading(){
-        login();
+    void loginLoading() {
+        if (isNetworkAvailable(this)) {
+            String username = userNameText.getText().toString();
+            String password = passWordText.getText().toString();
+            login(username,password);
+        } else {
+            Toast.makeText(this, "请检查网络连接！", Toast.LENGTH_SHORT).show();
+        }
+
     }
+
     @OnClick(R.id.setPort)
-    void setPort(){
+    void setPort() {
         getDiaLog();
     }
 }

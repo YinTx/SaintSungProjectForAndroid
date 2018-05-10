@@ -11,6 +11,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -28,9 +29,13 @@ import com.saintsung.saintsungpmc.activity.PersonalActivity;
 import com.saintsung.saintsungpmc.adapter.DeviceAdapter;
 import com.saintsung.saintsungpmc.bluetoothdata.MyBluetoothManagements;
 import com.saintsung.saintsungpmc.observice.ObserverManager;
+
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.saintsung.saintsungpmc.tools.DataProcess.getTiem;
 
 /**
  * Created by XLzY on 2017/7/28.
@@ -41,7 +46,7 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
     private DeviceAdapter mDeviceAdapter;//ListView的Adapter
     private ProgressDialog progressDialog;
     MyBluetoothManagements myBluetoothManagement;
-    private String string;
+    private String string = "";
     @BindView(R.id.appbar)
     View mLayAppbar;
     @BindView(R.id.lst_authorized)
@@ -52,11 +57,11 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
     TextView signal;
     @BindView(R.id.operation_record)
     TextView operationRecord;
-
     @Override
     protected int getContentLayoutId() {
         return R.layout.fragment_home;
     }
+
     @Override
     protected void initData() {
         super.initData();
@@ -67,6 +72,7 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
             }
         });
         progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setCancelable(false);
         progressDialog.setMessage(getString(R.string.connection));
         BleManager.getInstance().init(getActivity().getApplication());
         mDeviceAdapter = new DeviceAdapter(getActivity());
@@ -82,6 +88,14 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
         BleManager.getInstance().initScanRule(bleScanRuleConfig);
     }
 
+    void refreshLogView(TextView logView, String msg) {
+        logView.append(msg);
+        int offset = logView.getLineCount() * logView.getLineHeight();
+        if (offset > logView.getHeight()) {
+            logView.scrollTo(0, offset - logView.getHeight());
+        }
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -89,7 +103,7 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
         operationRecord.setText(MyApplication.getOperationRecord());
     }
 
-    private void openBluetooth(){
+    private void openBluetooth() {
         //isSupportBle  判断是否该机型能否使用BLE
         if (BleManager.getInstance().isSupportBle()) {
             //判断蓝牙是否打开
@@ -98,12 +112,19 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
             else {
                 //打开蓝牙
                 BleManager.getInstance().enableBluetooth();
+                try {
+                    Thread.sleep(1000);
+                    scanBlutooth();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
         } else {
             Toast.makeText(getActivity(), getString(R.string.please_replacePhone), Toast.LENGTH_LONG).show();
         }
     }
+
     /**
      * 搜索蓝牙
      */
@@ -127,6 +148,7 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
         });
     }
 
+
     /**
      * 这个是搜索蓝牙显示在ListView中单项点击按钮监听事件
      */
@@ -135,6 +157,7 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
         public void onConnect(BleDevice bleDevice) {
             if (!BleManager.getInstance().isConnected(bleDevice)) {
                 BleManager.getInstance().cancelScan();
+                BleManager.getInstance().disconnectAllDevice();
                 connect(bleDevice);
             }
         }
@@ -157,12 +180,10 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
         BleManager.getInstance().connect(bleDevice, new BleGattCallback() {
             @Override
             public void onStartConnect() {
-                progressDialog.show();
-                BleManager.getInstance().disconnectAllDevice();
-            }
+                progressDialog.show();}
 
             @Override
-            public void onConnectFail(BleException exception) {
+            public void onConnectFail(BleDevice bleDevice, BleException e) {
                 progressDialog.dismiss();
                 Toast.makeText(getActivity(), getString(R.string.connect_fail), Toast.LENGTH_LONG).show();
                 scanBlutooth();
@@ -178,7 +199,7 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
                 //连接成功后开始监听返回的数据
                 myBluetoothManagement.notifyBle(bleDevice);
                 macAddress.setText(bleDevice.getMac());
-                int s=bleDevice.getRssi();
+                int s = bleDevice.getRssi();
                 signal.setText(String.valueOf(s));
                 scanBlutooth();
             }
@@ -207,7 +228,13 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
         }
         mDeviceAdapter.notifyDataSetChanged();
     }
-
+    @OnClick(R.id.dis_connect)
+    void disConnect(){
+        BleManager.getInstance().disconnectAllDevice();
+        scanBlutooth();
+        macAddress.setText("未连接");
+        signal.setText("未连接");
+    }
     @OnClick(R.id.img_portrait)
     void portait() {
         startActivity(new Intent(getActivity(), PersonalActivity.class));
@@ -221,7 +248,6 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
 
     @Override
     public void showState(String state) {
-        string=string+state+"\r\n";
-        operationRecord.setText(string);
+        refreshLogView(operationRecord, getTiem()+" "+state+"\r\n");
     }
 }

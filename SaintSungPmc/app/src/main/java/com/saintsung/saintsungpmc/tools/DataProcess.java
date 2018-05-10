@@ -1,5 +1,8 @@
 package com.saintsung.saintsungpmc.tools;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by XLzY on 2017/11/9.
  */
@@ -126,5 +129,11 @@ public class DataProcess {
                 break;
         }
         return reslut;
+    }
+    public static String getTiem(){
+        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date=new Date();
+        String time=sdf.format(date);
+        return time;
     }
 }

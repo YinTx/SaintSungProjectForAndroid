@@ -1,6 +1,7 @@
 package com.saintsung.saintsungpmc;
 
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.view.KeyEvent;
@@ -8,8 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
-
-import com.clj.fastble.BleManager;
 import com.saintsung.common.app.Activity;
 import com.saintsung.common.widget.BottomNavigationViewHelper;
 import com.saintsung.saintsungpmc.fragment.MainHomeFragment;
@@ -53,12 +52,10 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
         }
         return super.onKeyDown(keyCode, event);
     }
-
     @Override
     protected int getContentLayoutId() {
         return R.layout.activity_main;
     }
-
     @Override
     protected void initWidget() {
         super.initWidget();
@@ -84,7 +81,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
 
 
     @OnClick(R.id.btn_action)
-    void onActionClick() {
+    void onActionClick(){
     }
 
     @Override
@@ -104,6 +101,6 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     @Override
     protected void onPause() {
         super.onPause();
-        BleManager.getInstance().disconnectAllDevice();
+//        BleManager.getInstance().disconnectAllDevice();
     }
 }
