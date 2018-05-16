@@ -64,7 +64,6 @@ public class RetrofitRxAndroidHttp {
         @Override
         public void call(Throwable throwable) {
 
-
         }
     };
 }

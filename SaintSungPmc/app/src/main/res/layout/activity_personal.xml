@@ -16,6 +16,7 @@
         android:background="@color/saint_gray" />
 
     <LinearLayout
+        android:id="@+id/pic_toux"
         android:layout_width="match_parent"
         android:layout_height="@dimen/len_72"
         android:layout_marginLeft="@dimen/len_14"

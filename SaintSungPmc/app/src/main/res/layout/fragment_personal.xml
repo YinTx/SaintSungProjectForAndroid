@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,63 +8,68 @@
 
     <include layout="@layout/lay_top" />
 
+    <!--<com.saintsung.common.widget.GalleyView-->
+        <!--android:id="@+id/galleyView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+    <!--</com.saintsung.common.widget.GalleyView>-->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/len_204"
-        android:gravity="center"
-        android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/len_204"
+    android:gravity="center"
+    android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="@dimen/len_86"
-            android:layout_height="@dimen/len_86"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_electric" />
+    <ImageView
+    android:layout_width="@dimen/len_86"
+    android:layout_height="@dimen/len_86"
+    android:layout_gravity="center"
+    android:src="@drawable/ic_electric" />
     </LinearLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/len_10"
-        android:background="@color/saint_gray" />
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/len_10"
+    android:background="@color/saint_gray" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/len_16"
-        android:layout_marginRight="@dimen/len_32"
-        android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/len_16"
+    android:layout_marginRight="@dimen/len_32"
+    android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/len_36"
-            android:gravity="center"
-            android:text="@string/electric_my"
-            android:textAppearance="@style/fourthLevelBlackText" />
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/len_36"
+    android:gravity="center"
+    android:text="@string/electric_my"
+    android:textAppearance="@style/fourthLevelBlackText" />
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/len_224"
-            app:cardBackgroundColor="@color/white"
-            app:cardElevation="@dimen/len_2">
+    <android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/len_224"
+    app:cardBackgroundColor="@color/white"
+    app:cardElevation="@dimen/len_2">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@drawable/fragment_line">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/len_24"
-                    android:gravity="center"
-                    android:text="@string/electric_name"
-                    android:layout_marginLeft="@dimen/len_10"
-                    android:textAppearance="@style/secondLevelBlackText"
-                    />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/saint_gray"
-                    />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/fragment_line">
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/len_24"
+    android:gravity="center"
+    android:text="@string/electric_name"
+    android:layout_marginLeft="@dimen/len_10"
+    android:textAppearance="@style/secondLevelBlackText"
+    />
+    <View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:background="@color/saint_gray"
+    />
     </LinearLayout>
-</LinearLayout>
+    </android.support.v7.widget.CardView>
+    </LinearLayout>
+</FrameLayout>

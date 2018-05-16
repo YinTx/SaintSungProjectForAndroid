@@ -19,7 +19,6 @@ public class EquipmentUpdateActivity extends Activity {
     protected int getContentLayoutId() {
         return R.layout.activity_equipment_update;
     }
-
     @Override
     protected void initData() {
         super.initData();

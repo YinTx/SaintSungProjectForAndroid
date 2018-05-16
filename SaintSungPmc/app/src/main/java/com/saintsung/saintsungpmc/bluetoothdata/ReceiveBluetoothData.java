@@ -22,17 +22,21 @@ public class ReceiveBluetoothData {
     private static boolean flag = false;
     private static String[] parameterS00 = new String[3];
     private static int dataLength, dataPackage;
+
     public void setCallResult(resultData callResult) {
         this.resultDatacommand = callResult;
     }
+
     public interface resultData {
         void resultCommand(byte result);
-        void resultLockNumber(String lockNumber,int i);
+
+        void resultLockNumber(String lockNumber, int i);
     }
+
     public static void getReceiveBluetoothData(byte[] bytes) {
         Log.e("TAG", "接收到数据：" + HexUtil.formatHexString(bytes, true));
-        if(bytes.length!=20){
-            Log.e("TAG","数据包长度不够");
+        if (bytes.length != 20) {
+            Log.e("TAG", "数据包长度不够");
             return;
         }
         String result = checkPackageStartEnd(bytes);
@@ -51,6 +55,7 @@ public class ReceiveBluetoothData {
             Log.e("TAG", "传输出错！");
         }
     }
+
     private static void commamdType(byte[] bytes) {
         switch (bytes[3]) {
             case 0x10:
@@ -71,12 +76,13 @@ public class ReceiveBluetoothData {
                 break;
             case 0x31:
                 backResultCommand(bytes);
-                resultDatacommand.resultLockNumber("开锁结束",3);
+                resultDatacommand.resultLockNumber("开锁结束", 3);
                 Log.e("TAG", "结束开设备操作！");
                 break;
             case 0x40:
                 //执行关设备操作
                 Log.e("TAG", "开始执行关设备操作！");
+                backResultCommand(bytes);
                 break;
             case 0x50:
                 //下载工单编号结束
@@ -170,6 +176,7 @@ public class ReceiveBluetoothData {
                 break;
         }
     }
+
     /**
      * 判断小掌机参数是否设置成功
      *
@@ -187,15 +194,17 @@ public class ReceiveBluetoothData {
 
     public static void backResultCommand(byte[] bytes) {
         byte mCommand = bytes[3];
-        if(mCommand==0x30)
-            resultDatacommand.resultLockNumber(hexOpenLockNumber(bytes),0);
-        else if(mCommand==0x31){
-            String openLock=hexOpenLockNumber(bytes);
-            if(bytes[10]==0x00)
-                openLock=openLock+"0";
-            if (bytes[10]==0x01)
-                openLock=openLock+"1";
-            resultDatacommand.resultLockNumber(openLock,1);}
+        if (mCommand == 0x30)
+            resultDatacommand.resultLockNumber(hexOpenLockNumber(bytes), 0);
+        else if (mCommand == 0x31) {
+            String openLock = hexOpenLockNumber(bytes);
+            if (bytes[10] == 0x00)
+                openLock = openLock + "0";
+            if (bytes[10] == 0x01)
+                openLock = openLock + "1";
+            resultDatacommand.resultLockNumber(openLock, 1);
+        } else if (mCommand == 0x40)
+            resultDatacommand.resultLockNumber(hexOpenLockNumber(bytes), 2);
         else if (mCommand == 0x50)
             resultDatacommand.resultCommand(mCommand);
         else if (mCommand == 0x60)
@@ -203,6 +212,7 @@ public class ReceiveBluetoothData {
         else if (mCommand == 0x70)
             resultDatacommand.resultCommand(mCommand);
     }
+
     /**
      * 这个包是开始接收以0xb1为包头没有包尾的数据包
      *
@@ -216,6 +226,7 @@ public class ReceiveBluetoothData {
                 upLoadOpenLockOneRecord(bytes);
         }
     }
+
     /**
      * 读取S00参数
      *
@@ -244,6 +255,7 @@ public class ReceiveBluetoothData {
                 break;
         }
     }
+
     private static void upLoadOpenLockRecordStart(byte[] bytes) {
         byte[] dataPackage = new byte[]{bytes[1], bytes[2]};
         byte[] dataLength = new byte[]{bytes[7], bytes[6], bytes[5], bytes[4]};

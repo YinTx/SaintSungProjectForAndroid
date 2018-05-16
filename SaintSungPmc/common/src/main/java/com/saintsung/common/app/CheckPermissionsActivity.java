@@ -135,7 +135,6 @@ public class CheckPermissionsActivity extends AppCompatActivity
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.notifyTitle);
         builder.setMessage(R.string.notifyMsg);
-
         // 拒绝, 退出应用
         builder.setNegativeButton(R.string.cancel,
                 new DialogInterface.OnClickListener() {

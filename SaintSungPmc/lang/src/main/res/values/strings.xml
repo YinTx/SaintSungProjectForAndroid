@@ -47,5 +47,4 @@
     <string name="connect_fail">连接失败</string>
     <string name="disconnected">连接断开</string>
     <string name="connection">连接中...</string>
-
 </resources>

@@ -85,12 +85,17 @@
         <activity android:name=".activity.ScrapApplyActivity" />
         <activity android:name=".activity.ApplyRecoveryActivity" />
         <activity android:name=".activity.ReplaceApplyActivity" />
+        <activity android:name=".text.TextActivity"/>
         <activity android:name=".activity.LoginActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 
 </manifest>

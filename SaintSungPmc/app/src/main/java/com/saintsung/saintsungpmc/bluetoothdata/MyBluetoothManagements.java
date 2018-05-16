@@ -241,6 +241,8 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData, 
         if(i==1){
             conntentService.uploadService(lockNumber,bleDevice.getMac());
         }
+        if(i==2)
+            showState.showState("关锁结束："+lockNumber);
         if(i==3)
             showState.showState(lockNumber);
     }

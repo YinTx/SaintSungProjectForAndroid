@@ -16,7 +16,6 @@ public interface DataSource {
      * @param <T> 任意类型
      */
     interface Callback<T> extends SucceedCallback<T>, FailedCallback {
-
     }
 
     /**
@@ -37,5 +36,4 @@ public interface DataSource {
         // 数据加载失败, 网络请求失败
         void onDataNotAvailable(@StringRes int strRes);
     }
-
 }
