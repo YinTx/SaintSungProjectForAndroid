@@ -12,8 +12,8 @@ import butterknife.BindView;
  */
 
 public class TextActivity extends Activity {
-//    @BindView(R.id.galleyView)
-//    GalleyView mGalley;
+    @BindView(R.id.galleyView)
+    GalleyView mGalley;
     @Override
     protected int getContentLayoutId() {
         return R.layout.activity_test;
@@ -22,11 +22,11 @@ public class TextActivity extends Activity {
     @Override
     protected void initData() {
         super.initData();
-//        mGalley.setup(getLoaderManager(), new GalleyView.SelectedChangeListener() {
-//            @Override
-//            public void onSelectedCount(int count) {
-//
-//            }
-//        });
+        mGalley.setup(getSupportLoaderManager(), new GalleyView.SelectedChangeListener() {
+            @Override
+            public void onSelectedCount(int count) {
+
+            }
+        });
     }
 }

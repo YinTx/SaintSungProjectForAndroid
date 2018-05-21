@@ -24,9 +24,6 @@ public interface BlogService {
     @POST("httpInterface.php")
     Observable<ResponseBody> getLoginService(@Body RequestBody route);
 
-
-
-
     @GET("geocoding?a=上海市&aa=松江区&aaa=车墩镇")
     Call<AliAddrsBean> getIndexContent();
     @GET("{parameters}?a=苏州市")

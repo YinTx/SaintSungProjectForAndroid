@@ -1,8 +1,6 @@
 package com.saintsung.saintsungpmc.bluetoothdata;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleNotifyCallback;
@@ -21,9 +19,8 @@ import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.s
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendWorkOrderNumber;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.sendWorkOrderTime;
 import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataManagement.uploadOpenLockRecord;
-import static com.saintsung.saintsungpmc.bluetoothdata.BluetoothDataProcess.hexOpenLockNumber;
 import static com.saintsung.saintsungpmc.bluetoothdata.ReceiveBluetoothData.getReceiveBluetoothData;
-import static com.saintsung.saintsungpmc.bluetoothdata.SendBluetoothData.downLoadEndPackage;
+
 
 /**
  * 这个类是用于控制蓝牙接收发数据

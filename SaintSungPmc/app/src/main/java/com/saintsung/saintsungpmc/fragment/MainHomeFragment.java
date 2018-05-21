@@ -65,12 +65,12 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
     @Override
     protected void initData() {
         super.initData();
-        Glide.with(this).load(R.drawable.bg_src_morning).centerCrop().into(new ViewTarget<View, GlideDrawable>(mLayAppbar) {
-            @Override
-            public void onResourceReady(GlideDrawable glideDrawable, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                this.view.setBackground(glideDrawable.getCurrent());
-            }
-        });
+//        Glide.with(this).load(R.drawable.bg_src_morning).centerCrop().into(new ViewTarget<View, GlideDrawable>(mLayAppbar) {
+//            @Override
+//            public void onResourceReady(GlideDrawable glideDrawable, GlideAnimation<? super GlideDrawable> glideAnimation) {
+//                this.view.setBackground(glideDrawable.getCurrent());
+//            }
+//        });
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCancelable(false);
         progressDialog.setMessage(getString(R.string.connection));

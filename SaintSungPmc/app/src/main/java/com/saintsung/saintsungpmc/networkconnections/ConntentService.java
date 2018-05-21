@@ -44,16 +44,16 @@ public class ConntentService {
     }
 
     public void getWorkOrder() {
-        retrofitRxAndroidHttp.serviceConnect(Constant.addressHttps, getWorkOrderStr(), workOrderAct);
+        retrofitRxAndroidHttp.serviceConnect(Constant.addressHttps, getWorkOrderStr(), workOrderAct,onErrorAction);
     }
     public void getLockOnLine(String number,String macAddress){
-        retrofitRxAndroidHttp.serviceConnect(Constant.addressHttps,getlockOnLine(number,macAddress),lockOnLineAct);
+        retrofitRxAndroidHttp.serviceConnect(Constant.addressHttps,getlockOnLine(number,macAddress),lockOnLineAct,onErrorAction);
     }
     public void uploadService(String string,String keyNumber){
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date=new Date();
         String times=sdf.format(date);
-        retrofitRxAndroidHttp.serviceConnect(Constant.addressHttps,getUploadRecord(keyNumber,string.substring(0,string.length()-1),"5",times,string.substring(string.length()-1,string.length())),uploadRecordAct);
+        retrofitRxAndroidHttp.serviceConnect(Constant.addressHttps,getUploadRecord(keyNumber,string.substring(0,string.length()-1),"5",times,string.substring(string.length()-1,string.length())),uploadRecordAct,onErrorAction);
     }
     private String getWorkOrderStr() {
         Gson gson = new Gson();
@@ -154,6 +154,13 @@ public class ConntentService {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    };
+    //处理onError()中的内容
+    Action1<Throwable> onErrorAction = new Action1<Throwable>() {
+        @Override
+        public void call(Throwable throwable) {
+
         }
     };
 }

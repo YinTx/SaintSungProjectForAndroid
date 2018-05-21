@@ -234,13 +234,32 @@ public class SendBluetoothData {
         bytes = increaseHandle(lockThreeGroup, bytes);
         bytes = increaseHandle(lockFourGroup, bytes);
         bytes = increaseHandle(lockFiveGroup, bytes);
-        if (lockType.equals("0001") ||lockType.equals("0006")) {
-            bytes=addBytes(bytes,new byte[]{0x5A});
+        if (!lockType.equals("0002")) {
+            bytes = addBytes(bytes, new byte[]{0x5A});
         } else {
             bytes = setZeroData(bytes, 1);
         }
+        switch (lockType){
+            case "0001":
+                bytes = addBytes(bytes,new byte[]{0x01});
+                break;
+            case "0002":
+                bytes = addBytes(bytes,new byte[]{0x02});
+                break;
+            case "0003":
+                bytes = addBytes(bytes,new byte[]{0x03});
+                break;
+            case "0004":
+                bytes = addBytes(bytes,new byte[]{0x04});
+                break;
+            case "0005":
+                bytes = addBytes(bytes,new byte[]{0x05});
+                break;
+            case "0006":
+                bytes = addBytes(bytes,new byte[]{0x06});
+                break;
+        }
         bytes = increaseNullByte(bytes, 1);
-        bytes = addBytes(bytes, HexString2Bytes(decimalSystemHexadecimal(lockType)));
         bytes = increaseCRC(bytes);
         bytes = increasePackage(bytes, (byte) 0xA0, (byte) 0xF0);
         return bytes;

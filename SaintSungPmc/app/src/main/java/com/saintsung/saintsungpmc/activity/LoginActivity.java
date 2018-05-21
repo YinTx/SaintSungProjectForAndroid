@@ -53,7 +53,7 @@ public class LoginActivity extends Activity {
         loginStr  = SharedPreferencesUtil.getSharedPreferences(LoginActivity.this, "Login", "");
         if(!loginStr.equals("")){
             RetrofitRxAndroidHttp retrofitService = new RetrofitRxAndroidHttp();
-            retrofitService.serviceConnect(MyApplication.getUrl(),loginStr, action1);
+            retrofitService.serviceConnect(MyApplication.getUrl(),loginStr, action1,onErrorAction);
         }
     }
 
@@ -153,10 +153,16 @@ public class LoginActivity extends Activity {
         loginBean.setSign(sing);
         RetrofitRxAndroidHttp retrofitService = new RetrofitRxAndroidHttp();
         loginStr=gson.toJson(loginBean);
-        retrofitService.serviceConnect(MyApplication.getUrl(),loginStr, action1);
+        retrofitService.serviceConnect(MyApplication.getUrl(),loginStr, action1,onErrorAction);
 
     }
+    //处理onError()中的内容
+    Action1<Throwable> onErrorAction = new Action1<Throwable>() {
+        @Override
+        public void call(Throwable throwable) {
 
+        }
+    };
     private Action1<ResponseBody> action1 = new Action1<ResponseBody>() {
 
         @Override
