@@ -101,4 +101,11 @@ public class ToastUtil {
 			rootView.setClipToPadding(true);
 		}
 	}
+	public static void refreshLogView(TextView logView, String msg) {
+		logView.append(msg);
+		int offset = logView.getLineCount() * logView.getLineHeight();
+		if (offset > logView.getHeight()) {
+			logView.scrollTo(0, offset - logView.getHeight());
+		}
+	}
 }

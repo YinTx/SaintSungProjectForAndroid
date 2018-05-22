@@ -9,6 +9,7 @@ import com.saintsung.common.app.Activity;
 import com.saintsung.saintsungpmc.R;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by EvanShu on 2018/4/20.
@@ -29,6 +30,9 @@ public class UnauthorizedActivity extends Activity {
         super.initData();
         imgBack.setVisibility(View.VISIBLE);
         txtTitle.setText(R.string.unauthorized_title);
-
+    }
+    @OnClick(R.id.img_back)
+    void black(){
+        finish();
     }
 }

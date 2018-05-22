@@ -109,6 +109,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/workorder_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/len_10"
@@ -131,7 +132,15 @@
             android:layout_marginLeft="@dimen/len_16"
             android:text="@string/workorder_number"
             android:textAppearance="@style/secondLevelGreykText" />
-
+        <TextView
+            android:id="@+id/tv_work_gone"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="没有工单"
+            android:textAppearance="@style/secondLevelBlackText"
+            android:gravity="center"
+            />
         <ListView
             android:id="@+id/list_device"
             android:layout_marginTop="@dimen/len_8"

@@ -9,6 +9,7 @@ import com.saintsung.common.app.Activity;
 import com.saintsung.saintsungpmc.R;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class AccountSecurityActivity extends Activity {
     @BindView(R.id.img_back)
@@ -26,5 +27,9 @@ public class AccountSecurityActivity extends Activity {
         super.initData();
         txtTitle.setText(R.string.account_securitey_title);
         imgBack.setVisibility(View.VISIBLE);
+    }
+    @OnClick(R.id.img_back)
+    void black(){
+        finish();
     }
 }

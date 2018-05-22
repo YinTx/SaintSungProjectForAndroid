@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.bluetooth.BluetoothGatt;
 import android.content.Intent;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -12,16 +13,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.ViewTarget;
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleGattCallback;
 import com.clj.fastble.callback.BleScanCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
-import com.clj.fastble.scan.BleScanRuleConfig;
 import com.saintsung.common.app.Fragment;
 import com.saintsung.saintsungpmc.MyApplication;
 import com.saintsung.saintsungpmc.R;
@@ -34,8 +30,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
 import static com.saintsung.saintsungpmc.tools.DataProcess.getTiem;
+import static com.saintsung.saintsungpmc.tools.ToastUtil.refreshLogView;
 
 /**
  * Created by XLzY on 2017/7/28.
@@ -46,17 +42,14 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
     private DeviceAdapter mDeviceAdapter;//ListView的Adapter
     private ProgressDialog progressDialog;
     MyBluetoothManagements myBluetoothManagement;
-    private String string = "";
     @BindView(R.id.appbar)
     View mLayAppbar;
     @BindView(R.id.lst_authorized)
     ListView bleListView;
-    @BindView(R.id.fragment_mac_address)
-    TextView macAddress;
-    @BindView(R.id.fragment_signal)
-    TextView signal;
+
     @BindView(R.id.operation_record)
     TextView operationRecord;
+
     @Override
     protected int getContentLayoutId() {
         return R.layout.fragment_home;
@@ -65,12 +58,6 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
     @Override
     protected void initData() {
         super.initData();
-//        Glide.with(this).load(R.drawable.bg_src_morning).centerCrop().into(new ViewTarget<View, GlideDrawable>(mLayAppbar) {
-//            @Override
-//            public void onResourceReady(GlideDrawable glideDrawable, GlideAnimation<? super GlideDrawable> glideAnimation) {
-//                this.view.setBackground(glideDrawable.getCurrent());
-//            }
-//        });
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCancelable(false);
         progressDialog.setMessage(getString(R.string.connection));
@@ -81,73 +68,29 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
         operatingAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate);
         operatingAnim.setInterpolator(new LinearInterpolator());
         operationRecord.setMovementMethod(ScrollingMovementMethod.getInstance());
-        BleManager.getInstance().init(getActivity().getApplication());
-        BleScanRuleConfig bleScanRuleConfig = new BleScanRuleConfig.Builder()
-                .setScanTimeOut(0)
-                .build();
-        BleManager.getInstance().initScanRule(bleScanRuleConfig);
+        if (!thread.isAlive())
+            thread.start();
     }
 
-    void refreshLogView(TextView logView, String msg) {
-        logView.append(msg);
-        int offset = logView.getLineCount() * logView.getLineHeight();
-        if (offset > logView.getHeight()) {
-            logView.scrollTo(0, offset - logView.getHeight());
+    public Thread thread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (true)
+                try {
+                    openBluetooth();
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
         }
-    }
+    });
 
     @Override
     public void onStart() {
         super.onStart();
-        openBluetooth();
         operationRecord.setText(MyApplication.getOperationRecord());
     }
-
-    private void openBluetooth() {
-        //isSupportBle  判断是否该机型能否使用BLE
-        if (BleManager.getInstance().isSupportBle()) {
-            //判断蓝牙是否打开
-            if (BleManager.getInstance().isBlueEnable())
-                scanBlutooth();
-            else {
-                //打开蓝牙
-                BleManager.getInstance().enableBluetooth();
-                try {
-                    Thread.sleep(1000);
-                    scanBlutooth();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        } else {
-            Toast.makeText(getActivity(), getString(R.string.please_replacePhone), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    /**
-     * 搜索蓝牙
-     */
-    private void scanBlutooth() {
-        BleManager.getInstance().scan(new BleScanCallback() {
-            @Override
-            public void onScanStarted(boolean success) {
-                mDeviceAdapter.clearScanDevice();
-                mDeviceAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onScanning(BleDevice result) {
-                mDeviceAdapter.addDevice(result);
-                mDeviceAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onScanFinished(List<BleDevice> scanResultList) {
-            }
-        });
-    }
-
 
     /**
      * 这个是搜索蓝牙显示在ListView中单项点击按钮监听事件
@@ -157,7 +100,6 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
         public void onConnect(BleDevice bleDevice) {
             if (!BleManager.getInstance().isConnected(bleDevice)) {
                 BleManager.getInstance().cancelScan();
-                BleManager.getInstance().disconnectAllDevice();
                 connect(bleDevice);
             }
         }
@@ -176,18 +118,54 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
         }
     };
 
+    public void openBluetooth() {
+        //isSupportBle  判断是否该机型能否使用BLE
+        if (BleManager.getInstance().isSupportBle()) {
+            //判断蓝牙是否打开
+            if (BleManager.getInstance().isBlueEnable())
+                scan();
+            else {
+                //打开蓝牙
+                BleManager.getInstance().enableBluetooth();
+            }
+        }
+    }
+
+    public void scan() {
+        BleManager.getInstance().scan(new BleScanCallback() {
+            @Override
+            public void onScanStarted(boolean b) {
+                mDeviceAdapter.clearScanDevice();
+                mDeviceAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onScanning(BleDevice bleDevice) {
+                mDeviceAdapter.addDevice(bleDevice);
+                mDeviceAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onScanFinished(List<BleDevice> list) {
+
+            }
+        });
+    }
+
     private void connect(BleDevice bleDevice) {
         BleManager.getInstance().connect(bleDevice, new BleGattCallback() {
             @Override
             public void onStartConnect() {
-                progressDialog.show();}
+                progressDialog.show();
+            }
 
             @Override
             public void onConnectFail(BleDevice bleDevice, BleException e) {
                 progressDialog.dismiss();
                 Toast.makeText(getActivity(), getString(R.string.connect_fail), Toast.LENGTH_LONG).show();
-                scanBlutooth();
             }
+
             @Override
             public void onConnectSuccess(final BleDevice bleDevice, BluetoothGatt gatt, int status) {
                 progressDialog.dismiss();
@@ -198,10 +176,6 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
                 myBluetoothManagement.connectBluetooth();
                 //连接成功后开始监听返回的数据
                 myBluetoothManagement.notifyBle(bleDevice);
-                macAddress.setText(bleDevice.getMac());
-                int s = bleDevice.getRssi();
-                signal.setText(String.valueOf(s));
-                scanBlutooth();
             }
 
             @Override
@@ -228,13 +202,12 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
         }
         mDeviceAdapter.notifyDataSetChanged();
     }
+
     @OnClick(R.id.dis_connect)
-    void disConnect(){
+    void disConnect() {
         BleManager.getInstance().disconnectAllDevice();
-        scanBlutooth();
-        macAddress.setText("未连接");
-        signal.setText("未连接");
     }
+
     @OnClick(R.id.img_portrait)
     void portait() {
         startActivity(new Intent(getActivity(), PersonalActivity.class));
@@ -248,6 +221,6 @@ public class MainHomeFragment extends Fragment implements MyBluetoothManagements
 
     @Override
     public void showState(String state) {
-        refreshLogView(operationRecord, getTiem()+" "+state+"\r\n");
+        refreshLogView(operationRecord, getTiem() + " " + state + "\r\n");
     }
 }

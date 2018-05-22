@@ -9,6 +9,7 @@ import com.saintsung.common.app.Activity;
 import com.saintsung.saintsungpmc.R;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class ApplyManageActivity extends Activity {
 
@@ -26,5 +27,9 @@ public class ApplyManageActivity extends Activity {
         super.initData();
         txtTitle.setText(R.string.apply_manage_title);
         imgBack.setVisibility(View.VISIBLE);
+    }
+    @OnClick(R.id.img_back)
+    void black(){
+        finish();
     }
 }

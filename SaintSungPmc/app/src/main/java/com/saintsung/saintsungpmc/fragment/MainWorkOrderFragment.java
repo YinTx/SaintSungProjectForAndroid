@@ -1,6 +1,7 @@
 package com.saintsung.saintsungpmc.fragment;
 
 
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,8 +32,12 @@ public class MainWorkOrderFragment extends Fragment {
     TextView txtTitle;
     @BindView(R.id.list_device)
     ListView listDevice;
-    WorkOrderAdapter adapter = new WorkOrderAdapter(getContext(),null);
-    List<WorkOrderDataBean> workOrderDataBeanArr=new ArrayList<>();
+    @BindView(R.id.tv_work_gone)
+    TextView tvWorkGone;
+    WorkOrderAdapter adapter = new WorkOrderAdapter(getContext(), null);
+    List<WorkOrderDataBean> workOrderDataBeanArr = new ArrayList<>();
+    @BindView(R.id.workorder_title)
+    TextView workorderTitle;
     @Override
     protected int getContentLayoutId() {
         return R.layout.fragment_control;
@@ -42,26 +47,39 @@ public class MainWorkOrderFragment extends Fragment {
     protected void initData() {
         super.initData();
         txtTitle.setText(R.string.workorder_title);
-
         listDevice.setAdapter(adapter);
+        complete();
     }
 
     @OnClick(R.id.fragment_complete)
     void complete() {
-        workOrderDataBeanArr=new ArrayList<>();
+        workorderTitle.setText("已完成工单");
+        workOrderDataBeanArr = new ArrayList<>();
         for (WorkOrderDataBean workOrderBean : MyApplication.getWorkOrderBean().getData()) {
-            if(workOrderBean.getWorkState().equals("4") ||workOrderBean.getWorkState().equals("5")){
+            if (workOrderBean.getWorkState().equals("4") || workOrderBean.getWorkState().equals("5")) {
                 workOrderDataBeanArr.add(workOrderBean);
             }
-            if(workOrderBean.getWorkState().equals("3") ||workOrderBean.getWorkState().equals("8")||workOrderBean.getWorkState().equals("11")||workOrderBean.getWorkState().equals("12")){
-
-            }
         }
+        if (workOrderDataBeanArr.size() > 0)
+            tvWorkGone.setVisibility(View.GONE);
+        else
+            tvWorkGone.setVisibility(View.VISIBLE);
         adapter.notifyDataSetChanged();
     }
 
-    @OnClick()
+    @OnClick(R.id.fragment_uncomplete)
     void unComplete() {
-
+        workorderTitle.setText("未完成工单");
+        workOrderDataBeanArr = new ArrayList<>();
+        for (WorkOrderDataBean workOrderBean : MyApplication.getWorkOrderBean().getData()) {
+            if (workOrderBean.getWorkState().equals("3") || workOrderBean.getWorkState().equals("8") || workOrderBean.getWorkState().equals("11") || workOrderBean.getWorkState().equals("12")) {
+                workOrderDataBeanArr.add(workOrderBean);
+            }
+        }
+        if (workOrderDataBeanArr.size() > 0)
+            tvWorkGone.setVisibility(View.GONE);
+        else
+            tvWorkGone.setVisibility(View.VISIBLE);
+        adapter.notifyDataSetChanged();
     }
 }

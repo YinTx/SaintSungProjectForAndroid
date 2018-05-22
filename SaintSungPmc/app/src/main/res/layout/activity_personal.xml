@@ -34,7 +34,9 @@
         <ImageView
             android:layout_width="@dimen/len_60"
             android:layout_height="@dimen/len_60"
-            android:layout_marginRight="@dimen/len_36" />
+            android:layout_marginRight="@dimen/len_36"
+            android:src="@drawable/default_portrait"
+            />
     </LinearLayout>
 
     <View
@@ -71,6 +73,7 @@
         android:background="@color/saint_gray" />
 
     <LinearLayout
+        android:id="@+id/personal_map"
         android:layout_width="match_parent"
         android:layout_height="@dimen/len_40"
         android:background="@color/white"

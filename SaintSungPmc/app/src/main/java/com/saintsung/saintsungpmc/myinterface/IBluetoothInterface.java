@@ -8,4 +8,6 @@ import com.clj.fastble.data.BleDevice;
 
 public interface IBluetoothInterface {
     void connect(BleDevice bleDevice);
+    void scan();
+
 }

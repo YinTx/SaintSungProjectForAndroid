@@ -31,81 +31,6 @@
                 android:padding="@dimen/len_4"
                 android:scaleType="centerCrop"
                 android:src="@drawable/default_portrait" />
-
-            <LinearLayout
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="@dimen/len_56"
-                    android:layout_height="@dimen/len_56"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:src="@drawable/ic_home_wifi" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/len_10"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/fragment_mac_address"
-                            android:layout_width="@dimen/len_100"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/fragment_line"
-                            android:gravity="center_horizontal"
-                            android:layout_marginRight="@dimen/len_6"
-                            android:text="未连接"
-                            android:textAppearance="@style/secondLevelBlackText" />
-
-                        <TextView
-                            android:layout_width="@dimen/len_100"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/len_2"
-                            android:gravity="center_horizontal"
-                            android:layout_marginRight="@dimen/len_6"
-                            android:text="Mac地址"
-                            android:textAppearance="@style/secondLevelBlackText" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/fragment_signal"
-                            android:layout_width="@dimen/len_100"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/len_6"
-                            android:background="@drawable/fragment_line"
-                            android:gravity="center_horizontal"
-                            android:text="未连接"
-                            android:textAppearance="@style/secondLevelBlackText" />
-                        <TextView
-                            android:layout_width="@dimen/len_100"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/len_6"
-                            android:layout_marginTop="@dimen/len_2"
-                            android:gravity="center_horizontal"
-                            android:text="信号强弱"
-                            android:textAppearance="@style/secondLevelBlackText" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
         </FrameLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -181,13 +106,13 @@
                 android:layout_marginRight="@dimen/len_10" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
+
     <LinearLayout
-        android:paddingLeft="@dimen/len_10"
-        android:paddingRight="@dimen/len_10"
-        android:layout_marginTop="@dimen/len_10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:layout_marginTop="@dimen/len_10"
+        android:paddingLeft="@dimen/len_10"
+        android:paddingRight="@dimen/len_10">
 
         <TextView
             android:layout_width="0dp"
@@ -201,10 +126,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="断开连接"
-            android:textSize="@dimen/font_16"
             android:textColor="@color/saint_red"
-            />
+            android:textSize="@dimen/font_16" />
     </LinearLayout>
+
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="300dp"
@@ -218,27 +143,28 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="操作记录"
                 android:layout_margin="@dimen/len_10"
-                android:textAppearance="@style/fourthLevelBlackText"
-                />
+                android:text="操作记录"
+                android:textAppearance="@style/fourthLevelBlackText" />
+
             <TextView
                 android:id="@+id/operation_record"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:maxLines="10"
-                android:textAppearance="@style/secondLevelGreykText"
-                android:scrollbars="vertical"
-                android:lineSpacingExtra="@dimen/len_8"
                 android:layout_marginBottom="@dimen/len_2"
                 android:layout_marginLeft="@dimen/len_10"
-                android:layout_marginRight="@dimen/len_10">
-            </TextView>
+                android:layout_marginRight="@dimen/len_10"
+                android:lineSpacingExtra="@dimen/len_8"
+                android:maxLines="10"
+                android:scrollbars="vertical"
+                android:textAppearance="@style/secondLevelGreykText"></TextView>
         </LinearLayout>
     </android.support.v7.widget.CardView>
+
     <com.baoyz.widget.PullRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"

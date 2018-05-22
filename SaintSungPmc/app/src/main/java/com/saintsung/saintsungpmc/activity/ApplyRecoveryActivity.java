@@ -9,6 +9,7 @@ import com.saintsung.common.app.Activity;
 import com.saintsung.saintsungpmc.R;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class ApplyRecoveryActivity extends Activity {
 
@@ -27,5 +28,9 @@ public class ApplyRecoveryActivity extends Activity {
         super.initData();
         txtTitle.setText(R.string.recovery_apply_title);
         imgBack.setVisibility(View.VISIBLE);
+    }
+    @OnClick(R.id.img_back)
+    void black(){
+        finish();
     }
 }

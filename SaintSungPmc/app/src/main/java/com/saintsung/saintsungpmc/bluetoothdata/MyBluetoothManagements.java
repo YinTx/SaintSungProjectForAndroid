@@ -104,7 +104,6 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData, 
 
     /**
      * 下载工单有效时间
-     *
      * @param starTime
      * @param endTime
      */

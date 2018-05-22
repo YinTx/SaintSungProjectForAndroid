@@ -45,4 +45,12 @@ public class PersonalActivity extends Activity {
         startActivity(new Intent(PersonalActivity.this,TextActivity.class));
 
     }
+    @OnClick(R.id.personal_map)
+    void personalMap(){
+        startActivity(new Intent(PersonalActivity.this,PersonalMapActivity.class));
+    }
+    @OnClick(R.id.img_back)
+    void black(){
+        finish();
+    }
 }

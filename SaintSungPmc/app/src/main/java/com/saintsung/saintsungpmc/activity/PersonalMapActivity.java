@@ -25,6 +25,7 @@ import com.saintsung.common.app.Activity;
 import com.saintsung.saintsungpmc.R;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class PersonalMapActivity extends Activity implements AMap.OnMapClickListener, LocationSource, AMapLocationListener, AMap.CancelableCallback {
     private String TAG = "MainMapFragment for Tag";
@@ -104,29 +105,29 @@ public class PersonalMapActivity extends Activity implements AMap.OnMapClickList
     @Override
     public void onResume() {
         super.onResume();
-//        mMapView.onResume();
-//        Log.w(TAG,"onResume");
+        mMapView.onResume();
+        Log.w(TAG,"onResume");
     }
 
 
     @Override
     public void onPause() {
         super.onPause();
-//        mMapView.onPause();
-//        Log.i(TAG,"onPause");
+        mMapView.onPause();
+        Log.i(TAG,"onPause");
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-//        mMapView.onSaveInstanceState(outState);
+        mMapView.onSaveInstanceState(outState);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        mMapView.onDestroy();
-//        Log.w(TAG,"onDestroy");
+        mMapView.onDestroy();
+        Log.w(TAG,"onDestroy");
     }
 
 
@@ -189,5 +190,9 @@ public class PersonalMapActivity extends Activity implements AMap.OnMapClickList
     @Override
     public void onCancel() {
 
+    }
+    @OnClick(R.id.img_back)
+    void black(){
+        finish();
     }
 }
