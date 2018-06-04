@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.saintsung.saintsungpmc.bean.WorkOrderBean;
+import com.saintsung.saintsungpmc.bluetoothdata.MyBluetoothManagements;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -23,6 +24,24 @@ public class MyApplication extends Application {
     private static WorkOrderBean workOrderBean;
     public static OkHttpClient okHttpClient;
     private static String operationRecord;
+    private static String [] workOrder;
+    private static MyBluetoothManagements myBluetoothManagements;
+
+    public static MyBluetoothManagements getMyBluetoothManagements() {
+        return myBluetoothManagements;
+    }
+
+    public static void setMyBluetoothManagements(MyBluetoothManagements myBluetoothManagements) {
+        MyApplication.myBluetoothManagements = myBluetoothManagements;
+    }
+
+    public static String[] getWorkOrder() {
+        return workOrder;
+    }
+
+    public static void setWorkOrder(String[] workOrder) {
+        MyApplication.workOrder = workOrder;
+    }
 
     public static String getOperationRecord() {
         return operationRecord;

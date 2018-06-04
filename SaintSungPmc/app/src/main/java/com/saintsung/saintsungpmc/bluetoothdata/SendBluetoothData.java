@@ -215,55 +215,6 @@ public class SendBluetoothData {
         return newBytes;
     }
 
-    /**
-     * 在线发送开锁
-     *
-     * @param lockNumber
-     * @param lockType
-     * @return
-     */
-    public static byte[] sendLockNumber(String lockNumber, String lockType) {
-        byte[] bytes = new byte[]{0x0C, 0x00, 0x30};
-        byte[] lockOneGroup = HexString2Bytes(decimalSystemHexadecimal(lockNumber.substring(0, 3)));
-        byte[] lockTwoGroup = HexString2Bytes(decimalSystemHexadecimal(lockNumber.substring(3, 6)));
-        byte[] lockThreeGroup = HexString2Bytes(decimalSystemHexadecimal(lockNumber.substring(6, 9)));
-        byte[] lockFourGroup = HexString2Bytes(decimalSystemHexadecimal(lockNumber.substring(9, 12)));
-        byte[] lockFiveGroup = HexString2Bytes(decimalSystemHexadecimal(lockNumber.substring(12, 15)));
-        bytes = increaseHandle(lockOneGroup, bytes);
-        bytes = increaseHandle(lockTwoGroup, bytes);
-        bytes = increaseHandle(lockThreeGroup, bytes);
-        bytes = increaseHandle(lockFourGroup, bytes);
-        bytes = increaseHandle(lockFiveGroup, bytes);
-        if (!lockType.equals("0002")) {
-            bytes = addBytes(bytes, new byte[]{0x5A});
-        } else {
-            bytes = setZeroData(bytes, 1);
-        }
-        switch (lockType){
-            case "0001":
-                bytes = addBytes(bytes,new byte[]{0x01});
-                break;
-            case "0002":
-                bytes = addBytes(bytes,new byte[]{0x02});
-                break;
-            case "0003":
-                bytes = addBytes(bytes,new byte[]{0x03});
-                break;
-            case "0004":
-                bytes = addBytes(bytes,new byte[]{0x04});
-                break;
-            case "0005":
-                bytes = addBytes(bytes,new byte[]{0x05});
-                break;
-            case "0006":
-                bytes = addBytes(bytes,new byte[]{0x06});
-                break;
-        }
-        bytes = increaseNullByte(bytes, 1);
-        bytes = increaseCRC(bytes);
-        bytes = increasePackage(bytes, (byte) 0xA0, (byte) 0xF0);
-        return bytes;
-    }
 
     private static byte[] increaseHandle(byte[] bytes, byte[] oldBytes) {
         byte[] newBytes = new byte[oldBytes.length + 2];
@@ -278,6 +229,18 @@ public class SendBluetoothData {
             newBytes[newBytes.length - 1] = bytes[0];
         }
         return newBytes;
+    }
+
+    /**
+     * 十进制转十六进制
+     *
+     * @param string
+     * @return
+     */
+    private static String decimalSystemHexadecimal2(String string) {
+        Integer integer = new Integer(string);
+
+        return integer.toHexString(integer);
     }
 
     /**
@@ -377,7 +340,8 @@ public class SendBluetoothData {
      * @return
      */
     public static byte[] downLoadLockInfo(String packCon, String lockNumber, String openLockNumber, String lockType) {
-        byte[] lockBytes = HexUtil.hexStringToBytes(lockNumber);
+        String s=decimalSystemHexadecimal2(lockNumber);
+        byte[] lockBytes = HexUtil.hexStringToBytes(s);
         byte[] lockOneGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(0, 3)));
         byte[] lockTwoGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(3, 6)));
         byte[] lockThreeGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(6, 9)));
@@ -385,16 +349,92 @@ public class SendBluetoothData {
         byte[] lockFiveGroup = HexString2Bytes(decimalSystemHexadecimal(openLockNumber.substring(12, 15)));
         byte[] bytes = HexString2Bytes(decimalSystemHexadecimal(packCon));
         byte[] newBytes = new byte[]{lockBytes[3], lockBytes[2], lockBytes[1], lockBytes[0]};
+        Log.e("TAG","WD"+HexUtil.formatHexString(newBytes));
         bytes = addBytes(bytes, newBytes);
         bytes = increaseHandle(lockOneGroup, bytes);
         bytes = increaseHandle(lockTwoGroup, bytes);
         bytes = increaseHandle(lockThreeGroup, bytes);
         bytes = increaseHandle(lockFourGroup, bytes);
         bytes = increaseHandle(lockFiveGroup, bytes);
-        bytes = setZeroData(bytes, 1);
-        bytes = addBytes(bytes, lockType.getBytes());
+        if (!lockType.equals("0002")) {
+            bytes = addBytes(bytes, new byte[]{0x5A});
+        } else {
+            bytes = setZeroData(bytes, 1);
+        }
+
+        switch (lockType) {
+            case "0001":
+                bytes = addBytes(bytes, new byte[]{0x01});
+                break;
+            case "0002":
+                bytes = addBytes(bytes, new byte[]{0x02});
+                break;
+            case "0003":
+                bytes = addBytes(bytes, new byte[]{0x03});
+                break;
+            case "0004":
+                bytes = addBytes(bytes, new byte[]{0x04});
+                break;
+            case "0005":
+                bytes = addBytes(bytes, new byte[]{0x05});
+                break;
+            case "0006":
+                bytes = addBytes(bytes, new byte[]{0x06});
+                break;
+        }
+
         bytes = increaseCRC(bytes);
         bytes = DataStarPackage(bytes, (byte) 0xA1);
+        return bytes;
+    }
+
+    /**
+     * 在线发送开锁
+     *
+     * @param lockNumber
+     * @param lockType
+     * @return
+     */
+    public static byte[] sendLockNumber(String lockNumber, String lockType) {
+        byte[] bytes = new byte[]{0x0C, 0x00, 0x30};
+        byte[] lockOneGroup = HexString2Bytes(decimalSystemHexadecimal(lockNumber.substring(0, 3)));
+        byte[] lockTwoGroup = HexString2Bytes(decimalSystemHexadecimal(lockNumber.substring(3, 6)));
+        byte[] lockThreeGroup = HexString2Bytes(decimalSystemHexadecimal(lockNumber.substring(6, 9)));
+        byte[] lockFourGroup = HexString2Bytes(decimalSystemHexadecimal(lockNumber.substring(9, 12)));
+        byte[] lockFiveGroup = HexString2Bytes(decimalSystemHexadecimal(lockNumber.substring(12, 15)));
+        bytes = increaseHandle(lockOneGroup, bytes);
+        bytes = increaseHandle(lockTwoGroup, bytes);
+        bytes = increaseHandle(lockThreeGroup, bytes);
+        bytes = increaseHandle(lockFourGroup, bytes);
+        bytes = increaseHandle(lockFiveGroup, bytes);
+        if (!lockType.equals("0002")) {
+            bytes = addBytes(bytes, new byte[]{0x5A});
+        } else {
+            bytes = setZeroData(bytes, 1);
+        }
+        switch (lockType) {
+            case "0001":
+                bytes = addBytes(bytes, new byte[]{0x01});
+                break;
+            case "0002":
+                bytes = addBytes(bytes, new byte[]{0x02});
+                break;
+            case "0003":
+                bytes = addBytes(bytes, new byte[]{0x03});
+                break;
+            case "0004":
+                bytes = addBytes(bytes, new byte[]{0x04});
+                break;
+            case "0005":
+                bytes = addBytes(bytes, new byte[]{0x05});
+                break;
+            case "0006":
+                bytes = addBytes(bytes, new byte[]{0x06});
+                break;
+        }
+        bytes = increaseNullByte(bytes, 1);
+        bytes = increaseCRC(bytes);
+        bytes = increasePackage(bytes, (byte) 0xA0, (byte) 0xF0);
         return bytes;
     }
 

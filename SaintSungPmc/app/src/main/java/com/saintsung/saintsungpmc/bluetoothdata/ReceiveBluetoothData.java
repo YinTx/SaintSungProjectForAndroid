@@ -115,10 +115,10 @@ public class ReceiveBluetoothData {
                 break;
             case (byte) 0x80:
                 //上传S00操作记录响应包
-                Log.e("TAG", "上传S00操作记录响应包！");
+                Log.e("TAG", "上传S00操作记录响应包！:"+HexUtil.formatHexString(bytes));
                 mCommand = bytes[3];
                 flag = true;
-                if (isSuccess(bytes[8])) {
+                if (isSuccess(bytes[13])) {
                     upLoadOpenLockRecordStart(bytes);
                 }
                 break;
@@ -145,6 +145,7 @@ public class ReceiveBluetoothData {
             case (byte) 0xA0:
                 String macAddres = hexMacAddres(subBytes(bytes, 5, 9));
                 Log.e("TAG", "连接蓝牙成功！蓝牙MacAddres：" + macAddres.toUpperCase());
+                backResultCommand(bytes);
                 break;
             default:
                 Log.e("TAG", "未知命令！");
@@ -186,7 +187,11 @@ public class ReceiveBluetoothData {
         if (bytes == 0x00) {
             Log.e("TAG", "Success");
             return true;
-        } else {
+        }else if (bytes==0x26){
+            Log.e("TAG", "没有数据");
+            return false;
+        }
+        else {
             Log.e("TAG", "Fail");
             return false;
         }
@@ -210,6 +215,8 @@ public class ReceiveBluetoothData {
         else if (mCommand == 0x60)
             resultDatacommand.resultCommand(mCommand);
         else if (mCommand == 0x70)
+            resultDatacommand.resultCommand(mCommand);
+        else if (mCommand==-96)
             resultDatacommand.resultCommand(mCommand);
     }
 

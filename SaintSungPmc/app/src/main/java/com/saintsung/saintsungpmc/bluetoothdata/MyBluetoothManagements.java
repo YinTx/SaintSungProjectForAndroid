@@ -7,6 +7,7 @@ import com.clj.fastble.callback.BleNotifyCallback;
 import com.clj.fastble.callback.BleWriteCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
+import com.clj.fastble.utils.HexUtil;
 import com.saintsung.saintsungpmc.configure.Constant;
 import com.saintsung.saintsungpmc.networkconnections.ConntentService;
 
@@ -39,11 +40,12 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData, 
         this.bleDevice = bleDevice;
         receiveBluetoothData = new ReceiveBluetoothData();
         receiveBluetoothData.setCallResult(this);
-        conntentService=new ConntentService();
+        conntentService = new ConntentService();
         conntentService.setResultServiceData(this);
 
     }
-    public interface showState{
+
+    public interface showState {
         void showState(String state);
     }
 
@@ -77,7 +79,7 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData, 
      * @param serialNumber 序列号
      * @param keyName      名称
      */
-    public void setParameter(String time, String serialNumber, String keyName) {
+    public void setParameters(String time, String serialNumber, String keyName) {
         String[] parameter = new String[]{time, serialNumber, keyName};
         byte[][] bytesArr = BluetoothDataManagement.setParameter(parameter);
         for (int i = 0; i < bytesArr.length; i++) {
@@ -104,6 +106,7 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData, 
 
     /**
      * 下载工单有效时间
+     *
      * @param starTime
      * @param endTime
      */
@@ -124,9 +127,10 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData, 
                 int pack = 16 * signStrip + 3 + i;
                 lockInfoArr[0] = workOrderInfo[pack].substring(0, 9);
                 lockInfoArr[1] = workOrderInfo[pack].substring(9, 24);
-                lockInfoArr[2] = workOrderInfo[pack].substring(24, 25);
+                lockInfoArr[2] = workOrderInfo[pack].substring(24, 28);
                 workOrderArr[i] = lockInfoArr;
             }
+
             lockInfo = sendLockInfoData(workOrderArr);
         } else {
             int dataLength = (workOrderInfo.length - 3) % 16;
@@ -137,7 +141,7 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData, 
                 int pack = 16 * signStrip + 3 + i;
                 lockInfoArr[0] = workOrderInfo[pack].substring(0, 9);
                 lockInfoArr[1] = workOrderInfo[pack].substring(9, 24);
-                lockInfoArr[2] = workOrderInfo[pack].substring(24, 25);
+                lockInfoArr[2] = workOrderInfo[pack].substring(24, 28);
                 workOrderArr[i] = lockInfoArr;
             }
             lockInfo = sendLockInfoData(workOrderArr);
@@ -162,7 +166,7 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData, 
     }
 
     private void write(BleDevice bleDevice, byte[] bytes) {
-
+        Log.e("TAG","发送数据:"+ HexUtil.formatHexString(bytes));
         BleManager.getInstance().write(
                 bleDevice,
                 Constant.uuidWriteService.toString(),
@@ -195,6 +199,7 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData, 
             public void onNotifyFailure(BleException exception) {
                 // 打开通知操作失败（UI线程）
                 Log.e("TAG", "失败");
+
             }
 
             @Override
@@ -225,27 +230,35 @@ public class MyBluetoothManagements implements ReceiveBluetoothData.resultData, 
                     Log.e("TAG", "工单下载完成！");
                 }
             }
+        }else if (result==-96){
+            upload();
+//           setParameters("20180530145200","58956589","4564545EWQ4E2321");
         }
 
     }
 
     @Override
-    public void resultLockNumber(String lockNumber,int i) {
-        if(i==0){
-        conntentService.getLockOnLine((lockNumber), bleDevice.getMac());
-        showState.showState("读锁号："+lockNumber);}
-        if(i==1){
-            conntentService.uploadService(lockNumber,bleDevice.getMac());
+    public void resultLockNumber(String lockNumber, int i) {
+        if (i == 0) {
+            conntentService.getLockOnLine((lockNumber), bleDevice.getMac());
+            showState.showState("读锁号：" + lockNumber);
         }
-        if(i==2)
-            showState.showState("关锁结束："+lockNumber);
-        if(i==3)
+        if (i == 1) {
+            conntentService.uploadService(lockNumber, bleDevice.getMac());
+        }
+        if (i == 2)
+            showState.showState("关锁结束：" + lockNumber);
+        if (i == 3)
             showState.showState(lockNumber);
     }
 
     @Override
-    public void resultServiceData(String openLockNumber, String type) {
-        showState.showState("正在开锁");
-        write(bleDevice, sendOpenLockNumber(openLockNumber, type));
+    public void resultServiceData(String openLockNumber, String type, String message) {
+        if (message.equals("操作成功")) {
+            showState.showState("正在开锁");
+            write(bleDevice, sendOpenLockNumber(openLockNumber, type));
+        }else if (message.equals("操作权限不存在")){
+            showState.showState("操作权限不存在");
+        }
     }
 }

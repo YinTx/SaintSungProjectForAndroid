@@ -8,12 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
-
 import com.clj.fastble.BleManager;
-import com.clj.fastble.scan.BleScanRuleConfig;
 import com.saintsung.common.app.Activity;
 import com.saintsung.common.widget.BottomNavigationViewHelper;
-import com.saintsung.saintsungpmc.configure.Constant;
 import com.saintsung.saintsungpmc.fragment.MainHomeFragment;
 import com.saintsung.saintsungpmc.fragment.MainMapFragment;
 import com.saintsung.saintsungpmc.fragment.MainPersonalFragment;
@@ -21,19 +18,17 @@ import com.saintsung.saintsungpmc.fragment.MainWorkOrderFragment;
 import com.saintsung.saintsungpmc.networkconnections.ConntentService;
 import com.saintsung.saintsungpmc.tools.NevHelper;
 
-import java.util.UUID;
 
 import butterknife.BindView;
 
 
-public class MainActivity extends Activity implements BottomNavigationView.OnNavigationItemSelectedListener, NevHelper.OnTabChangedListener<Integer>{
+public class MainActivity extends Activity implements BottomNavigationView.OnNavigationItemSelectedListener, NevHelper.OnTabChangedListener<Integer> {
     private long exitTime = 0;//2次回退计时器
     @BindView(R.id.lay_container)
     FrameLayout mContainer;
     @BindView(R.id.navigation)
     BottomNavigationView mNavigation;
     private NevHelper<Integer> mNevHelper;
-
 
     /**
      * 主界面监听返回按钮，在2秒内连续点击2次返回按钮则退出程序
@@ -72,8 +67,6 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 .add(R.id.menu_main_map, new NevHelper.Tab<>(MainMapFragment.class, R.string.menu_map))
                 .add(R.id.menu_main_personal, new NevHelper.Tab<>(MainPersonalFragment.class, R.string.menu_personal));
         mNavigation.setOnNavigationItemSelectedListener(this);
-        ConntentService conntentService = new ConntentService();
-        conntentService.getWorkOrder();
     }
 
     @Override
@@ -84,13 +77,9 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
         //触发一次点击
         menu.performIdentifierAction(R.id.menu_main_home, 0);
         BleManager.getInstance().init(getApplication());
-        BleScanRuleConfig bleScanRuleConfig = new BleScanRuleConfig.Builder()
-                .setScanTimeOut(2000)
-                .setServiceUuids(new UUID[]{Constant.uuidWriteService,Constant.uuidNotifyService})
-                .build();
-        BleManager.getInstance().initScanRule(bleScanRuleConfig);
-        BleManager.getInstance().setMaxConnectCount(1);
-        BleManager.getInstance().setOperateTimeout(5000);
+        ConntentService conntentService = new ConntentService();
+        conntentService.getWorkOrder();
+        conntentService.getSuperAuthority();
     }
 
     @Override

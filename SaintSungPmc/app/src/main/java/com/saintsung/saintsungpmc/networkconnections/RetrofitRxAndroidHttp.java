@@ -2,6 +2,7 @@ package com.saintsung.saintsungpmc.networkconnections;
 
 
 import com.saintsung.saintsungpmc.MyApplication;
+import com.saintsung.saintsungpmc.bean.SuperAuthorityBean;
 import com.saintsung.saintsungpmc.configure.Constant;
 import com.saintsung.saintsungpmc.myinterface.BlogService;
 
@@ -29,7 +30,7 @@ import rx.schedulers.Schedulers;
 public class RetrofitRxAndroidHttp {
     private static final MediaType CONTENT_TYPE = MediaType.parse("application/json; charset=utf-8");
 
-    public void serviceConnect(String url, String result, Action1<ResponseBody> action1,Action1<Throwable> onErrorAction) {
+    public void serviceConnect(String url, String result, Action1<ResponseBody> action1, Action1<Throwable> onErrorAction) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.addressHttps)
                 .client(MyApplication.getokHttpClient())
@@ -38,9 +39,22 @@ public class RetrofitRxAndroidHttp {
                 .build();
         BlogService service = retrofit.create(BlogService.class);
 
-
         RequestBody body = RequestBody.create(CONTENT_TYPE, result);
         Observable<ResponseBody> call = service.getCall(body);
+        call.subscribeOn(Schedulers.newThread())//这里需要注意的是，网络请求在非ui线程。如果返回结果是依赖于Rxjava的，则需要变换线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(action1, onErrorAction);
+    }
+
+    public void serviceConnectNew(String url, Object object, Action1<ResponseBody> action1, Action1<Throwable> onErrorAction) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constant.addressHttps)
+                .client(MyApplication.getokHttpClient())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+        BlogService service = retrofit.create(BlogService.class);
+        Observable<ResponseBody> call = service.getSuper(object);
         call.subscribeOn(Schedulers.newThread())//这里需要注意的是，网络请求在非ui线程。如果返回结果是依赖于Rxjava的，则需要变换线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(action1, onErrorAction);

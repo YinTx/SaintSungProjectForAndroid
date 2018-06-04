@@ -50,6 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:hint="@string/login_user_hint"
+        android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         android:textColorHint="@color/second_level_black"
         android:textSize="@dimen/len_14"
         android:textColor="@color/second_level_black"

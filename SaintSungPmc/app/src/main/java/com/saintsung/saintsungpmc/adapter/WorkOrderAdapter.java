@@ -28,10 +28,7 @@ public class WorkOrderAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (workOrderNumberArr == null)
-            return 0;
-        else
-            return workOrderNumberArr.size();
+        return workOrderNumberArr.size();
     }
 
     @Override

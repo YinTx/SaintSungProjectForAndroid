@@ -1,6 +1,7 @@
 package com.saintsung.saintsungpmc.tools;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -135,5 +136,12 @@ public class DataProcess {
         Date date=new Date();
         String time=sdf.format(date);
         return time;
+    }
+    public static String[] addStringByte(String[] str1,String [] str2){
+        int strLen1 = str1.length;// 保存第一个数组长度
+        int strLen2 = str2.length;// 保存第二个数组长度
+        str1 = Arrays.copyOf(str1, strLen1 + strLen2);// 扩容
+        System.arraycopy(str2, 0, str1, strLen1, strLen2);// 将第二个数组与第一个数组合并
+        return str1;
     }
 }

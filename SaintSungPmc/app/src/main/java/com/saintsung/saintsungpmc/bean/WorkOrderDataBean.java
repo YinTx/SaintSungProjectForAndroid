@@ -6,7 +6,9 @@ import java.util.List;
  * Created by XLzY on 2018/1/18.
  */
 
-public class WorkOrderDataBean {
+public class
+
+WorkOrderDataBean {
     private String workOrderId;
     private String workOrderNo;//工单编号
     private String workType; //类型
